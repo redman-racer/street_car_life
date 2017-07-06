@@ -31,6 +31,24 @@ class User
         else return $userinfo;
     }
 
+    public function fetchByUser($user_name){
+        // Build Query to fetch user information
+        $query = "SELECT * FROM users WHERE username=:user_name LIMIT 1";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Bind Parameters
+        $stmt->bindParam(':user_name', $user_name, PDO::PARAM_STR);
+        // Execute Query
+        if (!$stmt->execute()) return $stmt->errorInfo();
+        // Fetch User information
+        $userinfo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Check if user exists
+        if (!$userinfo['id']) return false;
+        // Return User Information
+        else return $userinfo;
+    }
+
     /**
      * @return bool|array
      * Fetch all the users registered on the website

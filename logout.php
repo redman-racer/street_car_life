@@ -1,16 +1,12 @@
 <?php
-require 'models/globals.php';
+require 'app/config/globals.php';
 session_unset();
 session_destroy();
 header("Refresh:0; url=index.php");
 die();
 ?>
 <html>
-<head>
-<title>The Street Car Life Game</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="layout/base.css?v=<?=time();?>" rel="stylesheet" type="text/css">
-</head>
+<?php include_once 'app/includes/header.php'; ?>
 <body>
 <div id="Main_Container">
   <div id="navigation">

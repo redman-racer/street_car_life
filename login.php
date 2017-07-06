@@ -1,5 +1,5 @@
 <?php
-require 'models/globals.php';
+require 'app/config/globals.php';
 //User Login Form
 if(isset($_POST['user_login_submit'])){
 
@@ -30,11 +30,7 @@ if(isset($_POST['user_login_submit'])){
 }
  ?>
  <html>
- <head>
- <title>The Street Car Life Game</title>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <link href="layout/base.css?v=<?=time();?>" rel="stylesheet" type="text/css">
- </head>
+ <?php include_once 'app/includes/header.php'; ?>
  <body>
  <div id="Main_Container">
    <div id="navigation">
