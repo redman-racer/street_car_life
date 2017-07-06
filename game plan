@@ -1,0 +1,17 @@
+Build login page
+  create a user system
+  create a car system
+      Aerodynamics
+      Horsepower
+      Torque
+      Transmission
+        1= 4 speed manual, 2 = 5 speed manual, 3 = 6 spd mnl, 4 = 7 sp mnl, 5= 8spd manual, 6=9 spd manual, 7=10 spd mnl, 8= 3 spd auto, 9 = 4 spd auto, 10 = 5 spd auto, 11 = 6 spd auto. 12 = 7 spd auto
+      Weight
+      Braking
+      Handling
+      Launch
+
+  create a race
+  create a car dealership
+  create tuning
+launch
