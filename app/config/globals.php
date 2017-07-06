@@ -58,6 +58,8 @@ if (isset($_SESSION["username"])) {
 $MAIN_ROOT = "";
 $SITE_ROOT = "";
 $JS_ROOT = "";
-$CSS_ROOT = "";
-$IMAGE_ROOT = "";
+$CSS_ROOT = "layout";
+$IMAGE_ROOT = "layout/images/";
 
+//Layout Variables
+$page_title = "Street Car Life: The Game"; //sets the <title> </title> of the page. To change it on a individual page, set this variable after-(require 'app/config/globals.php';)
