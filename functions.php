@@ -1,8 +1,22 @@
 <?php
 session_start();
 $server_name     = "localhost";
-$server_username = "redman-racer";
-$server_password = "Mazdamiata91";
+$dev_mode = true;
+
+switch ($dev_mode){
+  case true:
+    $server_username = "root";
+    $server_password = "";
+  break;
+  case false:
+    $server_username = "redman-racer";
+    $server_password = "Mazdamiata91";
+  break;
+
+  default:
+
+  break;
+}
 $server_dbname   = "street_car_life";
 $page            = basename($_SERVER['PHP_SELF']);//Gets the file name that is currently open;
 $conn            = new PDO('mysql:host=localhost;dbname=street_car_life', $server_username, $server_password);
