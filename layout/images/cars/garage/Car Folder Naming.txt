@@ -1,0 +1,2 @@
+Folder name - (year)(first initial of the make)(first initial of the model, include full sub model ie. z06, zl1, ss, etc.)
+thumbnails for garage - (street-car-life-)(year)-(full make)-(full model, include any spaces that are in the DB->base_cars->model)-thumb
