@@ -36,16 +36,16 @@ if(isset($_POST['user_login_submit'])){
  <style type="text/css">
  <!--
  @font-face {
- font-family: password;
- src: url(/fonts/The_Gun.ttf);
+ font-family: thegun;
+ src: url(fonts/The_Gun.ttf);
  }
  @font-face {
- font-family: thegun;
- src: url(/fonts/The_GunR.ttf);
+ font-family: password;
+ src: url(fonts/SociaLAnimaL.ttf);
  }
  @font-face {
  font-family: navigation;
- src: url(/fonts/LaSpacinoLite-Regular.otf);
+ src: url(fonts/LaSpacinoLite-Regular.otf);
  }
  body{
    background: url(images/background.jpg) no-repeat center center fixed;
