@@ -2,7 +2,7 @@
 require 'functions.php';
 session_unset();
 session_destroy();
-header("Refresh:0; url=http://www.kundenforce.com");
+header("Refresh:0; url=index.php");
 die();
 ?>
 <html>
@@ -13,15 +13,15 @@ die();
 <!--
 @font-face {
 font-family: password;
-src: url(/fonts/The_Gun.ttf);
+src: url(fonts/The_Gun.ttf);
 }
 @font-face {
 font-family: thegun;
-src: url(/fonts/The_GunR.ttf);
+src: url(fonts/The_GunR.ttf);
 }
 @font-face {
 font-family: navigation;
-src: url(/fonts/LaSpacinoLite-Regular.otf);
+src: url(fonts/LaSpacinoLite-Regular.otf);
 }
 body{
   background: url(images/background.jpg) no-repeat center center fixed;

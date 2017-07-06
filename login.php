@@ -14,19 +14,19 @@ if(isset($_POST['user_login_submit'])){
   $login_user_info = $login_stmt->fetchObject();
 
   if($verify_username == 0){
-    header("Refresh:0; url=http://www.kundenforce.com/index.php?e=no-username");
+    header("Refresh:0; url=index.php?e=no-username");
     exit();
   }
   //checking to see if the password matches the password on file
   if($login_user_info->password != $login_password){
-        header("Refresh:0; url=http://www.kundenforce.com/index.php?e=pw");
+        header("Refresh:0; url=index.php?e=pw");
         exit();
   }
 
   //it matches, set the cookie.
   session_start();
   $_SESSION["username"] = $login_user_info->username;
-  header("Refresh:0; url=http://www.kundenforce.com/logged.php");
+  header("Refresh:0; url=logged.php");
 }
  ?>
  <html>

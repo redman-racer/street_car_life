@@ -9,15 +9,15 @@ require 'functions.php';
 <!--
 @font-face {
 font-family: password;
-src: url(/fonts/The_Gun.ttf);
+src: url(fonts/The_Gun.ttf);
 }
 @font-face {
 font-family: thegun;
-src: url(/fonts/The_GunR.ttf);
+src: url(fonts/The_GunR.ttf);
 }
 @font-face {
 font-family: navigation;
-src: url(/fonts/LaSpacinoLite-Regular.otf);
+src: url(fonts/LaSpacinoLite-Regular.otf);
 }
 body{
 	background-color: #000;
@@ -158,7 +158,7 @@ text-decoration: underlnine;
 		<img src="images/login-page_3.jpg" width="412" height="582">
 	</div>
 
-		<form method="POST" name="user_login" id="user_login" autocomplete="off" title="Login using your full name" action="/login.php" >
+		<form method="POST" name="user_login" id="user_login" autocomplete="off" title="Login using your full name" action="login.php" >
 			<!--USERNAME-->
 			<div id="login-page-4">
 				<input type="text" class="login_box" name="user_name" id="user_name" placeholder="Username" />

@@ -20,11 +20,11 @@ if(isset($_SESSION["username"])) { //checks to see if the user already has a ses
     //END Users information
 
     if($page == "index.php"){ //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
-      header("Refresh:0; url=http://www.kundenforce.com/logged.php");
+      header("Refresh:0; url=logged.php");
     }
 } else { //if they dont have a session started, relocate them to the index.php page;
   if($page != "index.php" && $page != "login.php"){ //checks to see if they are already on index.php;
-    header("Refresh:0; url=http://www.kundenforce.com/index.php");
+    header("Refresh:0; url=index.php");
     die();
   }
 }
