@@ -12,26 +12,32 @@ font-family: navigation;
 src: url(fonts/LaSpacinoLite-Regular.otf);
 }
 body{
-	background-color: #000;
+  background: url(images/background.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
-	text-align: center;
 }
-.login_box{
-	width: 100%;
-	height: 100%;
-	background: transparent;
-	border: none;
-	text-align: center;
-	font-family: thegun;
-	font-size: 28px;
+#Main_Container{
+  position:absolute;
+  width: 100%;
+  height: 100%;
 }
 #navigation{
-	margin: 50px auto;
-	color: #efefef;
-	font-size: 25px;
-	font-family: navigation;
+  position:fixed;
+  text-align: center;
+  background-color: #000;
+  color: #efefef;
+  font-size: 25px;
+  font-family: navigation;
+  height:88px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
 }
 #navigation a:link {
 color: #efefef;
@@ -57,77 +63,22 @@ color: #efefef;
 font-family: navigation;
 text-decoration: underlnine;
 }
-#Table_01 {
-	position: absolute;
-	margin: 0px auto;
-	text-align: center;
-	width: 100%;
-	height:901px;
+#logo{
+  position:fixed;
+  background: url(images/banner_logo.png) no-repeat center center;
+  height: 117px;
+  width: 100%;
+  top: 88px;
+  left: 0px;
+  z-index: 100;
 }
-
-#login-page-1 {
-	position:absolute;
-	background-image: url(images/login-page_1.jpg);
-	left:0px;
-	top:0px;
-	width:1891px;
-	height:128px;
-}
-
-#login-page-2 {
-	position:absolute;
-	left:0px;
-	top:128px;
-	width:1891px;
-	height:191px;
-}
-
-#login-page-3 {
-	position:absolute;
-	left:0px;
-	top:319px;
-	width:412px;
-	height:582px;
-}
-
-#login-page-4 {
-	position:absolute;
-	background-image: url(images/login-page_4.jpg);
-	left:412px;
-	top:319px;
-	width:300px;
-	height:59px;
-}
-
-#login-page-5 {
-	position:absolute;
-	left:712px;
-	top:319px;
-	width:1179px;
-	height:582px;
-}
-
-#login-page-6 {
-	position:absolute;
-	background-image: url(images/login-page_6.jpg);
-	left:412px;
-	top:378px;
-	width:300px;
-	height:59px;
-}
-
-#login-page-7 {
-	position:absolute;
-	left:412px;
-	top:437px;
-	width:300px;
-	height:39px;
-}
-
-#login-page-8 {
-	position:absolute;
-	left:412px;
-	top:476px;
-	width:300px;
-	height:425px;
+#content{
+  margin: 195px auto 0px auto;
+  padding: 20px 10px 0px 10px;
+  width: 80%;
+  min-height: 75%;
+  border: 1px solid #000;
+  background-color:rgba(255, 255, 255, 0.5);
+  z-index: 50;
+  text-align: center;
 }

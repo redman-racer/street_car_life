@@ -1,5 +1,5 @@
 <?php
-require 'functions.php';
+require 'models/globals.php';
 //User Login Form
 if(isset($_POST['user_login_submit'])){
 
