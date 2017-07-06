@@ -46,7 +46,7 @@ if (isset($_SESSION["username"])) {
         exit();
     }
 } else { //if they dont have a session started, relocate them to the index.php page;
-    if ($page != "index.php" && $page != "login.php") { //checks to see if they are already on index.php;
+    if ($page != "index.php" && $page != "login.php" && $page != "register.php") { //checks to see if they are already on index.php;
         // Relocate User
         header('Location: index.php');
         // Exit Application

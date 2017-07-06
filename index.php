@@ -10,11 +10,11 @@ require 'app/config/globals.php';
 			<form method="POST" name="user_login" id="user_login" autocomplete="off" title="Login using your full name" action="login.php" >
 				<!--USERNAME-->
 				<div id="login-page-4">
-					<input type="text" class="login_box" name="user_name" id="user_name" placeholder="Username" />
+					<input type="text" class="login_box" name="user_name" id="user_name" placeholder="Username" required />
 				</div>
 				<!--PASSWORD-->
 				<div id="login-page-6">
-					<input type="password" class="login_box" name="user_password" id="user_password" placeholder="Password" style="font-family: password;" />
+					<input type="password" class="login_box" name="user_password" id="user_password" placeholder="Password" style="font-family: password;" required />
 				</div>
 				<!--GO-->
 				<div id="login-page-7">
