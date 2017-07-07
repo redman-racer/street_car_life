@@ -16,6 +16,7 @@
   -moz-box-shadow: 3px 5px 5px rgba(0, 0, 0,0.5);
   -webkit-box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
   box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
+  z-index: 51;
 }
 .ic_container_driving{
   position: relative;
@@ -26,6 +27,7 @@
   -moz-box-shadow: 3px 5px 5px rgba(0, 0, 0,0.5);
   -webkit-box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
   box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
+  z-index: 51;
 }
 #ic_container img{
   opacity: 0.90;
@@ -40,4 +42,12 @@
   font-size: 12px;
   color: #79c11b;
   z-index: 52;
+}
+.select_highlight{
+  position: absolute;
+  width: 310px;
+  height: 180px;
+  background-color: #fff;
+  z-index: 50;
+  margin: 13px 0px;
 }

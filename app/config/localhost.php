@@ -15,8 +15,8 @@ if ($dev_mode) {
     $server_username = "redman-racer";
     $server_password = "Mazdamiata91";
     // Set Paths
-    $SITE_ROOT = 'http://kundenforce.com/';
-    $FILE_ROOT = "";
+    $SITE_ROOT = 'http://www.kundenforce.com/';
+    $FILE_ROOT = '/home/redmanracer/public_html/';
     $CSS_ROOT = $SITE_ROOT ."source/css/";
     $JS_ROOT = $SITE_ROOT ."source/js/";
     $IMAGE_ROOT = $SITE_ROOT ."source/images/";
@@ -24,3 +24,7 @@ if ($dev_mode) {
 
 define("SITE_ROOT", '//' . $_SERVER['HTTP_HOST'] . '/');
 define("FILE_ROOT", $FILE_ROOT);
+
+ini_set('display_errors', 1);
+      ini_set('display_startup_errors', 1);
+      error_reporting(E_ALL);

@@ -1,5 +1,7 @@
 <?php
 require '../config/globals.php';
+$sec = "5";
+header("Refresh: $sec; url='garage'");
 ?>
 <html>
 <?php include_once '../includes/header.php'; ?>
@@ -7,6 +9,7 @@ require '../config/globals.php';
 <div id="Main_Container">
 	<?php include_once '../includes/navigation.php'; ?>
   <div id="content">
+		<!--BEGIN car select thumbnail div - The left collumn that holds the car thumbnails -->
     <div id="cs_container">
       <?php
       //Get list of vehicles owned by currenty user
@@ -19,9 +22,11 @@ require '../config/globals.php';
       //loop through the results and display them
       while($garage_row = $garage_stmt->fetch()) {
         if($garage_row['driving']){
+					$selected_display   = "";
           $ic_container_class = "ic_container_driving";
         }else{
           $ic_container_class = "ic_container";
+					$selected_display   = "display: none;";
         }
         //select base_car for year,make,model by base_id stored in users_cars
         $base_car_stmt = $conn->prepare("SELECT * FROM  `base_cars` WHERE  `id`=:base_id");
@@ -29,7 +34,12 @@ require '../config/globals.php';
         $base_car_stmt->execute();
         $base_car = $base_car_stmt->fetch();
         ?>
+
+				<!--currently selected div-->
+				<div id="selected_<?php echo $garage_row['id']; ?>" class="select_highlight" style="<?php echo $selected_display; ?>"></div>
+				<!--div that contains the cars thumbnail image-->
         <div id="ic_container" class="<?= $ic_container_class; ?>">
+					<!--cars thumbnail image-->
           <img src="<?php echo $IMAGE_ROOT; ?>cars/garage/<?= $base_car['photo_folder']; ?>/street-car-life-<?= $base_car['year']; ?>-<?= $base_car['make']; ?>-<?= $base_car['model']; ?>-thumb.jpg" />
           <?php
           if($garage_row['driving']){?>
@@ -42,7 +52,13 @@ require '../config/globals.php';
         }
        ?>
     </div>
-  </div>
+		<!--END car select thumbnail div-->
+		<!--BEGIN selected car display div - the large right div that displays the vehicles information-->
+		<div id="cd_container">
+
+		</div>
+		<!--END selected car display div-->
+	</div>
 </div>
 </body>
 </html>
