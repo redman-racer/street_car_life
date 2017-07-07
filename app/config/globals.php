@@ -35,14 +35,14 @@ if (isset($_SESSION["username"])) {
     //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
     if ($page == "index.php"){
         // Redirect
-        header("Location: logged.php");
+        header("Location: '. $SITE_ROOT .'logged");
         // Exit Application
         exit();
     }
 } else { //if they dont have a session started, relocate them to the index.php page;
     if ($page != "index.php" && $page != "login.php" && $page != "register.php") { //checks to see if they are already on index.php;
         // Relocate User
-        header('Location: index.php');
+        header('Location: '. $SITE_ROOT .'index');
         // Exit Application
         exit();
     }
