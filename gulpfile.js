@@ -88,7 +88,7 @@ function onError(err) {
 gulp.task('watch', ['move_js', 'sass'], function (){
 	// Sync with server
 	browserSync.init({
-        proxy: 'http://localhost/carlproject/',
+        proxy: 'http://localhost/street_car_life/',
         port: 3010,
         logLevel: 'debug',
         logConnections: true
