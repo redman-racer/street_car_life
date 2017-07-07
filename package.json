@@ -1,0 +1,29 @@
+{
+  "name": "InformaticsFolio",
+  "version": "1.0.0",
+  "description": "University of Huddersfield Folio site",
+  "author": "Jacob, William",
+  "license": "",
+  "devDependencies": {
+    "browser-sync": "^2.13.0",
+    "browserify": "^13.0.1",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-combine-media-queries": "^0.2.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "ms": "^0.7.1",
+    "requirejs": "^2.3.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0"
+  },
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "purecss": "^0.6.0",
+    "sidr": "^2.1.0"
+  }
+}
