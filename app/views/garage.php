@@ -18,7 +18,7 @@ require '../config/globals.php';
 
       //loop through the results and display them
       while($garage_row = $garage_stmt->fetch()) {
-        if(isset($garage_row['driving'])){
+        if($garage_row['driving']){
           $ic_container_class = "ic_container_driving";
         }else{
           $ic_container_class = "ic_container";

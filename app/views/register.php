@@ -2,9 +2,47 @@
 require '../config/globals.php';
 $from_where_db = false;
 
+//function for getting real IP address
+function getRealIpAddr()
+{
+    if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+    {
+      $ip=$_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+    {
+      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+      $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+//set the ip
+$ip = getRealIpAddr();//end ip
+
 if(isset($_POST['submit_register'])){
   echo"Register sumbited";
 }
+if(isset($_GET['ref'])){
+          //convert ref code into readable date for db
+          switch ($_GET['ref']){
+            case "1111":
+              $referral = "FB Button";
+            break;
+            default:
+              $referral = $_GET['ref'];
+            break;
+          }
+          $query = "INSERT INTO page_referrals (page_visited, referral, ip, user_id) VALUES (:page_visited, :referral, :ip, :user_id)";          $stmt = $conn->prepare($query);
+          $stmt->bindParam(':page_visited', $page, PDO::PARAM_STR);
+          $stmt->bindParam(':referral', $referral, PDO::PARAM_STR);
+          $stmt->bindParam(':ip', $ip, PDO::PARAM_STR);
+          $stmt->bindParam(':user_id', $user_info['id'], PDO::PARAM_STR);
+          $stmt->execute();
+}
+
 
 ?>
 <html>

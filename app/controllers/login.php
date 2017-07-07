@@ -14,8 +14,8 @@ if(isset($_POST['user_login_submit'])){
   $login_user_info = $login_stmt->fetchObject();
 
   if($verify_username == 0){
-    header("Location:". $SITE_ROOT ."index?e=no-username");
-    exit();
+        header("Location:". $SITE_ROOT ."index?e=no-username");
+        exit();
   }
 
   //checking to see if the password matches the password on file
@@ -24,9 +24,9 @@ if(isset($_POST['user_login_submit'])){
         exit();
   }
 
-  //it matches, set the cookie.
+  //it matches, set the session.
   session_start();
-  $_SESSION["username"] = $login_user_info->username;
+  $_SESSION["user_id"] = $login_user_info->id;
   header("Location: ". $SITE_ROOT ."logged");
 }
  ?>

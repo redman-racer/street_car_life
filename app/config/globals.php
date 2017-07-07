@@ -22,15 +22,14 @@ $conn = new PDO('mysql:host=localhost;dbname=street_car_life', $server_username,
 // Set Database Connection
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-echo $page;
 
 // Instantiate User Class
 $user = new User($conn);
 
 // Check if user is logged in
-if (isset($_SESSION["username"])) {
+if (isset($_SESSION["user_id"])) {
     // Fetch User Information
-    $user_info = $user->fetchByUser($_SESSION["username"]);
+    $user_info = $user->fetchUser($_SESSION["user_id"]);
 
     //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
     if ($page == "index.php"){

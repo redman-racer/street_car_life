@@ -3,7 +3,7 @@
 if ($dev_mode) {
     //$SITE_ROOT = 'http://streetcarlife.local/';
     $SITE_ROOT = 'http://localhost/street_car_life/';
-    $FILE_ROOT = 'C:/wamp64/www/street_car_life/';
+    $FILE_ROOT = 'C:/wamp/www/street_car_life/';
     $CSS_ROOT = $SITE_ROOT ."source/css/";
     $JS_ROOT = $SITE_ROOT ."source/js/";
     $IMAGE_ROOT = $SITE_ROOT ."source/images/";
@@ -15,11 +15,11 @@ if ($dev_mode) {
     $server_username = "redman-racer";
     $server_password = "Mazdamiata91";
     // Set Paths
-    $MAIN_ROOT = "";
-    $SITE_ROOT = "";
-    $JS_ROOT = "";
-    $CSS_ROOT = "layout";
-    $IMAGE_ROOT = "layout/images/";
+    $SITE_ROOT = 'http://kundenforce.com/';
+    $FILE_ROOT = "";
+    $CSS_ROOT = $SITE_ROOT ."source/css/";
+    $JS_ROOT = $SITE_ROOT ."source/js/";
+    $IMAGE_ROOT = $SITE_ROOT ."source/images/";
 }
 
 define("SITE_ROOT", '//' . $_SERVER['HTTP_HOST'] . '/');
