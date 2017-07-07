@@ -1,9 +1,8 @@
 <?php
 // Toggle between dev and live mode
 if ($dev_mode) {
-    $SITE_ROOT = 'http://streetcarlife.local/';
-    // $SITE_ROOT = 'localhost/street_car_life/';
-    $FILE_ROOT = 'C:/wamp64/www/street_car_life/';
+    //$SITE_ROOT = 'http://streetcarlife.local/';
+    $SITE_ROOT = 'localhost/street_car_life/';
     $FILE_ROOT = 'C:/wamp64/www/street_car_life/';
     $CSS_ROOT = $SITE_ROOT ."assets/css/";
     $JS_ROOT = $SITE_ROOT ."assets/js/";
