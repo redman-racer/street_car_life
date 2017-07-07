@@ -7,7 +7,7 @@ require '../config/globals.php';
 	<div id="Main_Container">
 		<?php include_once '../includes/navigation.php'; ?>
 	  <div id="content">
-			<form method="POST" name="user_login" id="user_login" autocomplete="off" title="Login using your full name" action="<?php echo $SITE_ROOT; ?>login" >
+			<form method="POST" name="user_login" id="user_login" autocomplete="off" title="Login using your full name" action="<?php echo $SITE_ROOT; ?>app/controllers/login" >
 				<!--USERNAME-->
 				<div id="login-page-4">
 					<input type="text" class="login_box" name="user_name" id="user_name" placeholder="Username" required />
