@@ -1,12 +1,12 @@
 <?php
-require 'app/config/globals.php';
+require '../config/globals.php';
 session_unset();
 session_destroy();
 header("Refresh:0; url=index.php");
 die();
 ?>
 <html>
-<?php include_once 'app/includes/header.php'; ?>
+<?php include_once '../includes/header.php'; ?>
 <body>
 <div id="Main_Container">
   <div id="navigation">

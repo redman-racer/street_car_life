@@ -4,23 +4,15 @@ session_start();
 // Set Dev Mode
 $dev_mode = true;
 
-// Toggle between dev and live mode
-if ($dev_mode) {
-    $server_name = "localhost";
-    $server_username = "root";
-    $server_password = "";
-} else {
-    $server_name = "localhost"; // TODO CHANGE TO LIVE SERVER INFO
-    $server_username = "redman-racer";
-    $server_password = "Mazdamiata91";
-}
+// Include Constants
+require_once "localhost.php";
 
 // Define and load Classes
 function __autoload($class) {
     // Set Project Folder
-    $folder = '/street_car_life';
+    $folder = 'street_car_life';
     // Include Classes
-    require_once($_SERVER['DOCUMENT_ROOT'].$folder."/app/models/$class.php");
+    require_once(FILE_ROOT ."/app/models/$class.php");
 }
 
 // Get Page Name
@@ -29,6 +21,8 @@ $page = basename($_SERVER['PHP_SELF']);//Gets the file name that is currently op
 $conn = new PDO('mysql:host=localhost;dbname=street_car_life', $server_username, $server_password);
 // Set Database Connection
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+echo $page;
 
 // Instantiate User Class
 $user = new User($conn);
@@ -53,13 +47,6 @@ if (isset($_SESSION["username"])) {
         exit();
     }
 }
-
-// Set Paths
-$MAIN_ROOT = "";
-$SITE_ROOT = "";
-$JS_ROOT = "";
-$CSS_ROOT = "layout";
-$IMAGE_ROOT = "layout/images/";
 
 //Layout Variables
 $page_title = "Street Car Life: The Game"; //sets the <title> </title> of the page. To change it on a individual page, set this variable after-(require 'app/config/globals.php';)

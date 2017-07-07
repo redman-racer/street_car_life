@@ -1,21 +1,21 @@
 @font-face {
 font-family: thegun;
-src: url(fonts/The_Gun.ttf);
+src: url(../fonts/The_Gun.ttf);
 }
 @font-face {
 font-family: password;
-src: url(fonts/SociaLAnimaL.ttf);
+src: url(../fonts/SociaLAnimaL.ttf);
 }
 @font-face {
 font-family: navigation;
-src: url(fonts/LaSpacinoLite-Regular.otf);
+src: url(../fonts/LaSpacinoLite-Regular.otf);
 }
 @font-face {
 font-family: sfg;
-src: url(fonts/SilverForteGrunge.ttf);
+src: url(../fonts/SilverForteGrunge.ttf);
 }
 body{
-  background: url(images/background.jpg) no-repeat center center fixed;
+  background: url(../images/background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -68,7 +68,7 @@ text-decoration: underlnine;
 }
 #logo{
   position:fixed;
-  background: url(images/banner_logo.png) no-repeat center center;
+  background: url(../images/banner_logo.png) no-repeat center center;
   height: 117px;
   width: 100%;
   top: 88px;
@@ -84,7 +84,7 @@ text-decoration: underlnine;
 }
 #login-page-4 {
 	position:absolute;
-	background-image: url(images/login-page_4.jpg);
+	background-image: url(../images/login-page_4.jpg);
 	left:10%;
 	top:200px;
 	width:300px;
@@ -92,7 +92,7 @@ text-decoration: underlnine;
 }
 #login-page-6 {
 	position:absolute;
-	background-image: url(images/login-page_6.jpg);
+	background-image: url(../images/login-page_6.jpg);
 	left:10%;
 	top:259;
 	width:300px;

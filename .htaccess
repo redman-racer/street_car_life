@@ -1,0 +1,12 @@
+## CORE CODE ##
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+## MAIN WEBSITE REDIRECTS ##
+
+RewriteRule ^$ /app/views/index.php [L]
+RewriteRule ^index app/views/index.php [L]
+RewriteRule ^([a-zA-Z0-9_-]+)$ app/views/$1.php [L]
+RewriteRule ^admin/([a-zA-Z0-9_-]+.php)$ admin/views/$1 [L]

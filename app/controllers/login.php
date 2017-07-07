@@ -1,5 +1,5 @@
 <?php
-require 'app/config/globals.php';
+require '../config/globals.php';
 //User Login Form
 if(isset($_POST['user_login_submit'])){
 
@@ -14,33 +14,19 @@ if(isset($_POST['user_login_submit'])){
   $login_user_info = $login_stmt->fetchObject();
 
   if($verify_username == 0){
-    header("Refresh:0; url=index.php?e=no-username");
+    header("Location:". $SITE_ROOT ."index?e=no-username");
     exit();
   }
+
   //checking to see if the password matches the password on file
   if($login_user_info->password != $login_password){
-        header("Refresh:0; url=index.php?e=pw");
+        header("Location: ". $SITE_ROOT ."index?e=pw");
         exit();
   }
 
   //it matches, set the cookie.
   session_start();
   $_SESSION["username"] = $login_user_info->username;
-  header("Refresh:0; url=logged.php");
+  header("Location: ". $SITE_ROOT ."logged");
 }
  ?>
- <html>
- <?php include_once 'app/includes/header.php'; ?>
- <body>
- <div id="Main_Container">
-   <div id="navigation">
-   <a href="logout.php">Logout</a>
-   </div>
-   <div id="logo">
-   </div>
-   <div id="content" style="display:none;">
-   This is some test content.
-   </div>
- </div>
- </body>
- </html>

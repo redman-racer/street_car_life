@@ -1,33 +1,20 @@
 <?php
-require 'app/config/globals.php';
+require '../config/globals.php';
 $from_where_db = false;
 
 if(isset($_POST['submit_register'])){
   echo"Register sumbited";
 }
 
-if(isset($_GET['fw'])){
-  $from_where = $_GET['fw'];
-
-  case "1111":
-    $from_where_db = "facebook";
-    $query = "INSERT INTO abandonedVehicles (inNumber) VALUES (:inNumber)";
-    // Prepare Query
-    $stmt = $conn->prepare($query);
-    // Bind Parameters
-    $stmt->bindParam(':inNumber', $inNumber, PDO::PARAM_STR);
-    $stmt->execute();
-  break;
-}
 ?>
 <html>
-<?php include_once 'app/includes/header.php'; ?>
+<?php include_once '../includes/header.php'; ?>
 <body>
 	<div id="Main_Container">
-		<?php include_once 'app/includes/navigation.php'; ?>
+		<?php include_once '../includes/navigation.php'; ?>
     <div id="content">
         <div id="register_container">
-    			<form method="POST" name="register" id="register" autocomplete="off" title="Register your account with Street Car Life" action="register.php" >
+    			<form method="POST" name="register" id="register" autocomplete="off" title="Register your account with Street Car Life" action="<?php echo $SITE_ROOT; ?>register" >
             <table style="margin: 0px auto;">
               <tr>
                 <td>Username:</td>
