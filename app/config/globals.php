@@ -35,7 +35,7 @@ if (isset($_SESSION["username"])) {
     //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
     if ($page == "index.php"){
         // Redirect
-        header("Location: '. $SITE_ROOT .'logged");
+        header('Location: '. $SITE_ROOT .'logged');
         // Exit Application
         exit();
     }
