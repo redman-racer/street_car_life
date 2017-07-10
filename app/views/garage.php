@@ -1,6 +1,6 @@
 <?php
 require '../config/globals.php';
-
+$currentlySelectedID = false;
 $sec = "5";
 //header("Refresh: $sec; url='garage'");
 ?>
@@ -10,8 +10,11 @@ $sec = "5";
 <div id="Main_Container">
 	<?php include_once '../includes/navigation.php'; ?>
   <div id="content">
+
+
 		<!--BEGIN car select thumbnail div - The left collumn that holds the car thumbnails -->
     <div id="cs_container">
+			<div id="cs_fade">
       <?php
       //Get list of vehicles owned by currenty user
       $garage_stmt = $conn->prepare("SELECT * FROM  `users_cars` WHERE  `owner`=:owner_id");
@@ -58,10 +61,14 @@ $sec = "5";
         }
        ?>
 		<currentlySelected data-id="<?php echo $currentlySelectedID; ?>"></currentlySelected>
+		</div>
     </div>
 		<!--END car select thumbnail div-->
+
+
 		<!--BEGIN selected car display div - the large right div that displays the vehicles information-->
-		<div id="cd_container"> </div>
+		<div id="cd_container">
+		</div>
 		<!--END selected car display div -->
 	</div>
 </div>
@@ -105,6 +112,43 @@ $("body").on("click", "#user_car", function(e) {
   };
   xmlhttp.open("GET", "app/models/garage_get.php?load-id=" + selectedCarID, true);
   xmlhttp.send();
+});
+
+//Marks the currently selected car as the car being driven by  the player.
+$("body").on("click", "#newDriving", function(e) {
+  var newDrivingID = $(this).data("id");
+
+	//BEGIN update the currently driving car
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+    		$("#newDriving").fadeOut(400);
+
+				//BEGIN load the updated cs_container
+				$("#cs_fade").fadeOut(600, function(e) {
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						$("#cs_fade").fadeIn(1000);
+
+						document.getElementById("cs_fade").innerHTML = this.responseText;
+							const element = document.getElementById('driving');
+							const elementRect = element.getBoundingClientRect();
+							const absoluteElementTop = elementRect.top + window.pageYOffset;
+							const middle = absoluteElementTop - (window.innerHeight / 2);
+							window.scrollTo(0, middle);
+					}
+				};
+				xmlhttp.open("GET", "app/models/garage_get.php?allCars=true", true);
+				xmlhttp.send();
+			});
+				//END load the updated cs_container
+    }
+  };
+  xmlhttp.open("GET", "app/models/garage_get.php?newDrivingID=" + newDrivingID, true);
+  xmlhttp.send();
+	//END update the currently driving car
+
 });
 </script>
 </body>
