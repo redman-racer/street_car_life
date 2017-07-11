@@ -11,11 +11,12 @@ require_once "localhost.php";
 include 'functions.php';
 
 // Define and load Classes
-function __autoload($class) {
+function __autoload($class)
+{
     // Set Project Folder
     $folder = 'street_car_life';
     // Include Classes
-    require_once(FILE_ROOT ."/app/models/$class.php");
+    require_once(FILE_ROOT . "/app/models/$class.php");
 }
 
 // Get Page Name
@@ -35,16 +36,16 @@ if (isset($_SESSION["user_id"])) {
     $user_info = $user->fetchUser($_SESSION["user_id"]);
 
     //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
-    if ($page == "index.php"){
+    if ($page == "index.php") {
         // Redirect
-        header('Location: '. $SITE_ROOT .'logged');
+        header('Location: ' . $SITE_ROOT . 'logged');
         // Exit Application
         exit();
     }
 } else { //if they dont have a session started, relocate them to the index.php page;
     if ($page != "index.php" && $page != "login.php" && $page != "register.php") { //checks to see if they are already on index.php;
         // Relocate User
-        header('Location: '. $SITE_ROOT .'index');
+        header('Location: ' . $SITE_ROOT . 'index');
         // Exit Application
         exit();
     }

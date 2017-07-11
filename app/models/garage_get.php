@@ -1,6 +1,5 @@
 <?php
 require '../config/globals.php';
-require '../models/garage.php';
 
 
 //BEGIN New Driving - Puts the user as driving the select car
