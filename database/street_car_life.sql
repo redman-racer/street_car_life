@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2017 at 06:51 PM
+-- Generation Time: Jul 11, 2017 at 12:04 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -61,24 +61,35 @@ INSERT INTO `base_cars` (`id`, `year`, `make`, `model`, `cost`, `transmission`, 
 --
 
 CREATE TABLE `page_referrals` (
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id` int(11) NOT NULL,
   `page_visited` varchar(255) NOT NULL,
   `referral` varchar(255) NOT NULL,
   `ip` varchar(60) NOT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `seen` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `page_referrals`
 --
 
-INSERT INTO `page_referrals` (`id`, `page_visited`, `referral`, `ip`, `user_id`) VALUES
-(1, 'register.php', 'logged.php', '::1', 1),
-(2, 'register.php', 'register.php', '::1', 1),
-(3, 'register.php', 'FB Button', '::1', 1),
-(4, 'register.php', '1343tg', '::1', 1),
-(5, 'register.php', 'index.php', '::1', NULL),
-(6, 'register.php', 'logged.php', '::1', 1);
+INSERT INTO `page_referrals` (`time`, `id`, `page_visited`, `referral`, `ip`, `user_id`, `seen`) VALUES
+('2017-07-09 00:45:00', 1, 'register.php', 'logged.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 2, 'register.php', 'register.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 3, 'register.php', 'FB Button', '::1', 1, 1),
+('2017-07-09 00:45:00', 4, 'register.php', '1343tg', '::1', 1, 1),
+('2017-07-09 00:45:00', 5, 'register.php', 'index.php', '::1', NULL, 1),
+('2017-07-09 00:45:00', 6, 'register.php', 'logged.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 7, 'register.php', 'garage.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 8, 'register.php', 'garage.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 9, 'register.php', 'index.php', '::1', NULL, 1),
+('2017-07-09 00:45:00', 10, 'register.php', 'logged.php', '::1', 1, 1),
+('2017-07-09 00:45:00', 11, 'register.php', 'logged.php', '::1', NULL, 1),
+('2017-07-09 00:45:00', 12, 'register.php', 'garage.php', '::1', NULL, 1),
+('2017-07-09 00:47:26', 13, 'register.php', 'garage.php', '::1', 1, 0),
+('2017-07-10 18:02:42', 14, 'register.php', 'index.php', '::1', NULL, 0),
+('2017-07-10 18:03:30', 15, 'register.php', 'garage.php', '::1', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -132,12 +143,16 @@ CREATE TABLE `users_cars` (
 INSERT INTO `users_cars` (`id`, `base_id`, `owner`, `driving`, `transmission`, `hp`, `tq`, `f_aero`, `r_aero`, `weight`, `braking`, `handling`, `launch`, `reliability`) VALUES
 (1, 1, 1, 0, 2, 115, 108, 75, 75, 2461, 380, 375, 800, 0),
 (2, 2, 1, 0, 3, 510, 510, 180, 250, 4800, 410, 350, 600, 0),
-(3, 3, 1, 1, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0),
+(3, 3, 1, 0, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0),
 (4, 1, 2, 0, 2, 115, 108, 75, 75, 2461, 380, 375, 800, 0),
-(5, 2, 2, 1, 3, 510, 510, 180, 250, 4800, 410, 350, 600, 0),
+(5, 2, 2, 0, 3, 510, 510, 180, 250, 4800, 410, 350, 600, 0),
 (6, 3, 2, 0, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0),
 (7, 2, 1, 0, 3, 510, 510, 180, 250, 4800, 410, 350, 600, 0),
-(8, 3, 1, 0, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0);
+(8, 3, 1, 1, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0),
+(9, 1, 1, 0, 2, 115, 108, 75, 75, 2461, 380, 375, 800, 0),
+(10, 2, 1, 0, 3, 510, 510, 180, 250, 4800, 410, 350, 600, 0),
+(11, 3, 1, 0, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0),
+(12, 3, 1, 0, 4, 575, 575, 270, 320, 3100, 480, 450, 525, 0);
 
 --
 -- Indexes for dumped tables
@@ -182,7 +197,7 @@ ALTER TABLE `base_cars`
 -- AUTO_INCREMENT for table `page_referrals`
 --
 ALTER TABLE `page_referrals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -192,7 +207,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_cars`
 --
 ALTER TABLE `users_cars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
