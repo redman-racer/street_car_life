@@ -7,6 +7,9 @@ $dev_mode = true;
 // Include Constants
 require_once "localhost.php";
 
+// Include Functions
+include 'functions.php';
+
 // Define and load Classes
 function __autoload($class) {
     // Set Project Folder

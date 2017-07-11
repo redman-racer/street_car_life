@@ -1,5 +1,4 @@
 .idea
 node_modules
-app/config/localhost.php
 package-lock.json
 package.json
