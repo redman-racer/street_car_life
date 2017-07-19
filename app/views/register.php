@@ -12,7 +12,8 @@ if(isset($_GET['ref'])){
   logReferral($_GET['ref'], $conn, $page, $user_info['id']);
 }
 
-
+//set $eMessage
+$eMessage = "";
 ?>
 <html>
 <?php include_once '../includes/header.php'; ?>
@@ -21,26 +22,49 @@ if(isset($_GET['ref'])){
 		<?php include_once '../includes/navigation.php'; ?>
     <div id="content">
         <div id="register_container">
-    			<form method="POST" name="register" id="register" autocomplete="off" title="Register your account with Street Car Life" action="<?php echo $SITE_ROOT; ?>register" >
-            <table style="margin: 0px auto;">
-              <tr>
-                <td>Username:</td>
-                <td><input type="text" name="username" id="username" placeholder="Username" required /></td>
-                <td>Email address</td>
-                <td><input type="email" name="email" id="email" placeholder="email@streetcar.life" required /></td>
-              </tr>
-              <tr>
-                <td>Password:</td>
-                <td><input type="password" name="password" id="password" placeholder="Password" required /></td>
-                <td>Verify Password:</td>
-                <td><input type="password" name="password" id="password" placeholder="Password" required /></td>
-              <tr>
-              <tr>
-                <td colspan="4" style="text-align: center;"><input type="submit" name="submit_register" id="submit_register" value="Register Now" /></td>
-              </tr>
-    			</form>
+    		<form method="POST" name="register" id="register" autocomplete="off" title="Register your account with Street Car Life" action="<?php echo $SITE_ROOT; ?>register" >
+	            <table style="margin: 0px auto;">
+					<tr>
+						<td>
+							Username:
+						</td>
+						<td>
+							<input type="text" name="username" id="username" placeholder="Username" required />
+						</td>
+						<td>
+							Email address
+						</td>
+						<td>
+							<input type="email" name="email" id="email" placeholder="email@streetcar.life" required />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Password:
+						</td>
+						<td>
+							<input type="password" name="password" id="password" placeholder="Password" required />
+						</td>
+						<td>
+							Verify Password:
+						</td>
+						<td>
+							<input type="password" name="password" id="password" placeholder="Password" required />
+						</td>
+					<tr>
+						<td colspan="4" style="text-align: center;">
+							<input type="submit" name="submit_register" id="submit_register" value="Register Now" />
+						</td>
+					</tr>
+			  </table>
+    		</form>
+			<div id="eMessage">
+				<?php echo $eMessage; ?>
+			</div>
       </div>
     </div>
 </div>
 </body>
+<footer>
+</footer>
 </html>

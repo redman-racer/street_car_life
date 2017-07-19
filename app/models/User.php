@@ -116,6 +116,24 @@ class User
 
     /**
      * @param $user_id
+     * @return bool|array
+     *  Delete a user from the database
+     */
+    public function createUser($user_name, $password, $email)
+    {
+        // Build Query to Delete User
+        $query = "INSERT INTO users (db, collumn, goes, here) VALUES (:variables_here)"; //TODO make this function work        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Bind Parameters
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        // Execute Query
+        if ($stmt->execute()) return true;
+        // Error
+        else return false;
+    }
+
+    /**
+     * @param $user_id
      * @return bool
      * Ban a user.
      */

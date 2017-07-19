@@ -66,18 +66,24 @@ class Car
         return $car_template;
     }
 
-	public function carThumbnail($car_id)
+	public function fetchAllCarTemplate()
 	{
-		//Get the cars data
-		$car		  = $this->fetchCar($car_id);
-		//Get the car_template data
-		$car_template = $this->fetchCarTemplate($car['cars_ct_id']);
-
-		//Construct the imags
-		$url = "cars/garage/".$car_template['ct_photo_folder']."/street-car-life-".$car_template['ct_year']."-".$car_template['ct_make']."-".$car_template['ct_model']."-thumb.jpg";
-		//Return url
-		return $url;
+		// Build Query to fetch all the cars of a user
+		$query = "SELECT * FROM car_template";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':ct_id', $ct_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$car_templates = $stmt->fetch(PDO::FETCH_ASSOC);
+		// Return cars
+		return $car_templates;
 	}
+
 
 	public function changeDrivenCar($car_id, $user_id)
 	{
@@ -106,5 +112,20 @@ class Car
 		$updatedCarDriven = true;
 		// Return true to verify it updated
 		return $updatedCarDriven;
+	}
+
+
+
+	public function carThumbnail($car_id)
+	{
+		//Get the cars data
+		$car		  = $this->fetchCar($car_id);
+		//Get the car_template data
+		$car_template = $this->fetchCarTemplate($car['cars_ct_id']);
+
+		//Construct the imags
+		$url = "cars/garage/".$car_template['ct_photo_folder']."/street-car-life-".$car_template['ct_year']."-".$car_template['ct_make']."-".$car_template['ct_model']."-thumb.jpg";
+		//Return url
+		return $url;
 	}
 }
