@@ -27,13 +27,13 @@ require '../config/globals.php';
 						<td style="width:25%; text-align: right;">
 							Horse Power
 						</td>
-						<td id="hp"  style="width:25%; text-align: center; color: #ff6e5e;">
+						<td id="hp"  style="width:25%; text-align: center; color: #97d079;">
 							<!--Insert HP Here-->
 						</td>
 						<td style="width:25%; text-align: right;">
 							lb/ft Torque
 						</td>
-						<td  id="tq" style="width:25%; text-align: center; color: #97d079;">
+						<td  id="tq" style="width:25%; text-align: center; color: #ff6e5e;">
 							<!--Insert TQ Here-->
 						</td>
 					</tr>

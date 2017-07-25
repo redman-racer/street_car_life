@@ -28,6 +28,9 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Instantiate User Class
 $user = new User($conn);
 
+// Instantiate Car Class
+$car = new Car($conn);
+
 // Check if user is logged in
 if (isset($_SESSION["user_id"])) {
     // Fetch User Information

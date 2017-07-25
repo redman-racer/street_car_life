@@ -9,13 +9,13 @@ require '../config/globals.php';
     <?php include_once '../includes/navigation.php'; ?>
     <div id="content">
 		<div id="generic_container">
-			<span id="streetRace" data-id="1">Race Mazda Miata</span><br />
-			<span id="streetRace" data-id="2">Race Chevrolet Camaro ZL1</span><br />
-			<span id="streetRace" data-id="3">Race Chevrolet Corvette Z06</span><br />
-			<!--<span id="streetRace" data-id="4">Race id 4</span><br />
-			<span id="streetRace" data-id="5">Race id 5</span><br />
-			<span id="streetRace" data-id="6">Race id 6</span><br />
-			<span id="streetRace" data-id="7">Race id 7</span><br />-->
+			<?php
+			foreach ($car->fetchAllCarTemplate() as $key => $value) {
+			?>
+				<span id="streetRace" data-id="<?php echo $value['ct_id']; ?>" style="cursor: pointer;">Race a <?php echo $value['ct_year']." ".$value['ct_make']." ".$value['ct_model']; ?></span><br />
+			<?php
+			}
+			?>
 			<div id="results"> </div>
 		</div>
 	</div>
@@ -45,7 +45,7 @@ require '../config/globals.php';
 
 			if (playerET < computerET) var winner = "The winner was the Player";
 			if (playerET == computerET) var winner = "The race was a Draw";
-			if (playerET > computerET) var winner = "The winner was the Computer";			
+			if (playerET > computerET) var winner = "The winner was the Computer";
 
 			result_display= '<br />' + winner + '! <br />' +
 							'     Player.........................Computer <br />' +

@@ -72,14 +72,12 @@ class Car
 		$query = "SELECT * FROM car_template";
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
-		// Bind Parameters
-		$stmt->bindParam(':ct_id', $ct_id, PDO::PARAM_INT);
 		// Execute Query
 		if (!$stmt->execute()) {
 			return false;
 		}
 		// Fetch Cars
-		$car_templates = $stmt->fetch(PDO::FETCH_ASSOC);
+		$car_templates = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		// Return cars
 		return $car_templates;
 	}
@@ -146,5 +144,38 @@ class Car
 		$url = "cars/garage/".$car_template['ct_photo_folder']."/street-car-life-".$car_template['ct_year']."-".$car_template['ct_make']."-".$car_template['ct_model']."-thumb.jpg";
 		//Return url
 		return $url;
+	}
+
+
+	public function buyCar($ct_id, $user_id)
+	{
+		$car_template = $this->fetchCarTemplate($ct_id);
+
+		// Build Query to Delete User
+		$query = "INSERT INTO cars (cars_ct_id, cars_owner, cars_year, cars_make, cars_model, cars_transmission, cars_hp, cars_tq, cars_f_aero, cars_r_aero, cars_weight, cars_braking, cars_handling, cars_launch, cars_reliability, cars_value)
+				  VALUES (:cars_ct_id, :cars_owner, :cars_year, :cars_make, :cars_model, :cars_transmission, :cars_hp, :cars_tq, :cars_f_aero, :cars_r_aero, :cars_weight, :cars_braking, :cars_handling, :cars_launch, :cars_reliability, :cars_value)";
+        // Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':cars_ct_id', $ct_id, PDO::PARAM_INT);
+		$stmt->bindParam(':cars_owner', $user_id, PDO::PARAM_INT);
+		$stmt->bindParam(':cars_year', $car_template['ct_year'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_make', $car_template['ct_make'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_model', $car_template['ct_model'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_transmission', $car_template['ct_transmission'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_hp', $car_template['ct_hp'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_tq', $car_template['ct_tq'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_f_aero', $car_template['ct_f_aero'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_r_aero', $car_template['ct_r_aero'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_weight', $car_template['ct_weight'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_braking', $car_template['ct_braking'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_handling', $car_template['ct_handling'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_launch', $car_template['ct_launch'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_reliability', $car_template['ct_reliability'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_value', $car_template['ct_cost'], PDO::PARAM_INT);
+		// Execute Query
+		if ($stmt->execute()) return true;
+		// Error
+		else return false;
 	}
 }

@@ -45,7 +45,7 @@ class Race
 	return $results;
 	}
 
-	//
+	// $player_1/2 = array("player1_id"=>$user_info['id'], "player1_car"=>$['cars_id'], "player1_results"=>$race_results_array
 	public function recordRace($player_1, $player_2)
 	{
 		// Build Query to Delete User
