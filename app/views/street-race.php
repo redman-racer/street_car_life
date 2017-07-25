@@ -9,13 +9,14 @@ require '../config/globals.php';
     <?php include_once '../includes/navigation.php'; ?>
     <div id="content">
 		<div id="generic_container">
-			<span id="streetRace" data-id="1">Race id 1</span><br />
-			<span id="streetRace" data-id="2">Race id 2</span><br />
-			<span id="streetRace" data-id="3">Race id 3</span><br />
-			<span id="streetRace" data-id="4">Race id 4</span><br />
+			<span id="streetRace" data-id="1">Race Mazda Miata</span><br />
+			<span id="streetRace" data-id="2">Race Chevrolet Camaro ZL1</span><br />
+			<span id="streetRace" data-id="3">Race Chevrolet Corvette Z06</span><br />
+			<!--<span id="streetRace" data-id="4">Race id 4</span><br />
 			<span id="streetRace" data-id="5">Race id 5</span><br />
 			<span id="streetRace" data-id="6">Race id 6</span><br />
-			<span id="streetRace" data-id="7">Race id 7</span><br /.
+			<span id="streetRace" data-id="7">Race id 7</span><br />-->
+			<div id="results"> </div>
 		</div>
 	</div>
 </div>
@@ -23,20 +24,38 @@ require '../config/globals.php';
 <footer>
 <script>
 // Street-Race Javascript Module
-(function () {
+//(function () {
 
 	//Loads race results
 	$("body").on("click", "#streetRace", function (e) {
 		var raceWho = $(this).data("id");
-		alert("You are trying to race id:" + raceWho);
 
 		$.post('app/ajax-controllers/raceAjax.php', {
-			action: 'race',
+			action: 'streetRace',
 			raceWho: raceWho
 		}, function (data) {
+			playerSixty  = data['results']['player']['sixty'];
+			playerEighth = data['results']['player']['eighth'];
+			playerET     = data['results']['player']['et'];
+			playerTrap   = data['results']['player']['trap'];
+			computerSixty  = data['results']['computer']['sixty'];
+			computerEighth = data['results']['computer']['eighth'];
+			computerET     = data['results']['computer']['et'];
+			computerTrap   = data['results']['computer']['trap'];
+
+			if (playerET < computerET) var winner = "The winner was the Player";
+			if (playerET == computerET) var winner = "The race was a Draw";
+			if (playerET > computerET) var winner = "The winner was the Computer";			
+
+			result_display= '<br />' + winner + '! <br />' +
+							'     Player.........................Computer <br />' +
+							' 60\' : ' + playerSixty + ' .................. 60\' : ' + computerSixty + '<br />' +
+							'1/8th : ' + playerEighth + ' .................. 1/8th : ' + computerEighth + '<br />' +
+							'   ET : ' + playerET + ' ..................  ET : ' + computerET + '<br />' +
+							' Trap : ' + playerTrap + ' .................. Trap : ' + computerTrap + '<br />';
+			$("#results").html(result_display);
 			// Check for errors
 			if (checkErrors(data)) return false;
-
 		});
 	});
 
@@ -49,22 +68,6 @@ require '../config/globals.php';
 			return false;
 		}
 	}
-}
-
-
-var wheelHP=true;
-function calculate() {
- if(wheelHP){
-  //document.input.et.value=Math.pow((document.input.weight.value/document.input.hp.value), (1/3))*5.7
-  //document.input.trap.value=Math.pow((document.input.hp.value/document.input.weight.value), (1/3))*234
-
- }else{
-   //document.input.et.value=Math.pow((document.input.weight.value/(document.input.hp.value*.86)), (1/3))*5.825
-   //document.input.trap.value=Math.pow((document.input.hp.value/(document.input.weight.value*.86)), (1/3))*234
-
- }
- //document.input.et8.value=document.input.et.value*.655-.22
- //document.input.sixty.value=document.input.et.value*.126+.17
-};
+//}
 </script>
 </footer>

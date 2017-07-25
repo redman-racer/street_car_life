@@ -84,7 +84,7 @@ class Car
 		return $car_templates;
 	}
 
-
+	// Changes the car that the player is currently driving
 	public function changeDrivenCar($car_id, $user_id)
 	{
 		// Build Query to update cars that user is driving
@@ -112,6 +112,25 @@ class Car
 		$updatedCarDriven = true;
 		// Return true to verify it updated
 		return $updatedCarDriven;
+	}
+
+	// Fetchs the current car that the player is driving
+	public function currentDrivenCar($user_id)
+	{
+		// Build Query to fetch all the cars of a user
+		$query = "SELECT * FROM `cars` WHERE `cars_owner`=:user_id AND `cars_driving` = 1 LIMIT 1";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$currentDrivingCar = $stmt->fetch(PDO::FETCH_ASSOC);
+		// Return cars
+		return $currentDrivingCar;
 	}
 
 
