@@ -44,7 +44,7 @@ if (isset($_SESSION["user_id"])) {
         exit();
     }
 } else { //if they dont have a session started, relocate them to the index.php page;
-    if ($page != "index.php" && $page != "login.php" && $page != "register.php") { //checks to see if they are already on index.php;
+    if ($page != "index.php" && $page != "login.php" && $page != "register.php" && $page != "registerAjax.php") { //checks to see if they are already on index.php;
         // Relocate User
         header('Location: ' . $SITE_ROOT . 'index');
         // Exit Application

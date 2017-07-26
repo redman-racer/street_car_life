@@ -1,6 +1,6 @@
 <?php
 require '../config/globals.php';
-include_once '../models/referral.php';
+include_once '../models/Referral.php';
 
 if(isset($_POST['submit_register'])){
   echo"Register sumbited";
