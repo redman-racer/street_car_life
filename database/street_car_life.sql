@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2017 at 10:47 PM
+-- Generation Time: Jul 26, 2017 at 04:39 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -119,32 +119,6 @@ CREATE TABLE `page_referrals` (
   `user_id` int(11) DEFAULT NULL,
   `seen` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `page_referrals`
---
-
-INSERT INTO `page_referrals` (`time`, `id`, `page_visited`, `referral`, `ip`, `user_id`, `seen`) VALUES
-('2017-07-09 00:45:00', 1, 'register.php', 'logged.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 2, 'register.php', 'register.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 3, 'register.php', 'FB Button', '::1', 1, 1),
-('2017-07-09 00:45:00', 4, 'register.php', '1343tg', '::1', 1, 1),
-('2017-07-09 00:45:00', 5, 'register.php', 'index.php', '::1', NULL, 1),
-('2017-07-09 00:45:00', 6, 'register.php', 'logged.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 7, 'register.php', 'garage.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 8, 'register.php', 'garage.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 9, 'register.php', 'index.php', '::1', NULL, 1),
-('2017-07-09 00:45:00', 10, 'register.php', 'logged.php', '::1', 1, 1),
-('2017-07-09 00:45:00', 11, 'register.php', 'logged.php', '::1', NULL, 1),
-('2017-07-09 00:45:00', 12, 'register.php', 'garage.php', '::1', NULL, 1),
-('2017-07-09 00:47:26', 13, 'register.php', 'garage.php', '::1', 1, 0),
-('2017-07-10 18:02:42', 14, 'register.php', 'index.php', '::1', NULL, 0),
-('2017-07-10 18:03:30', 15, 'register.php', 'garage.php', '::1', 1, 0),
-('2017-07-16 15:26:15', 16, 'register.php', 'dealership.php', '::1', 1, 0),
-('2017-07-16 15:34:37', 17, 'register.php', 'register.php', '::1', 1, 0),
-('2017-07-16 15:35:14', 18, 'register.php', 'register.php', '::1', 1, 0),
-('2017-07-16 15:36:49', 19, 'register.php', 'dealership.php', '::1', 1, 0),
-('2017-07-23 23:49:08', 20, 'register.php', 'street-race.php', '::1', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -269,7 +243,7 @@ ALTER TABLE `car_template`
 -- AUTO_INCREMENT for table `page_referrals`
 --
 ALTER TABLE `page_referrals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `race`
 --
@@ -279,7 +253,7 @@ ALTER TABLE `race`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
