@@ -4,8 +4,6 @@ require '../config/globals.php';
 // Define Header
 header("Content-Type: application/json; charset=utf-8");
 
-// Instantiate Car Model
-$car = new Car($conn);
 
 // Instantiate Car Model
 $money = new Money($conn);

@@ -3,7 +3,7 @@
 session_start();
 // Set Dev Mode
 $dev_mode = true;
-
+$user_info = null;
 // Include Constants
 require_once "localhost.php";
 

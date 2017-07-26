@@ -7,11 +7,10 @@ class Money
         $this->conn = $conn;
     }
 
-    public function subtract($user_id, $user_cash, $car_cost)
+    public function subtract($user_id, $user_cash, $subtracting)
     {
 		// Subtract the car cost from the users cash
-		$user_cash = $user_cash - $car_cost;
-
+		$user_cash = $user_cash - $subtracting;
 		// Build Query to Delete User
 		$query = "UPDATE users SET user_cash=:new_balance WHERE id=:user_id";
 		// Prepare Query

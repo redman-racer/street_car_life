@@ -122,10 +122,12 @@ class User
     public function createUser($user_name, $password, $email)
     {
         // Build Query to Delete User
-        $query = "INSERT INTO users (db, collumn, goes, here) VALUES (:variables_here)"; //TODO make this function work        // Prepare Query
+        $query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)"; //TODO make this function work        // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Bind Parameters
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':username', $user_name, PDO::PARAM_INT);
+        $stmt->bindParam(':password', $password, PDO::PARAM_INT);
+        $stmt->bindParam(':email', $email, PDO::PARAM_INT);
         // Execute Query
         if ($stmt->execute()) return true;
         // Error
