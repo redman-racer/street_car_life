@@ -174,7 +174,13 @@ class Car
 		$stmt->bindParam(':cars_reliability', $car_template['ct_reliability'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_value', $car_template['ct_cost'], PDO::PARAM_INT);
 		// Execute Query
-		if ($stmt->execute()) return true;
+		if ($stmt->execute()){
+			// Gets the inserted ID
+			$lastID = $this->conn->lastInsertId();
+			// Sets the driven car to the just purchased car.
+			$this->changeDrivenCar($lastID, $user_id);
+			 return true;
+	 	}
 		// Error
 		else return false;
 	}

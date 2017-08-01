@@ -1,7 +1,7 @@
 #cs_container{
-  position: relative;
+  position: absolute;
   width: 300px;
-  top: 0px;
+  top: 215px;
   left: 50px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -44,14 +44,23 @@
   font-size: 12px;
   color: #79c11b;
 }
-#newDriving{
-  position: absolute;
-  cursor: pointer;
-  top: 25px;
-  left: 25px;
-  font-family: sfg;
-  font-size: 12px;
-  color: #79c11b;
+.steeringIcon{
+	position: absolute;
+	cursor: pointer;
+	top: 25px;
+	left: 25px;
+	font-family: sfg;
+	font-size: 12px;
+	color: #79c11b;
+}
+#carCost{
+	position: absolute;
+	cursor: pointer;
+	top: 35px;
+	left: 125px;
+	font-family: password;
+	font-size: 40px;
+	color: #373d3f;
 }
 .select_highlight{
   position: absolute;

@@ -49,8 +49,8 @@ class Race
 	public function recordRace($player_1, $player_2)
 	{
 		// Build Query to Delete User
-        $query = "INSERT INTO race (race_driver_one, race_driver_two, race_d1_car, race_d2_car, race_d1_sixty, race_d2_sixty, race_d1_eighth, race_d2_eighth, race_d1_et, race_d2_et, race_d1_trap, race_d2_trap)
-				  VALUES (:race_driver_one, :race_driver_two, :race_d1_car, :race_d2_car, :race_d1_sixty, :race_d2_sixty, :race_d1_eighth, :race_d2_eighth, :race_d1_et, :race_d2_et, :race_d1_trap, :race_d2_trap)"; //TODO make this function work
+        $query = "INSERT INTO race (race_driver_one, race_driver_two, race_d1_car, race_d2_car, race_d1_rt, race_d2_rt, race_d1_sixty, race_d2_sixty, race_d1_eighth, race_d2_eighth, race_d1_et, race_d2_et, race_d1_trap, race_d2_trap)
+				  VALUES (:race_driver_one, :race_driver_two, :race_d1_car, :race_d2_car, :race_d1_rt, :race_d2_rt, :race_d1_sixty, :race_d2_sixty, :race_d1_eighth, :race_d2_eighth, :race_d1_et, :race_d2_et, :race_d1_trap, :race_d2_trap)"; //TODO make this function work
         // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Bind Parameters
@@ -58,6 +58,8 @@ class Race
         $stmt->bindParam(':race_driver_two', $player_2['player2_id'], PDO::PARAM_INT);
         $stmt->bindParam(':race_d1_car', $player_1['player1_car'], PDO::PARAM_INT);
         $stmt->bindParam(':race_d2_car', $player_2['player2_car'], PDO::PARAM_INT);
+        $stmt->bindParam(':race_d1_rt', $player_1['player1_results']['rtvrt'], PDO::PARAM_INT);
+        $stmt->bindParam(':race_d2_rt', $player_2['player2_results']['rtvrt'], PDO::PARAM_INT);
         $stmt->bindParam(':race_d1_sixty', $player_1['player1_results']['sixty'], PDO::PARAM_INT);
         $stmt->bindParam(':race_d2_sixty', $player_2['player2_results']['sixty'], PDO::PARAM_INT);
         $stmt->bindParam(':race_d1_eighth', $player_1['player1_results']['eighth'], PDO::PARAM_INT);

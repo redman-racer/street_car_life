@@ -82,7 +82,7 @@
 					if(data['car']['cars_driving'] == 1){
 						newDrivingDIV = '';
 					}else{
-						newDrivingDIV = '<div id="newDriving" data-id="'+ data['car']['cars_id'] +'">'+
+						newDrivingDIV = '<div id="newDriving" class="steeringIcon" data-id="'+ data['car']['cars_id'] +'">'+
 											'<img src="'+ data['IMAGE_ROOT'] +'street-car-life-select-steeringwheel.png" width="55px" height="55" /><br />'+
 											'Start Driving'+
 										'</div><br />'}

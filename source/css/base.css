@@ -18,6 +18,14 @@ src: url(../fonts/SilverForteGrunge.ttf);
 font-family: rootbear;
 src: url(../fonts/rootbear.otf);
 }
+@font-face {
+font-family: calibri;
+src: url(../fonts/calibri.ttf);
+}
+@font-face {
+font-family: calibriB;
+src: url(../fonts/calibrib.ttf);
+}
 body{
   background: url(../images/background.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -112,10 +120,22 @@ text-decoration: underlnine;
 #generic_container {
 	margin: 0px auto;
 	width: 80%;
-	height: 500px;
+	height: 600px;
 	top: 0px;
 	left: 0px;
 	padding-bottom: 25px;
 	background-color: rgba(255, 255, 255, 0.90);
 	border: 1px solid #000;
+}
+
+.mapIcon{
+	position: relative;
+	cursor: pointer;
+	font-family: calibriB;
+	font-size: 18px;
+	color: #000;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+.mapIcon:hover{
+	color: #3a84df;
 }

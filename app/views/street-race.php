@@ -9,65 +9,34 @@ require '../config/globals.php';
     <?php include_once '../includes/navigation.php'; ?>
     <div id="content">
 		<div id="generic_container">
-			<?php
-			foreach ($car->fetchAllCarTemplate() as $key => $value) {
-			?>
-				<span id="streetRace" data-id="<?php echo $value['ct_id']; ?>" style="cursor: pointer;">Race a <?php echo $value['ct_year']." ".$value['ct_make']." ".$value['ct_model']; ?></span><br />
-			<?php
-			}
-			?>
+			<form method="POST" name="createRace" id="createRace" autocomplete="off" title="Create a street race" action="<?php echo $SITE_ROOT; ?>street-race" >
+				<select id="raceWho">
+					<?php
+					foreach ($car->fetchAllCarTemplate() as $key => $value) {
+					?>
+						<option value="<?php echo $value['ct_id']; ?>">Race a <?php echo $value['ct_year']." ".$value['ct_make']." ".$value['ct_model']; ?></option>
+					<?php
+					}
+					?>
+				</select>
+				<br />
+				<input id="betAmount" type="number" placeholder="Enter Bet Amount" required /><br />
+				<input id="start_tree" type="submit" value="Start Race" />
+				<input id="launch" type="button" value="Launch" style="display: none;"/>
+			</form>
+			<div id="tree_container" style="width: 100%;">
+				<div id="amber_1" style="background-color: yellow; width: 30px; height: 30px; border: 1px solid #000; border-radius: 30px; margin: 5px auto; display: none;"> </div>
+				<div id="amber_2" style="background-color: yellow; width: 30px; height: 30px; border: 1px solid #000; border-radius: 30px; margin: 5px auto; display: none;"> </div>
+				<div id="amber_3" style="background-color: yellow; width: 30px; height: 30px; border: 1px solid #000; border-radius: 30px; margin: 5px auto; display: none;"> </div>
+				<div id="green" style="background-color: green; width: 30px; height: 30px; border: 1px solid #000; border-radius: 30px; margin: 5px auto; display: none;"> </div>
+				<div id="red" style="background-color: red; width: 30px; height: 30px; border: 1px solid #000; border-radius: 30px; margin: 5px auto; display: none;"> </div>
+			</div>
 			<div id="results"> </div>
 		</div>
 	</div>
 </div>
 </body>
 <footer>
-<script>
-// Street-Race Javascript Module
-//(function () {
-
-	//Loads race results
-	$("body").on("click", "#streetRace", function (e) {
-		var raceWho = $(this).data("id");
-
-		$.post('app/ajax-controllers/raceAjax.php', {
-			action: 'streetRace',
-			raceWho: raceWho
-		}, function (data) {
-			playerSixty  = data['results']['player']['sixty'];
-			playerEighth = data['results']['player']['eighth'];
-			playerET     = data['results']['player']['et'];
-			playerTrap   = data['results']['player']['trap'];
-			computerSixty  = data['results']['computer']['sixty'];
-			computerEighth = data['results']['computer']['eighth'];
-			computerET     = data['results']['computer']['et'];
-			computerTrap   = data['results']['computer']['trap'];
-
-			if (playerET < computerET) var winner = "The winner was the Player";
-			if (playerET == computerET) var winner = "The race was a Draw";
-			if (playerET > computerET) var winner = "The winner was the Computer";
-
-			result_display= '<br />' + winner + '! <br />' +
-							'     Player.........................Computer <br />' +
-							' 60\' : ' + playerSixty + ' .................. 60\' : ' + computerSixty + '<br />' +
-							'1/8th : ' + playerEighth + ' .................. 1/8th : ' + computerEighth + '<br />' +
-							'   ET : ' + playerET + ' ..................  ET : ' + computerET + '<br />' +
-							' Trap : ' + playerTrap + ' .................. Trap : ' + computerTrap + '<br />';
-			$("#results").html(result_display);
-			// Check for errors
-			if (checkErrors(data)) return false;
-		});
-	});
-
-	// Function to check for errors
-	function checkErrors(data) {
-		if (data['error'] !== false) {
-			console.log(data['error']);
-			return true;
-		} else {
-			return false;
-		}
-	}
-//}
-</script>
+<script src="<?php echo $JS_ROOT; ?>street-race.js"></script>
+<script src="<?php echo $JS_ROOT; ?>all.js"></script>
 </footer>
