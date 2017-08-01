@@ -37,7 +37,7 @@ $part_store = new PartStore($conn);
 			<!--BEGIN selected car display div - the large right div that displays the vehicles information-->
 			<div id="cd_container">
 				<!--Large car image container-->
-				<div id="car_container">
+				<div id="car_container" width="600px" height="600px" style="width: 600px; height: 600px; margin: 35px 0px 0px 40px;">
 				</div>
 				<!--car stats box-->
 				<div id="car_stats" style="width: 700; height: 300px; border: 2px solid #000; background-color: rgba(0, 0, 0, .8); position:absolute; top: 35px; left: 650px;">
@@ -80,6 +80,9 @@ $part_store = new PartStore($conn);
 </body>
 <footer>
 <script>
+// Set the storeID variable
+var storeID = "";
+// Opens the parts store
 $("body").on("click", "#part_store", function (e) {
 	var storeID = $(this).data("id");
 
@@ -94,35 +97,46 @@ $("body").on("click", "#part_store", function (e) {
 		// Build the table for the parts_available
 		$( "#generic_container" ).animate({	opacity: 0, height: "700", width: "90%"}, 500, function() {/* Animation complete.*/});
 		$( "#partStore" ).fadeIn(800);
-		/*$("#generic_container").html(
-										'<tr border="1px">'+
-											'<td>Part Type</td>'+
-											'<td>Part Price</td>'+
-											'<td>Added HP</td>'+
-											'<td>Added TQ</td>'+
-											'<td>Weight</td>'+
-											'<td>Reliability</td>'+
-											'<td>Description</td>'+
-										'</tr>');*/
-
 
 		// Loop through the parts that was returned
 		data['parts_available'].forEach(function (part) {
-			// Build the table row
-			tableRow = 	'<tr style="border: 1px solid #000;">'+
-							'<td>' +part['pt_type']+ '</td>'+
-							'<td>' +part['pt_msrp']+ '</td>'+
-							'<td>' +part['pt_hp']+ '</td>'+
-							'<td>' +part['pt_tq']+ '</td>'+
-							'<td>' +part['pt_weight']+ '</td>'+
-							'<td>' +part['pt_reliability']+ '</td>'+
-							'<td>' +part['pt_description']+ '</td>'+
-						'</tr>';
-			// $("#generic_container").append(tableRow);
-
+			// Build the Part Type Selection
+			part_template =	'<div id="selected_' + part['pt_id'] + '" class="select_highlight" style="display: none;"></div>' +
+							'<div id="user_car" class="ic_container" data-type="' + part['pt_type'] + '" data-storeid="' + storeID + '" style="background-color: #fff;">' +
+								'<img src="' + data['image_root'] + 'parts-store/' + part['pt_type'] + '-icon.png" height="150px" width="250px"/>' +
+							'</div>'+
+							'<div id="currentlySelectedID" data-id=""></div>';
+			// Add template to HTML
+			$("#cs_container").append(part_template);
 		});
 	});
 });
+
+// Opens single part
+$("body").on("click", "#user_car", function (e) {
+	var partType  = $(this).data("type");
+	var storeID = $(this).data("storeid");
+
+	$.post('app/ajax-controllers/partStoreAjax.php', {
+		action: "openPartType",
+		store_id: storeID,
+		part_type: partType
+	}, function (data) {
+		data['parts'].forEach(function (part) {
+
+			partListHTML = 	'<div style="font-family: sfg; font-size: 22px; background-color: rgba(0, 0, 0, .8); color: #fff; width: 100%; border-radius: 5px; -webkit-box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75); -moz-box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75); box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75);">'+
+								part['pt_name'] +
+							'</div>'+
+							'<div id="partDescription" style="margin: 20px auto; font-family: calibriB; font-size: 18px;">'+
+								part['pt_description']+
+							'</div>';
+
+			// Add template to the HTML
+			$("#car_container").html(partListHTML);
+		});
+	});
+});
+
 
 // Check for errors in the array data['error']
 function checkErrors(data) {

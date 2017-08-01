@@ -43,4 +43,25 @@ class PartStore
 		return $parts_available;
 	}
 
+
+	// Fetch parts available at a specific Parts Store
+	public function fetchPartType($part_type, $store_id)
+	{
+		// Build Query to fetch all the cars of a user
+		$query = "SELECT * FROM part_template WHERE pt_store_id = :store_id AND pt_type = :part_type";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':store_id', $store_id, PDO::PARAM_INT);
+		$stmt->bindParam(':part_type', $part_type, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$parts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		// Return cars
+		return $parts;
+	}
+
 }
