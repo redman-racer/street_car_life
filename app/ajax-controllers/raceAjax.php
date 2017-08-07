@@ -56,7 +56,8 @@ $money = new Money($conn);
 
 		// Get the players car stats an then send it to the race math function
 		$players_car  = $car->currentDrivenCar($user_info['id']);
-		$results_player = $race->raceMathID($players_car['cars_id']);
+		$player_car_stats = $car->fetchCarStats($players_car['cars_id'], $user_info['id']);
+		$results_player = $race->raceMathStats($player_car_stats['cars_hp'], $player_car_stats['cars_weight']);
 
 		// Add Vehicle RT to the Player RT
 		$results_player['vrt']   = (rand(3000, 4000)-($players_car['cars_hp']*2))/10000;

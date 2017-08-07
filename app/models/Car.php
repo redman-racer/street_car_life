@@ -33,7 +33,7 @@ class Car
     public function fetchAllUserCars($user_id)
     {
         // Build Query to fetch all the cars of a user
-        $query = "SELECT * FROM cars WHERE cars_owner=:user_id";
+        $query = "SELECT * FROM cars WHERE cars_owner=:user_id ORDER BY cars_id ASC";
         // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Bind Parameters
@@ -69,7 +69,7 @@ class Car
 	public function fetchAllCarTemplate()
 	{
 		// Build Query to fetch all the cars of a user
-		$query = "SELECT * FROM car_template";
+		$query = "SELECT * FROM car_template ORDER BY ct_make, ct_year ASC";
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Execute Query
@@ -131,7 +131,48 @@ class Car
 		return $currentDrivingCar;
 	}
 
+	// Get the car stats for cars_id
+	public function fetchCarStats($car_id, $user_id)
+	{
+		// Build Query to fetch cars stock stats.
+		$query = "SELECT * FROM `cars` WHERE `cars_owner`=:user_id AND `cars_id` = :car_id LIMIT 1";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$carStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
+
+		// Build Query to fetch cars mods.
+		$query = "SELECT * FROM `part` WHERE `part_owner_id`=:user_id AND `part_car_id` = :car_id";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$carParts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		foreach ($carParts as &$part) {
+			$carStats['cars_hp'] += $part['part_hp'];
+			$carStats['cars_tq'] += $part['part_tq'];
+			$carStats['cars_weight'] += $part['part_weight'];
+			$carStats['cars_reliability'] += $part['part_reliability'];
+		}
+
+		// Return cars
+		return $carStats;
+	}
 
 	public function carThumbnail($car_id)
 	{

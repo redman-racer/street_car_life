@@ -59,6 +59,6 @@ require '../config/globals.php';
 </div>
 </body>
 <footer>
-<script src="<?php echo $JS_ROOT; ?>garage.js"></script>
-<script src="<?php echo $JS_ROOT; ?>all.js"></script>
+<script src="<?php echo $JS_ROOT; ?>garage.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>all.js?v=<?=time();?>"></script>
 </footer>

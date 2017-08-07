@@ -7,6 +7,8 @@ class Race
         $this->conn = $conn;
     }
 
+
+
 	// Return et and trap
 	public function raceMathStats($hp, $weight)
 	{
@@ -18,6 +20,7 @@ class Race
 
 	return $results;
 	}
+
 
 	// Return et and trap
 	public function raceMathID($car_id)

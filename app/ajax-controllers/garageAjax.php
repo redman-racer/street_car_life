@@ -34,12 +34,15 @@ if ($_POST['action'] == "fetchCar") {
 	// Fetch car_template
 	$car_template = $car->fetchCarTemplate($selected_car['cars_ct_id']);
 
+	// Fetch the car stats after mods
+	$car_stats = $car->fetchCarStats($_POST['car_id'], $user_info['id']);
+
 	// Check for cars
 	if (!$selected_car) {
 		echo json_encode(array("error" => "There was an unexpected error loading the cars."));
 	} else {
 		// Build Array
-		echo json_encode(array("error" => false, "car" => $selected_car, "car_template" => $car_template, "IMAGE_ROOT" => $IMAGE_ROOT));
+		echo json_encode(array("error" => false, "car" => $car_stats, "car_template" => $car_template, "IMAGE_ROOT" => $IMAGE_ROOT));
 	}
 }
 
