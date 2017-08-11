@@ -18,10 +18,29 @@ class PartStore
 		if (!$stmt->execute()) {
 			return false;
 		}
-		// Fetch Cars
+		// Fetch part_stores
 		$part_stores = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		// Return cars
+		// Return part stores
 		return $part_stores;
+	}
+
+	// Fetch all of the stores available
+	public function fetchPartStore($store_id)
+	{
+		// Build Query to fetch all the cars of a user
+		$query = "SELECT * FROM part_store WHERE ps_id = :store_id";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':store_id', $store_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Part Store
+		$part_store = $stmt->fetch(PDO::FETCH_ASSOC);
+		// Return Part Store
+		return $part_store;
 	}
 
 	// Fetch parts available at a specific Parts Store

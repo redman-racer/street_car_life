@@ -7,6 +7,9 @@ header("Content-Type: application/json; charset=utf-8");
 // Instantiate Parts Store
 $part_store = new PartStore($conn);
 
+// Instantiate Money
+$money = new Money($conn);
+
 
 // Load all parts owned by store_id, display as json_encode
 if ($_POST['action'] == "openStore") {
@@ -65,11 +68,17 @@ if ($_POST['action'] == "buyPart"){
 	// Buy the Part
 	$buy = $part_store->buyPart($_POST['part_id'], $_POST['store_id'], $user_info['id'], $_POST['install']);
 
+	// Get all of the parts info
+	$part_info = $part_store->fetchPart($_POST['part_id'], $_POST['store_id']);
+
+
 	// Check to see if it was purchased suscesfully
 	if (!$buy) {
 		echo json_encode( array( "error" => "There was an unexpected error loading the part.", "bought" => false ) );
 	} else {
-		// Build Array
-		echo json_encode( array( "error" => false, "bought" => true ) );
+		if( $money->subtract($user_info['id'], $user_info['user_cash'], $part_info['pt_msrp'], $page) ){
+			// Build Array
+			echo json_encode( array( "error" => false, "bought" => true ) );
+		}
 	}
 }

@@ -1,4 +1,4 @@
-data['part']<?php
+<?php
 // Include Globals
 require '../config/globals.php';
 
@@ -8,6 +8,32 @@ $part_store = new PartStore($conn);
 <html>
 <?php include_once '../includes/header.php'; ?>
 <body>
+<!-- jQuery Dialog box-->
+	<div id="buyPartStore" title="Buy Parts Store?">
+		<div class="ui-widget" id="dialogError" style="display: none;">
+			<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+				<p><span class="ui-icon ui-icon-alert" style="float: left; margin-right: .3em;"></span>
+				<strong>Alert:</strong> <br />
+				Please enter a store name before continuing.</p>
+			</div>
+		</div>
+	  <p>
+		  <span class="ui-icon ui-icon-cart" style="float:left; margin:12px 12px 20px 0;"></span>This store is selling for <b><span style="color: red;">$<span id="bps_cost"></span></span></b>.
+		  <br />Are you sure you want to buy it?
+
+		  <form id="dialogForm" style="margin-left: 30px;">
+		      <label for="name">Store Name</label><br />
+		      <input type="text" name="store_name" id="store_name" placeholder="For Sale" class="text ui-widget-content ui-corner-all" >
+		  </form>
+	  </p>
+	</div>
+
+	<div id="noPartsAvailable" title="Empty Store">
+	  <p>This parts store does not currently have anything in their store front.</p>
+	</div>
+
+<!-- jQuery Dialog Box-->
+
 <div id="Main_Container">
     <?php include_once '../includes/navigation.php'; ?>
     <div id="content">
@@ -16,8 +42,8 @@ $part_store = new PartStore($conn);
 			<?php
 			foreach ($part_store->fetchAllPartStores() as $key => $value) {
 			?>
-				<span id="part_store" class="mapIcon" data-id="<?php echo $value['ps_id']; ?>" style="top: <?php echo $value['ps_top_pos']; ?>px; left: <?php echo $value['ps_left_pos']; ?>px;">
-					<img src="<?php echo $IMAGE_ROOT; ?>map_pin.png" /><b><?php echo $value['ps_name']; ?></b>
+				<span id="part_store" class="mapIcon" data-id="<?php echo $value['ps_id']; ?>" style=" position: relative; float: right; top: <?php echo $value['ps_top_pos']; ?>%; left: <?php echo $value['ps_left_pos']; ?>%;">
+					<img src="<?php echo $IMAGE_ROOT; ?>map_pin.png" /><b><span id="ps_name_<?php echo $value['ps_id']; ?>" data-value="<?php echo number_format($value['ps_value']); ?>"><?php echo $value['ps_name']; ?></span></b>
 				</span>
 				<br />
 			<?php
@@ -110,212 +136,10 @@ $part_store = new PartStore($conn);
 </body>
 <footer>
 <script>
-// Set the storeID variable
-var storeID = "";
-// Opens the parts store
-$("body").on("click", "#part_store", function (e) {
-	var storeID = $(this).data("id");
-
-	// POST to changeCar
-	$.post('app/ajax-controllers/partStoreAjax.php', {
-		action: "openStore",
-		store_id: storeID
-	}, function (data) {
-		// Check for errors
-		if (checkErrors(data)) return false;
-
-		// Build the table for the parts_available
-		$( "#generic_container" ).animate({	opacity: 0, height: "700", width: "90%"}, 500, function() {/* Animation complete.*/});
-		$( "#partStore" ).fadeIn(800);
-
-		// Loop through the parts that was returned
-		var count = 1;
-		data['parts_available'].forEach(function (part) {
-			// Build the Part Type Selection
-			part_template =	'<div id="selected_' + count + '" class="select_highlight" style="display: none;"></div>' +
-							'<div id="user_car" class="ic_container" data-id="' + count + '" data-type="' + part['pt_type'] + '" data-storeid="' + storeID + '" style="background-color: #fff;">' +
-								'<img src="' + data['image_root'] + 'parts-store/' + part['pt_type'] + '-icon.png" height="150px" width="250px"/>' +
-							'</div>'+
-							'<div id="currentlySelectedID" data-id=""></div>';
-			// Add template to HTML
-			$("#cs_container").append(part_template);
-			count += 1;
-		});
-	});
-});
-
-// Opens part type, and loads the last part availables stats
-$("body").on("click", "#user_car", function (e) {
-	var partType  = $(this).data("type");
-	var storeID = $(this).data("storeid");
-	var lastPartID ="";
-	// Empty $("#car_container")
-	$("#car_container").html("");
-
-	var selectedPart = $(this).data("id");
-	var selectedPartHighlighted = $("#currentlySelectedID").data("id");
-
-	//Change which Selected DIV is dsiplayed
-	$("#selected_" + selectedPartHighlighted).fadeOut(600);
-	$("#selected_" + selectedPart).fadeIn(600);
-
-	//Update the curentlySelctedID DIV with the newly selected ID
-	 $("#currentlySelectedID").data("id", selectedPart);
-
-	$.post('app/ajax-controllers/partStoreAjax.php', {
-		action: "openPartType",
-		store_id: storeID,
-		part_type: partType
-	}, function (data) {
-		$("#car_stats").fadeOut(0);
-		data['parts'].forEach(function (part) {
-			lastPartID = part['pt_id'];
-			partListHTML = 	'<div id="partContainer" data-id="' + part['pt_id'] + '" data-storeid="' + storeID + '" style="cursor: pointer;">'+
-								'<div id="partName" class="fadeOut" style="font-family: rootbear; font-size: 32px; background-color: rgba(0, 0, 0, .8); color: #fff; width: 100%; margin: 15px auto; border-radius: 5px; -webkit-box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75); -moz-box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75); box-shadow: 5px 9px 25px 0px rgba(0,0,0,0.75);">'+
-									'<span class="partSelected_' + part['pt_id'] + '" style="color: #ff6e5e; display: none; font-family: thegun; font-size: 18px;">  >>>  </span>' + part['pt_name'] + '<span class="partSelected_' + part['pt_id'] + '" style="color: #ff6e5e;  display: none; font-family: thegun; font-size: 18px;">  <<<  </span>'+
-							'</div>'+
-							'<div id="partDescription_' + part['pt_id'] + '" data-id="' + part['pt_id'] + '" style=" display: none; margin: 20px auto; font-family: calibriB; font-size: 18px;">'+
-								part['pt_description']+
-							'</div></div>'+
-							'<div class="currentlySelectedID" data-id="' + part['pt_id'] + '"></div>';
-
-					hp	 =	'<span style="color: ' + setColor(part['pt_hp']) +'">'+
-								part['pt_hp']+
-							'</span>';
-
-					tq	 =	'<span style="color: ' + setColor(part['pt_tq']) + '">'+
-								part['pt_tq']+
-							'</span>';
-				weight	 =	'<span style="color: ' + setColor(part['pt_weight']) + '">'+
-								part['pt_weight']+
-							'</span>';
-			reliability	 =	'<span style="color: ' + setColor(part['pt_reliability']) + '">'+
-								part['pt_reliability']+
-							'</span>';
-				msrp	 =	'<span style="color: ' + setColor(part['pt_cost']) + '">'+
-								'$' + part['pt_msrp']+
-							'</span>';
-			// Add template to the HTML
-			$("#car_container").append(partListHTML);
-			$("#hp").html(hp);
-			$("#tq").html(tq);
-			$("#weight").html(weight);
-			$("#reliability").html(reliability);
-			$("#msrp").html(msrp);
-			// Fade it out
-			$(".fadeOut").fadeOut(0);
-		});
-		//Update the curentlySelctedID DIV with the newly selected ID
-		 $(".currentlySelectedID").data("id", lastPartID);
-		// Display selected icon
-		$(".partSelected_" + lastPartID).fadeIn(600);
-		$("#partDescription_" + lastPartID ).fadeIn(600);
-		// Add the ID to the Buy Button
-		$("#buyNow").data("id", lastPartID);
-		$("#buyNow").data("storeid", storeID);
-		// Fade it in
-		$(".fadeOut").fadeIn(600);
-		$("#car_stats").fadeIn(600);
-	});
-});
-
-// Loads individual parts
-$("body").on("click", "#partContainer", function (e) {
-	var partID  = $(this).data("id");
-	var storeID = $(this).data("storeid");
-	var wasSelected = $(".currentlySelectedID").data("id");
-
-
-	// Send the data to the ajax-controller
-	$.post('app/ajax-controllers/partStoreAjax.php', {
-		action: "openPart",
-		store_id: storeID,
-		part_id: partID
-	}, function (data) {
-		hp	 	=	'<span style="color: ' + setColor(data['part']['pt_hp']) +'">'+
-					data['part']['pt_hp']+
-				'</span>';
-
-		tq		=	'<span style="color: ' + setColor(data['part']['pt_tq']) + '">'+
-					data['part']['pt_tq']+
-				'</span>';
-
-		weight	=	'<span style="color: ' + setColor(data['part']['pt_weight']) + '">'+
-					data['part']['pt_weight']+
-				'</span>';
-
-	reliability	=	'<span style="color: ' + setColor(data['part']['pt_reliability']) + '">'+
-					data['part']['pt_reliability']+
-				'</span>';
-
-		msrp	=	'<span style="color: ' + setColor(data['part']['pt_cost']) + '">'+
-					'$' + data['part']['pt_msrp']+
-				'</span>';
-
-
-		$("#car_stats").fadeOut(200,function (e){
-			$("#hp").html(hp);
-			$("#tq").html(tq);
-			$("#weight").html(weight);
-			$("#reliability").html(reliability);
-			$("#msrp").html(msrp);
-		});
-		// Change selected icon
-		$(".partSelected_" + wasSelected).fadeOut(600);
-		$(".partSelected_" + partID).fadeIn(600);
-		$("#partDescription_" + wasSelected ).slideToggle(500);
-			$("#partDescription_" + partID ).slideToggle(600);
-
-		$("#car_stats").fadeIn(800);
-		$(".currentlySelectedID").data("id", partID);
-		$("#buyNow").data("id", partID);
-	});
-
-
-});
-
-// Buys the part
-$("body").on("click", "#buyNow", function (e) {
-	var partID = $(this).data("id");
-	var storeID = $(this).data("storeid");
-
-	// Checks to see if the user wants to install the part now
-	if (confirm('Do you want to install the part now?')) {
-	   install = 1;
-	} else {
-	   install = 0;
-	}
-
-	$.post('app/ajax-controllers/partStoreAjax.php', {
-		action: "buyPart",
-		store_id: storeID,
-		part_id: partID,
-		install: install
-	}, function (data) {
-		alert(data['bought']);
-	});
-});
-
-// Check for errors in the array data['error']
-function checkErrors(data) {
-	if (data['error'] !== false) {
-		console.log(data['error']);
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// Returns a #123456 number, Green for positive number, Red for negative
-function setColor(number) {
-	if(number > 0) color = "#97d079";
-	else color = "#ff6e5e";
-
-	return color;
-}
 
 
 </script>
 
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
+<script src="<?php echo $JS_ROOT; ?>part-store.js"></script>
 </footer>

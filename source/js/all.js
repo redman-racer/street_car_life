@@ -4,7 +4,8 @@ $('document').ready(function () {
 });
 
 function loadUserStats(){
-	$.post('app/ajax-controllers/userBarAjax.php', {
+
+	$.post(site_root+'app/ajax-controllers/userBarAjax.php', {
 		action: "getStats"
 	}, function (data) {
 		// Check for errors
@@ -26,7 +27,6 @@ function loadUserStats(){
 		setTimeout(loadUserStats, 3000);
 	});
 }
-
 
 // Function to check for errors
 function checkErrors(data) {

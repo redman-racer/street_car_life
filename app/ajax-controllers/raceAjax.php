@@ -83,28 +83,28 @@ $money = new Money($conn);
 
 		// Make the money transfers for the winner
 		if ($results_player['rtet'] < $results_computer['rtet'] && !$redlight){// IF Player ET is faster than computer and player did not redlight
-			$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+			$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 			$winner = "Player";
 		}
 		elseif ($results_player['rtet'] > $results_computer['rtet'] && !$redlightC){// If computer ET is faster than player and computer did not redlight
-			$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+			$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 			$winner = "Computer";
 		}
 		elseif($redlight && !$redlightC){ // If player redlights and computer does not
-			$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+			$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 			$winner = "Computer";
 		}
 		elseif($redlightC && !$redlight){ // If Computer redlights and player does not
-			$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+			$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 			$winner = "Player";
 		}
 		elseif($redlight && $redlightC){ // If Bother redlight, compare redlights and see who redlit the least .
 			if($results_player['rtvrt'] > $results_computer['rtvrt']){
-				$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+				$money->add($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 				$winner = "Player";
 			}
 			elseif($results_player['rtvrt'] < $results_computer['rtvrt']){
-				$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount']);
+				$money->subtract($user_info['id'], $user_info['user_cash'], $_POST['betAmount'], $page);
 				$winner = "Computer";
 			}
 		}
