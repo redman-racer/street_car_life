@@ -40,4 +40,24 @@ class PartStoreCP
 	}
 
 
+	public function postForSale($store_id, $sale_amount, $user_id)
+	{
+		// Build Query to Delete User
+		$query = " UPDATE part_store SET ps_sale_price = :sale_amount WHERE ps_id = :store_id AND ps_owner_id = :user_id ";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':sale_amount', $sale_amount, PDO::PARAM_INT);
+		$stmt->bindParam(':store_id', $store_id, PDO::PARAM_INT);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if ($stmt->execute()) {
+			$this->changeName($store_id, "For Sale", $user_id);
+			return true;
+		}
+		// Error
+		else return false;
+	}
+
+
 }

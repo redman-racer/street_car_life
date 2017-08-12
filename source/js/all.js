@@ -1,6 +1,10 @@
 $('document').ready(function () {
 	// Fetch the user's cars
 	loadUserStats();
+	var navi_state = getCookie("navi");
+	if ( navi_state == "up"){
+		setTimeout(slideNavi, 200);
+	}
 });
 
 function loadUserStats(){
@@ -28,6 +32,34 @@ function loadUserStats(){
 	});
 }
 
+
+// Hides the navigation
+$( "body" ).on( "click", "#logoClickable", function (e) {
+	slideNavi();
+});
+
+function slideNavi(){
+	$( "#navigation").slideToggle(600);
+	var logoTop = $( "#logo").css('margin-top');
+
+	if ( logoTop == "5px" ){
+		var new_lmt = "88px";
+		var new_ubmt = "15px";
+		var new_cmt = "200px";
+		document.cookie = "navi=down";
+	 }
+	if ( logoTop == "88px" ){
+		var new_lmt = "5px";
+		var new_ubmt = "15px";
+		var new_cmt = "120px";
+		document.cookie = "navi=up";
+	}
+
+	$( "#logo").animate({	'margin-top': new_lmt	}, 600, function() {/* Animation complete.*/});
+	$( "#userBar").animate({	'margin-top': new_ubmt	}, 600, function() {/* Animation complete.*/});
+	$( "#content").animate({	'margin-top': new_cmt	}, 600, function() {/* Animation complete.*/});
+}
+
 // Function to check for errors
 function checkErrors(data) {
 	if (data['error'] !== false) {
@@ -36,4 +68,20 @@ function checkErrors(data) {
 	} else {
 		return false;
 	}
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }

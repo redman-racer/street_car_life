@@ -1,7 +1,7 @@
 #cs_container{
   position: absolute;
+  display: block;
   width: 300px;
-  top: 215px;
   left: 50px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.60);
@@ -71,8 +71,8 @@
   margin: 13px 0px;
 }
 #cd_container{
-  top: 215px;
-  position: fixed;
+  position: absolute;
+  display: block;
   float: right;
   left: 357px;
   width: 1520px;

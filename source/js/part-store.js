@@ -57,7 +57,7 @@ $( function() {
 
 //Function to buy parts store by storeID
 function buyPartStore(storeID, storeName){
-	window.location.href = site_root+"app/views/part-store-cpanel.php?action=buyStore&storeID="+storeID+"&storeName="+storeName;
+	window.location.href = site_root+"app/views/part-store-cpanel.php?action=buyStore&store_id="+storeID+"&storeName="+storeName;
 }
 
 
@@ -67,47 +67,7 @@ function buyPartStore(storeID, storeName){
 // Set the storeID variable
 var storeID = "";
 $("body").on("click", "#part_store", function (e) {
-	var storeID   = $(this).data("id");
-	var storeName = $("#ps_name_"+storeID).text();
-	var storeCost = $("#ps_name_"+storeID).data("value");
-
-	// Checks to see if they store they clicked on is for sale
-	if (storeName == "For Sale"){
-		$( "#buyPartStore" ).data('storeID', storeID);
-		$( "#bps_cost" ).text(storeCost);
-		$( "#buyPartStore" ).dialog( "open" );
-		return;
-	}
-
-	// POST to changeCar
-	$.post('app/ajax-controllers/partStoreAjax.php', {
-		action: "openStore",
-		store_id: storeID
-	}, function (data) {
-		// Check for errors
-		if ( checkErrors(data) ){
-			$( "#noPartsAvailable" ).dialog( "open" );
-			return false;
-	 	}
-
-		// Build the table for the parts_available
-		$( "#generic_container" ).animate({	opacity: 0, height: "700", width: "90%"}, 500, function() {/* Animation complete.*/});
-		$( "#partStore" ).fadeIn(800);
-
-		// Loop through the parts that was returned
-		var count = 1;
-		data['parts_available'].forEach(function (part) {
-			// Build the Part Type Selection
-			part_template =	'<div id="selected_' + count + '" class="select_highlight" style="display: none;"></div>' +
-							'<div id="user_car" class="ic_container" data-id="' + count + '" data-type="' + part['pt_type'] + '" data-storeid="' + storeID + '" style="background-color: #fff;">' +
-								'<img src="' + data['image_root'] + 'parts-store/' + part['pt_type'] + '-icon.png" height="150px" width="250px"/>' +
-							'</div>'+
-							'<div id="currentlySelectedID" data-id=""></div>';
-			// Add template to HTML
-			$("#cs_container").append(part_template);
-			count += 1;
-		});
-	});
+	openStore($(this).data("id"));
 });
 
 // Opens part type, and loads the last part availables stats
@@ -128,7 +88,7 @@ $("body").on("click", "#user_car", function (e) {
 	//Update the curentlySelctedID DIV with the newly selected ID
 	 $("#currentlySelectedID").data("id", selectedPart);
 
-	$.post('app/ajax-controllers/partStoreAjax.php', {
+	$.post(site_root+'app/ajax-controllers/partStoreAjax.php', {
 		action: "openPartType",
 		store_id: storeID,
 		part_type: partType
@@ -193,7 +153,7 @@ $("body").on("click", "#partContainer", function (e) {
 
 
 	// Send the data to the ajax-controller
-	$.post('app/ajax-controllers/partStoreAjax.php', {
+	$.post(site_root+'app/ajax-controllers/partStoreAjax.php', {
 		action: "openPart",
 		store_id: storeID,
 		part_id: partID
@@ -252,7 +212,7 @@ $("body").on("click", "#buyNow", function (e) {
 	   install = 0;
 	}
 
-	$.post('app/ajax-controllers/partStoreAjax.php', {
+	$.post(site_root+'app/ajax-controllers/partStoreAjax.php', {
 		action: "buyPart",
 		store_id: storeID,
 		part_id: partID,
@@ -262,6 +222,50 @@ $("body").on("click", "#buyNow", function (e) {
 	});
 });
 
+
+// Function to open the store
+function openStore(storeID){
+	var storeName = $("#ps_name_"+storeID).text();
+	var storeCost = $("#ps_name_"+storeID).data("value");
+
+	// Checks to see if they store they clicked on is for sale
+	if (storeName == "For Sale"){
+		$( "#buyPartStore" ).data('storeID', storeID);
+		$( "#bps_cost" ).text(storeCost);
+		$( "#buyPartStore" ).dialog( "open" );
+		return;
+	}
+
+	// POST to changeCar
+	$.post(site_root+'app/ajax-controllers/partStoreAjax.php', {
+		action: "openStore",
+		store_id: storeID
+	}, function (data) {
+		// Check for errors
+		if ( checkErrors(data) ){
+			$( "#noPartsAvailable" ).dialog( "open" );
+			return false;
+	 	}
+
+		// Build the table for the parts_available
+		$( "#generic_container" ).animate({	opacity: 0, height: "700", width: "90%"}, 500, function() {/* Animation complete.*/});
+		$( "#partStore" ).fadeIn(800);
+
+		// Loop through the parts that was returned
+		var count = 1;
+		data['parts_available'].forEach(function (part) {
+			// Build the Part Type Selection
+			part_template =	'<div id="selected_' + count + '" class="select_highlight" style="display: none;"></div>' +
+							'<div id="user_car" class="ic_container" data-id="' + count + '" data-type="' + part['pt_type'] + '" data-storeid="' + storeID + '" style="background-color: #fff;">' +
+								'<img src="' + data['image_root'] + 'parts-store/' + part['pt_type'] + '-icon.png" height="150px" width="250px"/>' +
+							'</div>'+
+							'<div id="currentlySelectedID" data-id=""></div>';
+			// Add template to HTML
+			$("#cs_container").append(part_template);
+			count += 1;
+		});
+	});
+}
 // Check for errors in the array data['error']
 function checkErrors(data) {
 	if (data['error'] !== false) {
@@ -279,3 +283,24 @@ function setColor(number) {
 
 	return color;
 }
+
+
+// Gets Variables from url
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+
+$( function(){
+	if ( getQueryVariable("openStore") == 1){
+		openStore( getQueryVariable("storeID") );
+	}
+
+});

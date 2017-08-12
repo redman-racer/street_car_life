@@ -23,7 +23,7 @@ $part_store = new PartStore($conn);
 
 		  <form id="dialogForm" style="margin-left: 30px;">
 		      <label for="name">Store Name</label><br />
-		      <input type="text" name="store_name" id="store_name" placeholder="For Sale" class="text ui-widget-content ui-corner-all" >
+		      <input type="text" name="store_name" id="store_name" placeholder="For Sale" class="text ui-widget-content ui-corner-all" maxlength="20" >
 		  </form>
 	  </p>
 	</div>
@@ -42,8 +42,15 @@ $part_store = new PartStore($conn);
 			<?php
 			foreach ($part_store->fetchAllPartStores() as $key => $value) {
 			?>
-				<span id="part_store" class="mapIcon" data-id="<?php echo $value['ps_id']; ?>" style=" position: relative; float: right; top: <?php echo $value['ps_top_pos']; ?>%; left: <?php echo $value['ps_left_pos']; ?>%;">
-					<img src="<?php echo $IMAGE_ROOT; ?>map_pin.png" /><b><span id="ps_name_<?php echo $value['ps_id']; ?>" data-value="<?php echo number_format($value['ps_value']); ?>"><?php echo $value['ps_name']; ?></span></b>
+				<span id="part_store_container" style=" position: relative; float: right; top: <?php echo $value['ps_top_pos']; ?>%; left: <?php echo $value['ps_left_pos']; ?>%;">
+					<span id="part_store" class="mapIcon" data-id="<?php echo $value['ps_id']; ?>">
+						<img src="<?php echo $IMAGE_ROOT; ?>map_pin.png" /><b><span id="ps_name_<?php echo $value['ps_id']; ?>" data-value="<?php echo number_format($value['ps_sale_price']); ?>"><?php echo $value['ps_name']; ?></span></b><br />
+					</span>
+					<?php
+						if( $value["ps_owner_id"] == $user_info["id"]){
+								?><br /><a href="<?php echo $SITE_ROOT; ?>app/views/part-store-cpanel.php?action=openCP&store_id=<?php echo $value['ps_id']; ?>" class="small_linkD" style="background-color: #fff; border-radius: 3px; border: 1px solid #A7B0B2;" id="cpanel_link"> Control Panel</a><?php
+						}
+					?>
 				</span>
 				<br />
 			<?php

@@ -11,14 +11,14 @@ $PartStore = new PartStore($conn);
 $money  =  new Money($conn);
 
 // Setting error message to the page was loaded.
-$e_msg = "PartStoreCP was loaded.";
+$e_msg = "PartStoreCP Controller was loaded.";
 $error = false;
 
 // Function to buy a part store
-if ( $_GET['action'] = "buyStore" ){
+if ( isset($_GET['action']) && isset($_GET['store_id']) && $_GET['action'] == "buyStore" ){
 	$e_msg = "Buy Store function was called.";
 
-	$ps_info = $PartStore->fetchPartStore($_GET['storeID']);
+	$ps_info = $PartStore->fetchPartStore($_GET['store_id']);
 
 	// Check to see if the store owner is selling the store
 	if ( $ps_info['ps_name'] != "For Sale" ){
@@ -34,10 +34,17 @@ if ( $_GET['action'] = "buyStore" ){
 
 	if ( $error == false ){
 		if ( $money->subtract($user_info['id'], $user_info['user_cash'], $ps_info['ps_sale_price'], $page) ){
-			// The money was subtracted
-			if ( $ps_cp->changeOwner($_GET['storeID'], $user_info['id']) ){
 
-				$ps_cp->changeName($_GET['storeID'], $_GET['storeName'], $user_info['id']);
+			// GET THE STORE OWNERS INFO
+			$ps_owner_info = $user->fetchUser($ps_info['ps_owner_id']);
+
+			$money->add($ps_info['ps_owner_id'], $ps_owner_info['user_cash'], $ps_info['ps_sale_price'], $page);
+
+			
+			// The money was subtracted
+			if ( $ps_cp->changeOwner($_GET['store_id'], $user_info['id']) ){
+
+				$ps_cp->changeName($_GET['store_id'], $_GET['storeName'], $user_info['id']);
 
 				// The store owner was changed
 				$error = false;
@@ -57,4 +64,11 @@ if ( $_GET['action'] = "buyStore" ){
  	}
 }
 
+// Initial StoreCP Opening
+if ( isset($_GET['action']) && isset($_GET['store_id']) && $_GET['action'] == "openCP" ){
+	$ps_info = $PartStore->fetchPartStore($_GET['store_id']);
+	$e_msg = "<div id=\"e_msg\" style=\"margin-top: 15%; display: block; font-family: rootbear; color: #555F61; font-size: 32px;\">Welcome to the control panel for <b>".$ps_info['ps_name']."</b> <br />
+	please select an option from the menu to continue</div>";
+	$store_id = $_GET['store_id'];
+}
  ?>

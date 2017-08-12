@@ -40,9 +40,11 @@ body{
   position:absolute;
   width: 100%;
   height: 100%;
+  overflow: auto;
 }
 #navigation{
   position:fixed;
+  display: inline-block;
   text-align: center;
   background-color: #000;
   color: #efefef;
@@ -52,7 +54,7 @@ body{
   width: 100%;
   top: 0px;
   left: 0px;
-  z-index: 100;
+  z-index: 51;
 }
 #navigation a:link {
 color: #efefef;
@@ -79,20 +81,22 @@ font-family: navigation;
 text-decoration: underlnine;
 }
 #logo{
-  position:fixed;
-  background: url(../images/banner_logo.png) no-repeat center center;
-  height: 117px;
-  width: 100%;
-  top: 88px;
-  left: 0px;
-  z-index: 100;
+	position: fixed;
+	display: inline-block;
+	background: url(../images/banner_logo.png) no-repeat center center;
+	height: 117px;
+	width: 100%;
+	margin-top: 88px;
+	left: 0px;
+	z-index: 51;
 }
 #content{
-  margin: 195px auto 0px auto;
-  padding: 20px 10px 0px 10px;
-  width: 98%;
-  z-index: 50;
-  text-align: center;
+	display: inline-block;
+	margin: 200px auto;
+	padding: 20px 10px 0px 10px;
+	width: 98%;
+	z-index: 50;
+	text-align: center;
 }
 #login-page-4 {
 	position:absolute;
@@ -120,8 +124,8 @@ text-decoration: underlnine;
 #generic_container {
 	margin: 0px auto;
 	width: 80%;
-	height: 700px;
-	display: block;
+	height: 600px;
+	display: inline-block;
 	top: 0px;
 	left: 0px;
 	padding-bottom: 25px;
@@ -141,4 +145,53 @@ text-decoration: underlnine;
 }
 .mapIcon:hover{
 	color: #3a84df;
+}
+
+.small_linkW {
+color: #efefef;
+padding: 4px;
+font-family: rootbear;
+text-decoration: none;
+font-size: 15px;
+}
+.small_linkW:link {
+color: #efefef;
+padding: 4px;
+text-decoration: none;
+font-size: 15px;
+}
+.small_linkW:visited{
+color: #efefef;
+}
+.small_linkW:hover {
+text-shadow: 1px 1px 3px #989898;
+color: #fff;
+}
+.small_linkW:active {
+color: #efefef;
+text-decoration: underlnine;
+}
+.small_linkD {
+color: #555F61;
+padding: 4px;
+font-family: rootbear;
+text-decoration: none;
+font-size: 15px;
+}
+.small_linkD:link {
+color: #555F61;
+padding: 4px;
+text-decoration: none;
+font-size: 15px;
+}
+.small_linkD:visited{
+color: #555F61;
+}
+.small_linkD:hover {
+text-shadow: 1px 1px 3px #989898;
+color: #A7B0B2;
+}
+.small_linkD:active {
+color: #A7B0B2;
+text-decoration: underlnine;
 }
