@@ -60,14 +60,11 @@ function buyPartStore(storeID, storeName){
 	window.location.href = site_root+"app/views/part-store-cpanel.php?action=buyStore&store_id="+storeID+"&storeName="+storeName;
 }
 
-
-
-
 // Opens the parts store
 // Set the storeID variable
 var storeID = "";
 $("body").on("click", "#part_store", function (e) {
-	openStore($(this).data("id"));
+	openStore( $(this).data("id") );
 });
 
 // Opens part type, and loads the last part availables stats
@@ -218,23 +215,23 @@ $("body").on("click", "#buyNow", function (e) {
 		part_id: partID,
 		install: install
 	}, function (data) {
-		alert(data['bought']);
+		alert(data['e_msg'] + "; Bought - " + data['bought']);
 	});
 });
 
 
-// Function to open the store
-function openStore(storeID){
-	var storeName = $("#ps_name_"+storeID).text();
+// Open Buy Store dialog
+function openBuyStore(storeID){
+	// Get the stores cost
 	var storeCost = $("#ps_name_"+storeID).data("value");
 
-	// Checks to see if they store they clicked on is for sale
-	if (storeName == "For Sale"){
-		$( "#buyPartStore" ).data('storeID', storeID);
-		$( "#bps_cost" ).text(storeCost);
-		$( "#buyPartStore" ).dialog( "open" );
-		return;
-	}
+	$( "#buyPartStore" ).data('storeID', storeID);
+	$( "#bps_cost" ).text(storeCost);
+	$( "#buyPartStore" ).dialog( "open" );
+}
+
+// Function to open the store
+function openStore(storeID){
 
 	// POST to changeCar
 	$.post(site_root+'app/ajax-controllers/partStoreAjax.php', {
@@ -248,8 +245,10 @@ function openStore(storeID){
 	 	}
 
 		// Build the table for the parts_available
-		$( "#generic_container" ).animate({	opacity: 0, height: "700", width: "90%"}, 500, function() {/* Animation complete.*/});
-		$( "#partStore" ).fadeIn(800);
+		$( "#generic_container" ).animate({	opacity: 0, display: "none", height: "700", width: "90%"}, 600, function() {
+			$( "#generic_container" ).css( "display", "none" );
+			$( "#partStore" ).fadeIn(600);
+		});
 
 		// Loop through the parts that was returned
 		var count = 1;

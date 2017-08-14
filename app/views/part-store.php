@@ -47,6 +47,11 @@ $part_store = new PartStore($conn);
 						<img src="<?php echo $IMAGE_ROOT; ?>map_pin.png" /><b><span id="ps_name_<?php echo $value['ps_id']; ?>" data-value="<?php echo number_format($value['ps_sale_price']); ?>"><?php echo $value['ps_name']; ?></span></b><br />
 					</span>
 					<?php
+						if( $value["ps_sale_status"] ){
+								?><br /><span class="small_linkD" style="background-color: #fff; border-radius: 3px; border: 1px solid #A7B0B2; cursor: pointer;" id="forSale" onclick="openBuyStore(<?php echo $value['ps_id']; ?>)">For Sale</span><?php
+						}
+					?>
+					<?php
 						if( $value["ps_owner_id"] == $user_info["id"]){
 								?><br /><a href="<?php echo $SITE_ROOT; ?>app/views/part-store-cpanel.php?action=openCP&store_id=<?php echo $value['ps_id']; ?>" class="small_linkD" style="background-color: #fff; border-radius: 3px; border: 1px solid #A7B0B2;" id="cpanel_link"> Control Panel</a><?php
 						}

@@ -42,14 +42,14 @@ function slideNavi(){
 	$( "#navigation").slideToggle(600);
 	var logoTop = $( "#logo").css('margin-top');
 
-	if ( logoTop == "5px" ){
+	if ( logoTop == "0px" ){
 		var new_lmt = "88px";
 		var new_ubmt = "15px";
 		var new_cmt = "200px";
 		document.cookie = "navi=down";
 	 }
 	if ( logoTop == "88px" ){
-		var new_lmt = "5px";
+		var new_lmt = "0px";
 		var new_ubmt = "15px";
 		var new_cmt = "120px";
 		document.cookie = "navi=up";

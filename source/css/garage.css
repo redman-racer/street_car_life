@@ -17,7 +17,7 @@
   -moz-box-shadow: 3px 5px 5px rgba(0, 0, 0,0.5);
   -webkit-box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
   box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
-  z-index: 60;
+  z-index: 45;
 }
 .ic_container_driving{
   position: relative;
@@ -29,12 +29,12 @@
   -moz-box-shadow: 3px 5px 5px rgba(0, 0, 0,0.5);
   -webkit-box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
   box-shadow: 3px 5px 5px rgba(0, 0, 0, .5);
-  z-index: 60;
+  z-index: 45;
 }
 .ic_container img, .ic_container_driving img{
   opacity: 0.90;
   filter: alpha(opacity=90); /* For IE8 and earlier */
-  z-index: 65;
+  z-index: 46;
 }
 .ic_container driving, .ic_container_driving driving{
   position: absolute;
@@ -67,11 +67,11 @@
   width: 310px;
   height: 180px;
   background-color: #fff;
-  z-index: 55;
+  z-index: 44;
   margin: 13px 0px;
 }
 #cd_container{
-  position: absolute;
+  position: fixed;
   display: block;
   float: right;
   left: 357px;

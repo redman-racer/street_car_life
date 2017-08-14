@@ -47,7 +47,7 @@ class PartStore
 	public function fetchAllParts($store_id)
 	{
 		// Build Query to fetch all the cars of a user
-		$query = "SELECT DISTINCT pt_type FROM part_template WHERE pt_store_id = :store_id";
+		$query = "SELECT DISTINCT pt_type FROM part_template WHERE pt_store_id = :store_id AND pt_qoh >= 1";
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters

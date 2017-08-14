@@ -1,0 +1,45 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+
+@font-face {
+font-family: navigation;
+src: url(../fonts/LaSpacinoLite-Regular.otf);
+}
+
+.l-wrap {
+  max-width: 1140px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.navigation {
+	position: fixed;
+	display: block;
+	float: left;
+	text-align: center;
+	background-color: #000;
+	color: #efefef;
+	font-size: 25px;
+	font-family: navigation;
+	height: 88px;
+	width: 100%;
+}
+
+.logo{
+	position: fixed;
+	display: block;
+	width: 100%;
+	margin: 89px auto;
+}
+.col-3 {
+	width: 33.33333%;
+	float: left;
+}

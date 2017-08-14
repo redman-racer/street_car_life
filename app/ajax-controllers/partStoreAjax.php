@@ -65,12 +65,21 @@ if ($_POST['action'] == "openPart"){
 
 // Buy Part controller
 if ($_POST['action'] == "buyPart"){
-	// Buy the Part
-	$buy = $part_store->buyPart($_POST['part_id'], $_POST['store_id'], $user_info['id'], $_POST['install']);
-
 	// Get all of the parts info
 	$part_info = $part_store->fetchPart($_POST['part_id'], $_POST['store_id']);
 
+	if ( $part_info['pt_msrp'] >= $user_info['user_cash'] ){
+		echo json_encode( array( "error" => true, "e_msg" => "You do not have enough cash to buy this part.", "bought" => false ) );
+		return;
+	}
+
+	if ( $part_info['pt_qoh'] <= 0 ){
+		echo json_encode( array( "error" => true, "e_msg" => "The store owner does not have any in stock.", "bought" => false ) );
+		return;
+	}
+	
+	// Buy the Part
+	$buy = $part_store->buyPart($_POST['part_id'], $_POST['store_id'], $user_info['id'], $_POST['install']);
 
 	// Check to see if it was purchased suscesfully
 	if (!$buy) {

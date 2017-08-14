@@ -60,7 +60,7 @@ if ($_POST['action'] == "buyNow") {
 		echo json_encode(array("error" => "The user does not have enough cash"));
 		return false;
 	}else{
-		$money->subtract($user_info['id'], $user_info['user_cash'], $car->fetchCarTemplate($_POST['buyID'])['ct_msrp']);
+		$money->subtract($user_info['id'], $user_info['user_cash'], $car->fetchCarTemplate($_POST['buyID'])['ct_msrp'], $page);
 	}
 
 	// Sendthe information to the buyCar Function
