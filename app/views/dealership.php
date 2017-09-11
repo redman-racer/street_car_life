@@ -21,7 +21,7 @@ require '../config/globals.php';
 				<div id="car_container">
 				</div>
 				<!--car stats box-->
-				<div id="car_stats" style="width: 700; height: 300px; border: 2px solid #000; background-color: rgba(0, 0, 0, .8); position:absolute; top: 35px; left: 650px;">
+				<div id="car_stats" class="stats_container">
 					<table  style="width:100%; font-family: rootbear; font-size: 28px; color: #fff;">
 						<tr>
 							<td style="width:25%; text-align: right;">
@@ -61,6 +61,6 @@ require '../config/globals.php';
 	</div>
 </body>
 <footer>
-<script src="<?php echo $JS_ROOT; ?>dealership.js"></script>
-<script src="<?php echo $JS_ROOT; ?>all.js"></script>
+<script src="<?php echo $JS_ROOT; ?>dealership.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>all.js?v=<?=time();?>"></script>
 </footer>

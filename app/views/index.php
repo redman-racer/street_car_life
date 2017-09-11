@@ -25,16 +25,6 @@ require '../config/globals.php';
 	</div>
 </body>
 <footer>
-	<script>
-	$("#user_login").submit(function(e) {
-		var username = $("#user_name").val();
-		if (username === "Redman-Racer" || username === "William" || username === "Mudneck4") {
-		}else{e.preventDefault();
-		alert("The game is not available for public play at this time. \nIf you would like to be considered for the Beta version, please message us on Facebook! \n\nhttps://www.facebook.com/StreerCarLife");
-	}
-	});
-		</script>
-
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
 </footer>
 </html>

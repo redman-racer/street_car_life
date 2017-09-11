@@ -27,6 +27,6 @@ if(isset($_POST['user_login_submit'])){
   //it matches, set the session.
   session_start();
   $_SESSION["user_id"] = $login_user_info->id;
-  header("Location: ". $SITE_ROOT ."logged");
+  header("Location: ". $SITE_ROOT ."garage");
 }
  ?>

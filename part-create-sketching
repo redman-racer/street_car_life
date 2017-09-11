@@ -1,0 +1,676 @@
+Money Spent
+Time Spent
+Part type
+PS R&D LVL
+Cost to Manufacture
+
+Money
+	(Money Spent / Total IGM) * 10000; Max = 100;
+
+Time Spent
+	Max Target = 36,500 mins || 3650 days || 10 years || 25 IRL Days;
+	10 IRL Mins = 1 Day;
+
+PS R&D Level
+	1-100
+
+Part Type
+
+	Horse Power
+		Engine
+			Engine Block
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.27;
+						ex. hp = ( ( M->100 + T->100 + RD->100 ) * EBF->0.27 ) * ENG_Liters(5.7l) = 461hp;
+						ex. hp = ( ( M->75 + T->50 + RD->60 ) * EBF->0.27 ) * ENG_Liters(5.7l) = 284hp;
+						ex. hp = ( ( M->25 + T->25 + RD->25 ) * EBF->0.27 ) * ENG_Liters(5.7l) = 115hp;
+
+				HP_Limit = ENG_BASE_HP + (( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters);
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD->100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD->60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD->30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD->25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -2.12;
+						ex. Rel = ( ( ( (M->100 + T->100 ) * 85% ) + RD-> 100 )) / 3 ) * EWF->-2.12 = -200.8;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 60 )) / 3  ) * EWF->-2.12 = -124;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 30 )) / 3  ) * EWF->-2.12 = -101;
+						ex. Rel = ( ( ( (M->25 + T->25   ) * 85% ) + RD-> 25 )) / 3  ) * EWF->-2.12 = -50;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 7.75;
+						MintoMaxAdjust = ( (( 100 - M->x ) + ( 100 - T->x ) + ( 100 - RD->x )) * 0.01 )
+							if ( MintoMaxAdjust >= 1 ) MintoMaxAdjust = 1;
+
+						ex. Rel = ((((((M->100 + T->100 ) * 65% ) + RD->100 )) / 3 ) * 1.308 ) * ECOGF->7.75) * MintoMaxAdjust(1) = 777;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->60 )) / 3 ) * 1.308  ) * ECOGF->7.75) * MintoMaxAdjust(1.15) = 548;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->30 )) / 3 ) * 1.308  ) * ECOGF->7.75) * MintoMaxAdjust(1.2) = 451;
+						ex. Rel = ((((((M->25 + T->25   ) * 65% ) + RD->25 )) / 3 ) * 1.308  ) * ECOGF->7.75) * MintoMaxAdjust(2.25) = 437;
+		Piston
+			Connecting Rod
+				HP = ( (Money + Time Spent + R&D) * Factor ) * Engine Liters;
+					factor = 0.075;
+						ex. hp = ( ( M->100 + T->100 + RD->100 ) * EBF->0.075 ) * ENG_Liters(5.7l) = 128hp;
+						ex. hp = ( ( M->75 + T->50 + RD->60 ) * EBF->0.075 ) * ENG_Liters(5.7l) = 79hp;
+						ex. hp = ( ( M->25 + T->25 + RD->25 ) * EBF->0.075 ) * ENG_Liters(5.7l) = 32hp;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Factor;
+					factor = -0.1;
+						ex. Rel = ( ( ( (M->100 + T->100 ) * 85% ) + RD-> 100 )) / 3 ) * EWF->-0.1 = -9;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 60 )) / 3  ) * EWF->-0.1 = -6;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 30 )) / 3  ) * EWF->-0.1 = -4;
+						ex. Rel = ( ( ( (M->25 + T->25   ) * 85% ) + RD-> 25 )) / 3  ) * EWF->-0.1 = -2;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 2.75;
+						MintoMaxAdjust = ( (( 100 - M->x ) + ( 100 - T->x ) + ( 100 - RD->x )) * 0.01 )
+							if ( MintoMaxAdjust >= 1 ) MintoMaxAdjust = 1;
+
+						ex. Rel = ((((((M->100 + T->100 ) * 65% ) + RD->100 )) / 3 ) * 1.308 ) * ECOGF->2.75) * MintoMaxAdjust(1) = 275;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->60 )) / 3 ) * 1.308  ) * ECOGF->2.75) * MintoMaxAdjust(1.15) = 194;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->30 )) / 3 ) * 1.308  ) * ECOGF->2.75) * MintoMaxAdjust(1.2) = 192;
+						ex. Rel = ((((((M->25 + T->25   ) * 65% ) + RD->25 )) / 3 ) * 1.308  ) * ECOGF->2.75) * MintoMaxAdjust(2.25) = 153;
+			Crank Shaft
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.095;
+						ex. hp = ( ( M->100 + T->100 + RD->100 ) * EBF->0.095 ) * ENG_Liters(5.7l) = 162hp;
+						ex. hp = ( ( M->75 + T->50 + RD->60 ) * EBF->0.095 ) * ENG_Liters(5.7l) = 101hp;
+						ex. hp = ( ( M->25 + T->25 + RD->25 ) * EBF->0.095 ) * ENG_Liters(5.7l) = 40hp;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -1.15;
+						ex. Rel = ( ( ( (M->100 + T->100 ) * 85% ) + RD-> 100 )) / 3 ) * EWF->-1.15 = -103;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 60 )) / 3  ) * EWF->-1.15 = -63;
+						ex. Rel = ( ( ( (M->75 + T->50   ) * 85% ) + RD-> 30 )) / 3  ) * EWF->-1.15 = -45;
+						ex. Rel = ( ( ( (M->25 + T->25   ) * 85% ) + RD-> 25 )) / 3  ) * EWF->-1.15 = -27;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 5.75;
+						MintoMaxAdjust = ( (( 100 - M->x ) + ( 100 - T->x ) + ( 100 - RD->x )) * 0.01 )
+							if ( MintoMaxAdjust >= 1 ) MintoMaxAdjust = 1;
+
+						ex. Rel = ((((((M->100 + T->100 ) * 65% ) + RD->100 )) / 3 ) * 1.308 ) * ECOGF->5.75) * MintoMaxAdjust(1) = 576;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->60 )) / 3 ) * 1.308  ) * ECOGF->5.75) * MintoMaxAdjust(1.15) = 407;
+						ex. Rel = ((((((M->75 + T->50   ) * 65% ) + RD->30 )) / 3 ) * 1.308  ) * ECOGF->5.75) * MintoMaxAdjust(1.2) = 335;
+						ex. Rel = ((((((M->25 + T->25   ) * 65% ) + RD->25 )) / 3 ) * 1.308  ) * ECOGF->5.75) * MintoMaxAdjust(2.25) = 324;
+			Piston
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.321;
+						HP1 = 548.91; HP2 = 329.35; HP3 = 137.23;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.2;
+						weight1 = -18; weight2 = -11.08; weight3 = -9.08; weight4 = -4.5;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 2.4;
+						cost1 = 240.67; cost2 = 169.97; cost3 = 168.8; cost4 = 135.38;
+		Valve train
+			Cam shaft
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.117;
+						HP1 = 200.07000000000002; HP2 = 120.04200000000002; HP3 = 50.017500000000005;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.05;
+						weight1 = -4.5; weight2 = -2.7708333333333335; weight3 = -2.2708333333333335; weight4 = -1.125;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 4.5;
+						cost1 = 451.26000000000005; cost2 = 318.7023750000001; cost3 = 316.49512500000003; cost4 = 253.83375000000004;
+			Rocker Arms
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.017;
+						HP1 = 29.070000000000004; HP2 = 17.442; HP3 = 7.267500000000001;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.01;
+						weight1 = -0.9; weight2 = -0.5541666666666667; weight3 = -0.45416666666666666; weight4 = -0.225;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.6;
+						cost1 = 160.44800000000004; cost2 = 113.31640000000003; cost3 = 112.5316; cost4 = 90.25200000000002;
+			Valves
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.017;
+						HP1 = 29.070000000000004; HP2 = 17.442; HP3 = 7.267500000000001;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.01;
+						weight1 = -0.9; weight2 = -0.5541666666666667; weight3 = -0.45416666666666666; weight4 = -0.225;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.6;
+						cost1 = 160.44800000000004; cost2 = 113.31640000000003; cost3 = 112.5316; cost4 = 90.25200000000002;
+		Intake
+			Intake Manifold
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.093;
+						HP1 = 159.03; HP2 = 95.41799999999999; HP3 = 39.7575;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.05;
+						weight1 = -4.5; weight2 = -2.7708333333333335; weight3 = -2.2708333333333335; weight4 = -1.125;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 4.6;
+						461.288; cost2 = 325.78465000000006; cost3 = 323.52835; cost4 = 259.47450000000003;
+			Intake Tube
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.0436;
+						HP1 = 74.556; HP2 = 44.7336; HP3 = 18.639;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.18;
+						weight1 = -16.2; weight2 = -9.975; weight3 = -8.174999999999999; weight4 = -4.05;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.42;
+						cost1 = 142.3976; cost2 = 100.56830500000002; cost3 = 99.87179499999999; cost4 = 80.09865;
+			Intake Filter
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.013;
+						HP1 = 22.23; HP2 = 13.338; HP3 = 5.5575;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.08;
+						weight1 = -7.2; weight2 = -4.43; weight3 = -3.63; weight4 = -1.8;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.25;
+						cost1 = 25.07; cost2 = 17.70; cost3 = 17.5830625; cost4 = 14.10;
+		Exhaust
+			Headers
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 80.37; HP2 = 48.22; HP3 = 20.0925;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.08;
+						weight1 = -7.2; weight2 = -4.43; weight3 = -3.63; weight4 = -1.8;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.87;
+						cost1 = 87.24; cost2 = 61.61; cost3 = 61.18; cost4 = 49.07;
+			Muffler
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 66.69; HP2 = 40.013; HP3 = 16.6725;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.08;
+						weight1 = -7.2; weight2 = -4.43; weight3 = -3.63; weight4 = -1.8;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.87;
+						cost1 = 87.24; cost2 = 61.61; cost3 = 61.18; cost4 = 49.07;
+		Fuel
+			Fuel Pump
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 66.69; HP2 = 40.013; HP3 = 16.6725;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.05;
+						weight1 = -4.5; weight2 = -2.77; weight3 = -2.27; weight4 = -1.12;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.3;
+						cost1 = 130.36; cost2 = 92.07; cost3 = 91.43; cost4 = 73.33;
+			Fuel Injector
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 66.69; HP2 = 40.013; HP3 = 16.6725;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.05;
+						weight1 = -4.5; weight2 = -2.77; weight3 = -2.27; weight4 = -1.12;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.3;
+						cost1 = 130.36; cost2 = 92.07; cost3 = 91.43; cost4 = 73.33;
+		Ignition
+			Ignition Coil
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 66.69; HP2 = 40.013; HP3 = 16.6725;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = -0.05;
+						weight1 = -4.5; weight2 = -2.77; weight3 = -2.27; weight4 = -1.12;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 1.3;
+						cost1 = 130.36; cost2 = 92.07; cost3 = 91.43; cost4 = 73.33;
+			Spark Plug
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.047;
+						HP1 = 66.69; HP2 = 40.013; HP3 = 16.6725;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0;
+						weight1 = 0; weight2 = 0; weight3 = 0; weight4 = 0;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.04;
+						cost1 = 4.01; cost2 = 2.83; cost3 = 2.81; cost4 = 2.26;
+		ECU
+			Engine Computer
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.12;
+						HP1 = 205.2; HP2 = 123.12; HP3 = 51.3;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0;
+						weight1 = 0; weight2 = 0; weight3 = 0; weight4 = 0;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 3.5;
+						cost1 = 350.98; cost2 = 247.88; cost3 = 246.16; cost4 = 197.43;
+		Nitrous
+			Nitrous Bottle
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.0;
+						HP1 = 0; HP2 = 0; HP3 = 0;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0.3;
+						weight1 = 27; weight2 = 16.63; weight3 = 13.62; weight4 = 6.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.7;
+						cost1 = 70.2; cost2 = 49.58; cost3 = 49.23; cost4 = 39.49;
+			Nitrous Solenoids
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.29;
+						HP1 = 495.9; HP2 = 297.54; HP3 = 123.98;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0.3;
+						weight1 = 27; weight2 = 16.63; weight3 = 13.62; weight4 = 6.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.7;
+						cost1 = 70.2; cost2 = 49.58; cost3 = 49.23; cost4 = 39.49;
+	 		Nitrous Nozzle
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.29;
+						HP1 = 495.9; HP2 = 297.54; HP3 = 123.98;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0.3;
+						weight1 = 27; weight2 = 16.63; weight3 = 13.62; weight4 = 6.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 0.7;
+						cost1 = 70.2; cost2 = 49.58; cost3 = 49.23; cost4 = 39.49;
+			Nitrous Kit
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.29;
+						HP1 = 495.9; HP2 = 297.54; HP3 = 123.98;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 0.7;
+						weight1 = 63; weight2 = 38.79; weight3 = 31.79; weight4 = 15.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 3.2;
+						cost1 = 320.9; cost2 = 226.63; cost3 = 225.06; cost4 = 180.5;
+		Turbo
+			Turbo Kit
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.69;
+						HP1 = 1179.9; HP2 = 707.94; HP3 = 294.97;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 1.9;
+						weight1 = 171; weight2 = 105.29; weight3 = 86.29; weight4 = 42.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 9.7;
+						cost1 = 972.72; cost2 = 686.98; cost3 = 682.22; cost4 = 547.15;
+			Turbo Charger
+			Waste Gate
+			Blow off valve
+			Intercooler
+		Supercharger
+			Supercharger Kit
+				HP = ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters;
+					factor = 0.69;
+						HP1 = 1179.9; HP2 = 707.94; HP3 = 294.97;
+
+				HP_Limit = ENG_BASE_HP + ( ( (Money + Time Spent + R&D) * Engine Block Factor ) * Engine Liters );
+					factor = 0.9;
+						ex. HP_Limit = ( ( M->100 + T->100 + RD->100 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 1539hp;
+						ex. HP_Limit = ( ( M->75 + T->50 + RD->60 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 949hp;
+						ex. HP_Limit = ( ( M->25 + T->25 + RD->25 ) * EBF->0.9 ) * ENG_Liters(5.7l) = 384hp;
+
+				Rel = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor  = 1.12;
+						ex. Rel = ( ( ( (M->100 + T->100 )* 85% ) + RD-> 100 )) / 3 ) * ERF->1.12 = 100.8;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 60 ) ) / 3 ) * ERF->1.12 = 62;
+						ex. Rel = ( ( ( ( M->75 + T->50 ) * 85% ) + RD-> 30 ) ) / 3 ) * ERF->1.12 = 50.86;
+						ex. Rel = ( ( ( ( M->25 + T->25 ) * 85% ) + RD-> 25 ) ) / 3 ) * ERF->1.12 = 25.2;
+
+				Weight = (((( Money + Time Spent ) * 85% ) + R&D ) / 3 ) * Engine Block Factor;
+					factor = 1.9;
+						weight1 = 171; weight2 = 105.29; weight3 = 86.29; weight4 = 42.75;
+
+				Cost to Manufacture = (((((( Money + Time Spent ) * 65% ) + R&D ) / 3 ) * 1.308) * Engine Block Factor) * MintoMaxAdjust;
+					factor  = 9.7;
+						cost1 = 972.72; cost2 = 686.98; cost3 = 682.22; cost4 = 547.15;
+			Supercharger
+			Blow off valve
+			Belt & Tensioner
+			Pulley
+			Intercooler
+	Suspension
+		Suspension
+			Shocks
+				Stiffness = Money * Time Spent * XXXX;
+					ex. Stiff = ( ( M->75 * T->60 ) * HP_L_F->0.0123 ) * ENG_Liters(5.7l) = 315hp;
+				HP_Limit = Money * Time Spent * XXXX;
+					ax. HP_L = ( ( M->75 * T->60 ) * HP_L_F->0.03 ) * ENG_Liters(5.7l) = 769hp;
+				Rel = Money * Time Spent * XXXX;
+				Weight = Money * Time Spent * XXXX;
+			Control Arms
+		Cage
+			Front Tube Chassis
+			Cab Cage
+			Rear Tube Chassis
+	Drivetrain
+		Transmission
+			Auto
+			Manual
+		Torque Converter
+			Torque Converter
+		Axle
+			Gear Set
+			Axle Shaft
+		Clutch
+			Clutch Kit
+			Clutch Hydraulics
+		Tire
+			Tire
+			Wheel

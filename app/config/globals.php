@@ -11,8 +11,6 @@ require_once "localhost.php";
 // Define and load Classes
 function __autoload($class)
 {
-    // Set Project Folder
-    $folder = 'street_car_life';
     // Include Classes
     require_once(FILE_ROOT . "/app/models/$class.php");
 }
@@ -20,7 +18,7 @@ function __autoload($class)
 // Get Page Name
 $page = basename($_SERVER['PHP_SELF']);//Gets the file name that is currently open;
 // Create Database Connection
-$conn = new PDO('mysql:host=localhost;dbname=street_car_life', $server_username, $server_password);
+$conn = new PDO('mysql:host=localhost;dbname=street-car-life', $server_username, $server_password);
 // Set Database Connection
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -39,7 +37,7 @@ if (isset($_SESSION["user_id"])) {
     //If the user already has a session stored and is on the index.php page, relocate them to the logged.php page;
     if ($page == "index.php") {
         // Redirect
-        header('Location: ' . $SITE_ROOT . 'logged');
+        header('Location: ' . $SITE_ROOT . 'garage');
         // Exit Application
         exit();
     }

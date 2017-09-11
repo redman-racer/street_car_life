@@ -17,42 +17,51 @@ require '../config/globals.php';
 
 		<!--BEGIN selected car display div - the large right div that displays the vehicles information-->
 		<div id="cd_container">
+
 			<!--Large car image container-->
 			<div id="car_container">
 			</div>
 			<!--car stats box-->
-			<div id="car_stats" style="width: 700; height: 300px; border: 2px solid #000; background-color: rgba(0, 0, 0, .8); position:absolute; top: 35px; left: 650px;">
-				<table  style="width:100%; font-family: rootbear; font-size: 28px; color: #fff;">
-					<tr>
-						<td style="width:25%; text-align: right;">
-							Horse Power
-						</td>
-						<td id="hp"  style="width:25%; text-align: center; color: #97d079;">
-							<!--Insert HP Here-->
-						</td>
-						<td style="width:25%; text-align: right;">
-							lb/ft Torque
-						</td>
-						<td  id="tq" style="width:25%; text-align: center; color: #ff6e5e;">
-							<!--Insert TQ Here-->
-						</td>
-					</tr>
-					<tr>
-						<td style="width:25%; text-align: right;">
-							Handling
-						</td>
-						<td id="handling" style="width:25%; height: 20px; text-align: center; border: 1px solid #fff; margin: 0px 5px 0px 5px; border-radius: 7px;">
-						  <!--Insert Handling DIV here-->
-						</td>
-						<td style="width:25%; text-align: right;">
-							Braking
-						</td>
-						<td  id="braking" style="width:25%; height: 20px; text-align: center; border: 1px solid #fff; margin: 0px 5px 0px 5px; border-radius: 7px;">
-						  <!--Insert Brakign DIV here-->
-						</td>
-					</tr>
-				</table>
-		  </div>
+			<div id="car_stats" class="stats_container">
+					<table  style="width:100%; font-family: rootbear; font-size: 28px; color: #fff;">
+						<tr>
+							<td style="width:25%; text-align: right;">
+								Horse Power
+							</td>
+							<td id="hp"  style="width:25%; text-align: center; color: #97d079;">
+								<!--Insert HP Here-->
+							</td>
+							<td style="width:25%; text-align: right;">
+								lb/ft Torque
+							</td>
+							<td  id="tq" style="width:25%; text-align: center; color: #ff6e5e;">
+								<!--Insert TQ Here-->
+							</td>
+						</tr>
+						<tr>
+							<td style="width:25%; text-align: right;">
+								Handling
+							</td>
+							<td id="handling" style="width:25%; height: 20px; text-align: center; border: 1px solid #fff; margin: 0px 5px 0px 5px; border-radius: 7px;">
+							  <!--Insert Handling DIV here-->
+							</td>
+							<td style="width:25%; text-align: right;">
+								Braking
+							</td>
+							<td  id="braking" style="width:25%; height: 20px; text-align: center; border: 1px solid #fff; margin: 0px 5px 0px 5px; border-radius: 7px;">
+							  <!--Insert Brakign DIV here-->
+							</td>
+						</tr>
+					</table>
+				</div>
+
+
+			<!--Car Part Box-->
+			<div id="car_parts" class="car_parts">
+					<h1 style="color: #fff; font-family: rootbear;">Car Parts</h1>
+					<div id="parts_list"> </div>
+				</div>
+
 		</div>
 		<!--END selected car display div -->
     </div>

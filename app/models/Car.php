@@ -148,7 +148,27 @@ class Car
 		// Fetch Cars
 		$carStats = $stmt->fetch(PDO::FETCH_ASSOC);
 
+		$carParts = $this->fetchCarParts($car_id, $user_id);
 
+		foreach ($carParts as &$part) {
+			if( $part['part_installed'] ){
+				$partHP = round($part['part_hp'] * $carStats['cars_eng_liter']);
+				$partTQ = round($part['part_tq'] * $carStats['cars_eng_liter']);
+
+				$carStats['cars_hp'] += $partHP;
+				$carStats['cars_tq'] += $partTQ;
+				$carStats['cars_weight'] += $part['part_weight'];
+				$carStats['cars_reliability'] += $part['part_reliability'];
+			}
+		}
+
+		// Return cars
+		return $carStats;
+	}
+
+	// Fetch ALL parts
+	public function fetchCarParts($car_id, $user_id)
+	{
 		// Build Query to fetch cars mods.
 		$query = "SELECT * FROM `part` WHERE `part_owner_id`=:user_id AND `part_car_id` = :car_id";
 		// Prepare Query
@@ -163,15 +183,7 @@ class Car
 		// Fetch Cars
 		$carParts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		foreach ($carParts as &$part) {
-			$carStats['cars_hp'] += $part['part_hp'];
-			$carStats['cars_tq'] += $part['part_tq'];
-			$carStats['cars_weight'] += $part['part_weight'];
-			$carStats['cars_reliability'] += $part['part_reliability'];
-		}
-
-		// Return cars
-		return $carStats;
+		return $carParts;
 	}
 
 	public function carThumbnail($car_id)
@@ -193,8 +205,8 @@ class Car
 		$car_template = $this->fetchCarTemplate($ct_id);
 
 		// Build Query to Delete User
-		$query = "INSERT INTO cars (cars_ct_id, cars_owner, cars_year, cars_make, cars_model, cars_transmission, cars_hp, cars_tq, cars_f_aero, cars_r_aero, cars_weight, cars_braking, cars_handling, cars_launch, cars_reliability, cars_value)
-				  VALUES (:cars_ct_id, :cars_owner, :cars_year, :cars_make, :cars_model, :cars_transmission, :cars_hp, :cars_tq, :cars_f_aero, :cars_r_aero, :cars_weight, :cars_braking, :cars_handling, :cars_launch, :cars_reliability, :cars_value)";
+		$query = "INSERT INTO cars (cars_ct_id, cars_owner, cars_year, cars_make, cars_model, cars_transmission, cars_eng_liter, cars_hp, cars_tq, cars_f_aero, cars_r_aero, cars_weight, cars_braking, cars_handling, cars_launch, cars_reliability, cars_value)
+				  VALUES (:cars_ct_id, :cars_owner, :cars_year, :cars_make, :cars_model, :cars_transmission, :cars_eng_liter, :cars_hp, :cars_tq, :cars_f_aero, :cars_r_aero, :cars_weight, :cars_braking, :cars_handling, :cars_launch, :cars_reliability, :cars_value)";
         // Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters
@@ -204,6 +216,7 @@ class Car
 		$stmt->bindParam(':cars_make', $car_template['ct_make'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_model', $car_template['ct_model'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_transmission', $car_template['ct_transmission'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_eng_liter', $car_template['ct_eng_liter'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_hp', $car_template['ct_hp'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_tq', $car_template['ct_tq'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_f_aero', $car_template['ct_f_aero'], PDO::PARAM_INT);

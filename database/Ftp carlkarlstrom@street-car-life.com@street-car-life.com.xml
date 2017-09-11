@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="true"?>
+<FileZilla3> 
+    <Servers> 
+        <Server> 
+            <Host>street-car-life.com</Host> 
+            <Port>21</Port> 
+            <Protocol>0</Protocol> 
+            <Type>0</Type> 
+            <User>carlkarlstrom@street-car-life.com</User>
+            <Logontype>2</Logontype> 
+            <TimezoneOffset>0</TimezoneOffset> 
+            <PasvMode>MODE_DEFAULT</PasvMode> 
+            <MaximumMultipleConnections>0</MaximumMultipleConnections> 
+            <EncodingType>Auto</EncodingType> 
+            <BypassProxy>0</BypassProxy> 
+            <Name>street-car-life.com</Name> 
+            <Comments/> 
+            <LocalDir/> 
+            <RemoteDir/> 
+            <SyncBrowsing>0</SyncBrowsing>
+            street-car-life.com 
+        </Server> 
+    </Servers> 
+</FileZilla3>

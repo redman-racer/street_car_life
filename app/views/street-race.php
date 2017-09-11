@@ -38,5 +38,5 @@ require '../config/globals.php';
 </body>
 <footer>
 <script src="<?php echo $JS_ROOT; ?>street-race.js"></script>
-<script src="<?php echo $JS_ROOT; ?>all.js"></script>
+<script src="<?php echo $JS_ROOT; ?>all.js?v=<?=time();?>"></script>
 </footer>

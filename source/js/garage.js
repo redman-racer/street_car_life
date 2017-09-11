@@ -1,12 +1,14 @@
-
+	var docReady = 0;
 	// Garage Javascript Module
 	(function () {
-		var docReady = 0;
+
 		// When the document is loaded
 		$('document').ready(function () {
 			var docReady = 1;
 			// Fetch the user's cars
 			fetchCars(docReady);
+
+			setTimeout(setCSCPadding, 300);
 		});
 
 
@@ -49,48 +51,67 @@
 					// Write Template
 					car_template =	'<div id="selected_'+ car['cars_id'] +'" class="select_highlight" style="'+ csc_div +'"></div>' +
 									'<div id="user_car" class="'+ ucd_class +'" data-id="'+ car['cars_id'] +'">' +
-										'<img src="'+ car['thumbnail_url'] +'" />' +
+										'<img id="uc_img" src="'+ car['thumbnail_url'].toLowerCase() +'" />' +
 										 driving_e +
 									'</div>'+
 									currentlySelectedDiv;
 					// Add template to HTML
 					$("#cs_container").append(car_template);
 				});
+				// Change the selected highlight height
+				setTimeout(function() { changeSelectHeight(); }, 300);
 
-				//scrolls the page to the selected car.
-				const element = document.getElementById('drivingScroll');
-				const elementRect = element.getBoundingClientRect();
-				const absoluteElementTop = elementRect.top + window.pageYOffset;
-				const middle = absoluteElementTop - (window.innerHeight / 2);
-				window.scrollTo(0, middle);
+				// Scroll to the selected car
+				setTimeout(function() { scrollToCar(); }, 300);
 			});
 		}
 
 
 		// Function to fetch individual car data
 		function fetchCar(car_id){
+			var parts_list = '';
+
 			// POST to fetch car
 			$.post('app/ajax-controllers/garageAjax.php', {
 				action: "fetchCar",
 				car_id: car_id
 			}, function (data) {
+
 					// Check for errors
 					if (checkErrors(data)) return false;
+
+					data['car_parts'].forEach(function (car_part) {
+						// Build Car Part Div var
+						var part_hp = Math.round(car_part['part_hp'] * data['car']['cars_eng_liter']);
+						var part_tq = Math.round(car_part['part_tq'] * data['car']['cars_eng_liter']);
+
+
+						parts_list = parts_list +
+									'<div id="' + car_part['part_id'] + '">'+
+										'<div id="part_id" style="font-size: .5em; color: #fff; padding-right: .5em; width: 16.6%; float: left;">ID: ' + car_part['part_id'] + '  |</div>'+
+										'<div id="part_sub_type" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">' + car_part['part_sub_type'] + '</div>'+
+						 				'<div id="part_hp" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">HP: ' + part_hp + '</div>'+
+						 				'<div id="part_tq" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">TQ: ' + car_part['part_tq'] + '</div>'+
+						 				'<div id="part_weight" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">Weight: ' + car_part['part_weight'] + '</div>'+
+						 				'<div id="part_damage" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">Damage: ' + car_part['part_damage'] + '%</div>'+
+									'</div><br />';
+
+					});
 
 					// Write Templates
 						// only put the steering wheel on cars that are not being driven.
 					if(data['car']['cars_driving'] == 1){
 						newDrivingDIV = '';
 					}else{
-						newDrivingDIV = '<div id="newDriving" class="steeringIcon" data-id="'+ data['car']['cars_id'] +'">'+
+						newDrivingDIV = '<div id="newDriving" class="steeringIcon"  data-id="'+ data['car']['cars_id'] +'">'+
 											'<img src="'+ data['IMAGE_ROOT'] +'street-car-life-select-steeringwheel.png" width="55px" height="55" /><br />'+
 											'Start Driving'+
-										'</div><br />'}
+										'</div>'}
 
 
 					car_container =	newDrivingDIV +
-									'<img src="'+ data['IMAGE_ROOT'] +'cars/garage/'+ data['car_template']['ct_photo_folder'] +'/street-car-life-'+
-											data['car_template']['ct_year'] +'-'+ data['car_template']['ct_make'] +'-'+ data['car_template']['ct_model'] +'-large-front.png" width="420px" height="200px"/>';
+									'<img src="'+ data['IMAGE_ROOT'] +'cars/garage/'+ data['car_template']['ct_photo_folder'].toLowerCase() +'/street-car-life-'+
+											data['car_template']['ct_year'] +'-'+ data['car_template']['ct_make'].toLowerCase() +'-'+ data['car_template']['ct_model'].toLowerCase() +'-large-front.png" style="vertical-align: bottom; position: relative; margin-right: 3%;" width="400px" height="200px"/>';
 
 					car_handling =  '<div style="width:'+ data['car']['cars_handling']/10 +'%; height: 100%; background-color: #fff;  border-radius: 5px;  color: #ff6e5e;">'+
 										data['car']['cars_handling']+
@@ -100,13 +121,42 @@
 										data['car']['cars_handling']+
 									'</div>';
 
+
 					// Add template to HTML
 					$("#car_container").html(car_container);
 					$("#hp").html(data['car']['cars_hp']);
 					$("#tq").html(data['car']['cars_tq']);
 					$("#handling").html(car_handling);
 					$("#braking").html(car_braking);
+					$("#parts_list").html(parts_list);
 			});
+		}
+
+		function changeSelectHeight(){
+			var img_height = $( "#uc_img" ).height() + 25;
+
+			if ( img_height == "0" ){
+				setTimeout(function() { changeSelectHeight(); }, 300);
+				return;
+			}
+
+			$( ".select_highlight" ).height(img_height);
+			return;
+		}
+
+		function scrollToCar(){
+			//scrolls the page to the selected car.
+			const element = document.getElementById('drivingScroll');
+			const elementRect = element.getBoundingClientRect();
+			const absoluteElementTop = elementRect.top + window.pageYOffset;
+			const middle = absoluteElementTop - (window.innerHeight / 2);
+			window.scrollTo(0, middle);
+		}
+
+		function setCSCPadding(){
+			navi_height = $( "#nav_container" ).height();
+
+			$( "#cs_container" ).css( 'padding-top', navi_height );
 		}
 
 
@@ -124,6 +174,8 @@
 
 			//Changes the displayed fetchCar - car stats displayed in the right
 			fetchCar(selectedCarID);
+
+			changeSelectHeight();
 		});
 
 

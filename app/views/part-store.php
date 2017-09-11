@@ -75,11 +75,11 @@ $part_store = new PartStore($conn);
 			<!--BEGIN selected car display div - the large right div that displays the vehicles information-->
 			<div id="cd_container">
 				<!--Large car image container-->
-				<div id="car_container" width="600px" height="600px" style="width: 600px; height: 600px; margin: 35px 0px 0px 40px;">
+				<div id="part_list_container" >
 					<!--Insert parts list here-->
 				</div>
 				<!--car stats box-->
-				<div id="car_stats" style="display: none; width: 700; height: 300px; border: 2px solid #000; background-color: rgba(0, 0, 0, .8); position:absolute; top: 35px; left: 650px;">
+				<div id="car_stats" class="stats_container" style="display: none;">
 					<table  style="width:100%; font-family: rootbear; font-size: 28px; color: #fff;">
 						<!--First Row-->
 						<tr>
@@ -152,6 +152,6 @@ $part_store = new PartStore($conn);
 
 </script>
 
-<script src="<?php echo $JS_ROOT; ?>all.js"></script>
-<script src="<?php echo $JS_ROOT; ?>part-store.js"></script>
+<script src="<?php echo $JS_ROOT; ?>all.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>part-store.js?v=<?=time();?>"></script>
 </footer>

@@ -21,7 +21,7 @@ if ( isset($_GET['action']) && isset($_GET['store_id']) && $_GET['action'] == "b
 	$ps_info = $PartStore->fetchPartStore($_GET['store_id']);
 
 	// Check to see if the store owner is selling the store
-	if ( $ps_info['ps_name'] != "For Sale" ){
+	if ( $ps_info['ps_sale_status'] != 1 ){
 		$error = true;
 		$e_msg = "The owner of ".$ps_info['ps_name'] ." is not trying to sell their store.";
 	}
@@ -38,11 +38,11 @@ if ( isset($_GET['action']) && isset($_GET['store_id']) && $_GET['action'] == "b
 			// GET THE STORE OWNERS INFO
 			$ps_owner_info = $user->fetchUser($ps_info['ps_owner_id']);
 
-			$money->add($ps_info['ps_owner_id'], $ps_owner_info['user_cash'], $ps_info['ps_sale_price'], $page);
+			$money->addTAXED($ps_info['ps_owner_id'], $ps_owner_info['user_cash'], $ps_info['ps_sale_price'], $page);
 
-			
+			$changedOwner = $ps_cp->changeOwner($_GET['store_id'], $user_info['id']);
 			// The money was subtracted
-			if ( $ps_cp->changeOwner($_GET['store_id'], $user_info['id']) ){
+			if ( $changedOwner ){
 
 				$ps_cp->changeName($_GET['store_id'], $_GET['storeName'], $user_info['id']);
 
@@ -55,8 +55,7 @@ if ( isset($_GET['action']) && isset($_GET['store_id']) && $_GET['action'] == "b
 				 $e_msg = "There was an error while changing the owner of the store, please try again.";
 				 $changed_owner = false;
 			}
-		}
-		else{
+		} else{
 			 $error = true;
 			 $e_msg = "There was an error in the money transaction.";
 			 $changed_owner = false;

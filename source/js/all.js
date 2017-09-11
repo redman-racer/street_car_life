@@ -1,10 +1,15 @@
 $('document').ready(function () {
 	// Fetch the user's cars
 	loadUserStats();
-	var navi_state = getCookie("navi");
+
+	var navi_state = getCookie("naviAct");
+	document.cookie = "navi=1";
+
 	if ( navi_state == "up"){
 		setTimeout(slideNavi, 200);
 	}
+
+	setTimeout(function() { setNaviHeight(); }, 300); //setContentContainerHeight(); gets called at end of setNaviHeight();
 });
 
 function loadUserStats(){
@@ -38,28 +43,42 @@ $( "body" ).on( "click", "#logoClickable", function (e) {
 	slideNavi();
 });
 
-function slideNavi(){
+function slideNavi(){ //TODO change this to adjust the heights automatically.
 	$( "#navigation").slideToggle(600);
-	var logoTop = $( "#logo").css('margin-top');
+	navi_state = getCookie("navi");
 
-	if ( logoTop == "0px" ){
-		var new_lmt = "88px";
-		var new_ubmt = "15px";
-		var new_cmt = "200px";
+	if( navi_state == "up" ){
 		document.cookie = "navi=down";
-	 }
-	if ( logoTop == "88px" ){
-		var new_lmt = "0px";
-		var new_ubmt = "15px";
-		var new_cmt = "120px";
+		document.cookie = "naviAct=up";
+	}
+	if( navi_state == "down" ){
 		document.cookie = "navi=up";
+		document.cookie = "naviAct=down";
 	}
 
-	$( "#logo").animate({	'margin-top': new_lmt	}, 600, function() {/* Animation complete.*/});
-	$( "#userBar").animate({	'margin-top': new_ubmt	}, 600, function() {/* Animation complete.*/});
-	$( "#content").animate({	'margin-top': new_cmt	}, 600, function() {/* Animation complete.*/});
+		setTimeout(	updateCMT, 700 );
+
+	function updateCMT(){
+
+		var navi_height = $( "#nav_container" ).height();
+
+		if ( navi_state == "up" ){
+			navi_height = "118";
+		}
+		else{
+			navi_height = $( "#nav_container" ).height();
+		}
+
+		$( "#content" ).animate({	'margin-top': navi_height + "px"	}, 600, function() {/* Animation complete.*/});
+		return;
+	}
 }
 
+function setNaviHeight(){
+	navi_height = $( "#nav_container" ).height();
+	$( "#content" ).css( 'margin-top', navi_height );
+	setContentContainerHeight();
+}
 // Function to check for errors
 function checkErrors(data) {
 	if (data['error'] !== false) {
@@ -84,4 +103,14 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function setContentContainerHeight(){
+	console.log("content function");
+	var nav_height = $( "#nav_container" ).height();
+	var cd_height  = $( "#cd_container").height();
+	var gc_height  = $( "#generic_container").height();
+
+	$( "#cd_container").height(cd_height - nav_height);
+	$( "#generic_container").height(gc_height - nav_height);
 }
