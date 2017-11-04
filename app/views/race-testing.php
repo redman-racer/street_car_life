@@ -69,17 +69,18 @@ require '../config/globals.php';
 
     // When the "Switch light" button is clicked
     body.on("click", "#lights", function(){
+        // Switch Lights
         switchLights();
     });
 
     function switchLights(mode = null){
         // Override
-        if(typeof mode !== null){
+        if(mode){
             lightsOn = mode;
         }
 
         // Check if lights are on at the moment
-        if(lightsOn){
+        if(lightsOn === true){
             // Slowly turn the lights off
             $('#speedo-container').fadeTo('slow', 0.2, function() {
                 // Set New Background Image
@@ -88,6 +89,8 @@ require '../config/globals.php';
                 $('#spedo_needle_img').css("opacity", .35);
                 // Turn lights off
                 lightsOn = false;
+                // Change Input text
+                $("#lights").text("Turn Lights On");
             }).fadeTo('slow', 1);
         } else {
             // Turn lights on
@@ -98,6 +101,8 @@ require '../config/globals.php';
                 $('#spedo_needle_img').css("opacity", 1);
                 // Turn lights on
                 lightsOn = true;
+                // Change Input Text
+                $("#lights").text("Turn Lights Off");
             }).fadeTo('slow', 1);
         }
         // Return success
