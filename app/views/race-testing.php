@@ -77,6 +77,7 @@ require '../config/globals.php';
 <footer>
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
 <script>
+<<<<<<< HEAD
 var lightsOn = false; var engOn = false; var holdRPMActive = false; var needleActive = false; var greenLightOnTime = Date.now() * 1000;
 
 $("#lights").on( "click", function() {
@@ -87,6 +88,61 @@ $("#lights").on( "click", function() {
 
 	turnLightsOn();
 });
+=======
+    // Set the lights off by default
+    var lightsOn = false;
+    // Set the engine off by default
+    var engOn = false;
+    // Set Engine Idling off by default
+    var holdRPMActive = false;
+    // Check if the needle is currently moving
+    var needleActive = false;
+
+    // Reference Body
+    body = $("body");
+
+    // When the "Switch light" button is clicked
+    body.on("click", "#lights", function(){
+        // Switch Lights
+        switchLights();
+    });
+
+    function switchLights(mode = null){
+        // Override
+        if(mode){
+            lightsOn = mode;
+        }
+
+        // Check if lights are on at the moment
+        if(lightsOn === true){
+            // Slowly turn the lights off
+            $('#speedo-container').fadeTo('slow', 0.2, function() {
+                // Set New Background Image
+                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base-lights-out.jpg)");
+                // Change Opacity
+                $('#spedo_needle_img').css("opacity", .35);
+                // Turn lights off
+                lightsOn = false;
+                // Change Input text
+                $("#lights").text("Turn Lights On");
+            }).fadeTo('slow', 1);
+        } else {
+            // Turn lights on
+            $('#speedo-container').fadeTo('slow', 0.2, function() {
+                // Set new background image
+                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base.jpg)");
+                // Change opacity
+                $('#spedo_needle_img').css("opacity", 1);
+                // Turn lights on
+                lightsOn = true;
+                // Change Input Text
+                $("#lights").text("Turn Lights Off");
+            }).fadeTo('slow', 1);
+        }
+        // Return success
+        return true;
+    }
+>>>>>>> 872842414914131d438672fd34736d5dc0c72660
 
 $("#start").on( "click", function() {
 	if(needleActive === true){
