@@ -3,3 +3,10 @@ node_modules
 package-lock.json
 package.json
 app/config/localhost.php
+images/tachometer-ANIMATION.gif
+source/images/race/tachometer-ANIMATION-LARGE.gif
+source/images/race/tachometer-ANIMATION.psd
+source/images/race/tachometer-ANIMATION375X201.gif
+source/images/race/tachometer.gif
+*.psd
+tachometer-ANIMATION.html

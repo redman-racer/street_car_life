@@ -1,5 +1,15 @@
 <?php
 require '../config/globals.php';
+
+// Instantiate Race Functions
+$race = new Race($conn);
+
+
+// Get the players car stats an then send it to the race math function
+$players_car	  = $car->currentDrivenCar($user_info['id']);
+$player_car_stats = $car->fetchCarStats($players_car['cars_id'], $user_info['id']);
+$results_player   = $race->raceMathStats($player_car_stats['cars_hp'], $player_car_stats['cars_weight']);
+
 ?>
 <html>
 <?php include_once '../includes/header.php'; ?>
@@ -77,8 +87,7 @@ require '../config/globals.php';
 <footer>
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
 <script>
-<<<<<<< HEAD
-var lightsOn = false; var engOn = false; var holdRPMActive = false; var needleActive = false; var greenLightOnTime = Date.now() * 1000;
+var lightsOn = false; var engOn = false; var holdRPMActive = false; var needleActive = false; var greenLightOnTime = Date.now() * 1000; var exptectedGreenTime;
 
 $("#lights").on( "click", function() {
 	if( lightsOn === true){
@@ -88,61 +97,6 @@ $("#lights").on( "click", function() {
 
 	turnLightsOn();
 });
-=======
-    // Set the lights off by default
-    var lightsOn = false;
-    // Set the engine off by default
-    var engOn = false;
-    // Set Engine Idling off by default
-    var holdRPMActive = false;
-    // Check if the needle is currently moving
-    var needleActive = false;
-
-    // Reference Body
-    body = $("body");
-
-    // When the "Switch light" button is clicked
-    body.on("click", "#lights", function(){
-        // Switch Lights
-        switchLights();
-    });
-
-    function switchLights(mode = null){
-        // Override
-        if(mode){
-            lightsOn = mode;
-        }
-
-        // Check if lights are on at the moment
-        if(lightsOn === true){
-            // Slowly turn the lights off
-            $('#speedo-container').fadeTo('slow', 0.2, function() {
-                // Set New Background Image
-                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base-lights-out.jpg)");
-                // Change Opacity
-                $('#spedo_needle_img').css("opacity", .35);
-                // Turn lights off
-                lightsOn = false;
-                // Change Input text
-                $("#lights").text("Turn Lights On");
-            }).fadeTo('slow', 1);
-        } else {
-            // Turn lights on
-            $('#speedo-container').fadeTo('slow', 0.2, function() {
-                // Set new background image
-                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base.jpg)");
-                // Change opacity
-                $('#spedo_needle_img').css("opacity", 1);
-                // Turn lights on
-                lightsOn = true;
-                // Change Input Text
-                $("#lights").text("Turn Lights Off");
-            }).fadeTo('slow', 1);
-        }
-        // Return success
-        return true;
-    }
->>>>>>> 872842414914131d438672fd34736d5dc0c72660
 
 $("#start").on( "click", function() {
 	if(needleActive === true){
@@ -339,6 +293,7 @@ $("body").on("click", "#off", function() {
 		holdRPMActive = false;
 		needleActive = false;
 		engOn = false;
+		console.log(needleActive);
 	}, 300 );
 });
 
@@ -376,6 +331,8 @@ $("body").on("click", "#race", function() {
 		rpmDiff    = launchRPM - currentRPM;
 		// Set the length of time the rev take to get to the launchRPM (10milisecs for every 1 rpm)
 		rpmDiffTime = rpmDiff/10;
+		// Set the expected green light time
+		exptectedGreenTime = createdTime+rpmDiffTime+4340;
 		// Stop the idle or holdRPM animation
 		holdRPMActive = false;
 		delay = 1;//TODO remove or make this var work
@@ -406,6 +363,7 @@ $("body").on("click", "#race", function() {
 		function stage1 (){
 			delay = delay - 1000; // if the player redlights, this var delays the activation of the startRace to properly set the R/T.
 			$("#stage1").toggle();
+			stage1time = Date.now();
 		}
 		function stage2 (){
 			delay = delay - 1000; // if the player redlights, this var delays the activation of the startRace to properly set the R/T.
@@ -427,6 +385,8 @@ $("body").on("click", "#race", function() {
 			delay = delay - 500;
 			$("#green").toggle();
 			greenLightOnTime=Date.now(); // Set the time that the green light was lit, to compare player RT
+			startToFinish = greenLightOnTime-createdTime;
+
 		}
 });
 
@@ -435,11 +395,13 @@ $("body").on("click", "#launchRaceButton", function() {
 		// Check to see if play red lit
 		playerLaunchedTime=Date.now();
 		$(this).fadeOut(300);
-		
-		if( playerLaunchedTime < greenLightOnTime){
+
+		if( playerLaunchedTime < exptectedGreenTime){
 			$("#red").fadeIn(300);
 		}
+		alert(playerLaunchedTime - exptectedGreenTime);
 
+		startRace(1, );
 		//Launch
 		dropRPM = launchRPM * .5; if (dropRPM <= 750) dropRPM = 800;
 
@@ -464,7 +426,7 @@ $("body").on("click", "#launchRaceButton", function() {
 		// Third Gear
 		setTimeout( function(){
 			rotateImage(7300, 2300, 'spedo_needle_img');
-		}, 6000 );
+		}, 6100 );
 		// Slow Down
 		setTimeout( function(){
 			rotateImage(800, 2500, 'spedo_needle_img');
@@ -477,6 +439,17 @@ $("body").on("click", "#launchRaceButton", function() {
 	return true;
 });
 
+
+function startRace(raceWho, playerRT, betAmount){
+	$.post('app/ajax-controllers/raceAjax.php', {
+		action: 'streetRace',
+		raceWho: raceWho,
+		playerRT: playerRT,
+		betAmount: betAmount
+	}, function (data) {
+
+	});
+}
 
 function holdRPM(rpm){
 		if (rpm >= 1500){
