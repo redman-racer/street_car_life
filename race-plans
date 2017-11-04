@@ -1,0 +1,95 @@
+Track Races
+	Local Race Weekend
+		Grudge Race
+			GR - Race Specific Computer Racers / Can race for money, will keep a log of money made from each racer every 24hr, and limit it.
+			GR - Race Specific Real Players / Can race for money, pinks, possibly businesses.
+		Time Only
+			TO - Race against your self / will win a small bonus for running a personal best, and good reaction time /
+	Event Weekend
+		EW - Race in a tournament style event / can have a mix of live and computer racers /
+			 Qualify out of 15, top 8 advance to race
+				- 1 					1 -
+					- 2				2 -
+				- 1 					1 -
+						- 3 vs 3 -
+				- 1						1 -
+					- 2				2 -
+				- 1						1 -
+		National EW - Is the same as a EW, except it allows the entire community to enter.
+					  Top 65% from qualifying advance to make the tournament. Top %40 percent of field gets paid out, 85% of the entry fees.
+		Paid National EW - is the same as NEW, except the entry fee is real money, and the payout is real money + game money.
+						   Top %85 from qualifying advance to make the tournament. Top %35 percent of the field gets paid, 97.5% of the entry fees.
+
+	Points Race
+		PR - Weekly race ran every 2 hours, can race as many as you want, but only best 3 finishes count. Race is a tournament style race.
+			 Minimum of 8 drivers per tournament.
+			 Computer drivers will be used for unfilled spots.
+			 Entry fee per tournament
+			 Payout to top 3 finishers.
+			 Championship pays out to top 10.
+
+
+			Points Distribution
+			  RDC = Real Driver Count;
+
+				1st = 25 points + Real driver count;
+				2nd = 23 points + RDC;
+				3rd = 21 points + RDC;
+				4th = 18 points + RDC;
+				5th = 15 pints + RDC;
+				6th = 12 points + RDC;
+				7th = 8 points + RDC;
+				8th = 4 points + RDC;
+				9th+ = 1 point + RDC;
+
+Street Races
+	Local Race Weekend
+		Race a Computer
+			RaC - Race for fun or for money, amount of money raced for in previous 24hrs will be tracked and limited.
+		Race a Real Player
+			RaRP - Race for fun, money or pinks.
+		Make a Test Hit
+			MaTH - Make a test hit, will get money for personal bests and good RT.
+
+Career
+	FUCKKKKK.....
+	  COMING SOON    COMING SOON    COMING SOON    COMING SOON    COMING SOON    COMING SOON    COMING SOON    COMING SOON    COMING SOON
+
+
+
+Racing System
+	Current et system + the following
+
+	60' - Is affected by traction amt / hp. 900 Traction / 600 HP = 1.5
+		60' = 1.36; Traction(T) = 600; HP = 900;
+			HPtoTRC1 = T/HP; 600/900 = .66666;
+			HPtoTRC2 = 800T/900hp = 0.88888;
+			if( HPtoTRC <= 1 ){
+				SpinPercentage =  100 - ( 100 * .66666) = 33.334%;
+				SpinPercentage =  100 - ( 100 * .88888) = 11.111%;
+
+				New 60' = 60' * SpinPercentage;
+					New 60' = (1.36 * 33.334%) + 1.36 = 1.976;
+					New 60' = (1.36 * 11.111%) + 1.36 = 1.565;
+			}
+
+	ET - Is affected by the 60'. Eventually, it will be affected by all of the times (660', 11/8mi. etc.)
+		60'1 = .9;  60'2 = (33.334%, 1.170 || 11.111%, 0.989); ET = 5.792;
+			estimates: .9 60', 6.47 et; 1 60', 7.19 et; 1.1 60', 7.91 et; 1.2 60', 8.63 et; 1.3 60', 9.35 et; 1.5 60', 10.79 et; 1.8 60', 12.95 et;
+									7.19 - 6.47 = .72;
+			Answer: 0.1 60' = 0.72 ET;
+
+			if ( New 60' >= 60'){
+				Find the difference,
+					Difference = New 60'(1.170) - 60'(.9);(33.334%)
+					AddToEt    = ET(5.792) + (Difference(0.27) * .72 = 0.1944)
+					New ET     = 5.986;
+				TODO: Make sure that .72 works for a wide range of 60' and et's, may need to adjust number.
+			}
+
+	SPINNING MODULE, pop-up(?) (IF SPIN IS OVER ~75%)
+		based on worse case scenario Spin Amount, you have that amount of time to reduce the Spin Amount to 0%, based on how you do there will determine
+		how much the spin amount will affect the run. A .9 60' and 5.792 et, with 100% spin = 12.466 et. It will be scaled toward improving your time more
+		by spinning less at the beginning. You will stop the spin by tapping the PEDAL button, depending on HPtoTRC and Spin Amount will determine how many taps.
+
+	

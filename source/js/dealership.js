@@ -5,7 +5,11 @@ $("body").on("click", "#buyNow, #carCost", function (e) {
 		action: 'buyNow',
 		buyID: buyID
 		}, function (data) {
-			window.location.replace(data['site_root'] + "garage");
+			if ( data['error'] != false ){
+					alert("You do not have enough cash to buy this car." + data['error']);
+					return;
+			}
+			window.location.replace(site_root + "garage");
 		});
 	});
 

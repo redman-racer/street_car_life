@@ -13,14 +13,12 @@
     <link href="<?php echo $CSS_ROOT; ?>register.css?v=<?=time();?>" rel="stylesheet" type="text/css">
 
 	<!--Include jquery-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="<?php echo $JS_ROOT; ?>jquery-1.12.4.js"></script>
+    <script src="<?php echo $JS_ROOT; ?>jquery-3.2.1.min.js"></script>
+    <script src="<?php echo $JS_ROOT; ?>jquery-ui.js"></script>
+	<!--IncludejQuery plugins-->
+	<script src="<?php echo $JS_ROOT; ?>rotateplugin.js?v=<?=time();?>"></script>
+
 	<!--Include site roots-->
 	<script src="<?php echo$SITE_ROOT; ?>app/config/localhostJS.js"></script>
-
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>

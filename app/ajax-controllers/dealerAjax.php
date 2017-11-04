@@ -68,8 +68,8 @@ if ($_POST['action'] == "buyNow") {
 
 
 	if (!$bought){
-		echo json_encode(array("error" => false, "site_root" => $SITE_ROOT));
+		echo json_encode(array("error" => true, "site_root" => $SITE_ROOT));
 	}elseif ($bought){
-			echo json_encode(array("error" => true, "site_root" => $SITE_ROOT));
+			echo json_encode(array("error" => false, "site_root" => $SITE_ROOT));
 		}
 }
