@@ -55,26 +55,54 @@ require '../config/globals.php';
 <footer>
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
 <script>
-var lightsOn = false; var engOn = false; var holdRPMActive = false; var needleActive = false;
+    // Set the lights off by default
+    var lightsOn = false;
+    // Set the engine off by default
+    var engOn = false;
+    // Set Engine Idling off by default
+    var holdRPMActive = false;
+    // Check if the needle is currently moving
+    var needleActive = false;
 
-$("#lights").on( "click", function() {
-	if( lightsOn === true){
-		$('#speedo-container').fadeTo('slow', 0.2, function()
-		{
-			$(this).css("background-image", "url("+image_root+"race/tachometer-web-base-lights-out.jpg)");
-			$('#spedo_needle_img').css("opacity", .35);
-			lightsOn = false;
-		}).fadeTo('slow', 1);
-		return;
-	}
-	
-	$('#speedo-container').fadeTo('slow', 0.2, function()
-	{
-	    $(this).css("background-image", "url("+image_root+"race/tachometer-web-base.jpg)");
-		$('#spedo_needle_img').css("opacity", 1);
-		lightsOn = true;
-	}).fadeTo('slow', 1);
-});
+    // Reference Body
+    body = $("body");
+
+    // When the "Switch light" button is clicked
+    body.on("click", "#lights", function(){
+        switchLights();
+    });
+
+    function switchLights(mode = null){
+        // Override
+        if(typeof mode !== null){
+            lightsOn = mode;
+        }
+
+        // Check if lights are on at the moment
+        if(lightsOn){
+            // Slowly turn the lights off
+            $('#speedo-container').fadeTo('slow', 0.2, function() {
+                // Set New Background Image
+                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base-lights-out.jpg)");
+                // Change Opacity
+                $('#spedo_needle_img').css("opacity", .35);
+                // Turn lights off
+                lightsOn = false;
+            }).fadeTo('slow', 1);
+        } else {
+            // Turn lights on
+            $('#speedo-container').fadeTo('slow', 0.2, function() {
+                // Set new background image
+                $(this).css("background-image", "url("+image_root+"race/tachometer-web-base.jpg)");
+                // Change opacity
+                $('#spedo_needle_img').css("opacity", 1);
+                // Turn lights on
+                lightsOn = true;
+            }).fadeTo('slow', 1);
+        }
+        // Return success
+        return true;
+    }
 
 $("#start").on( "click", function() {
 	if(needleActive === true){
