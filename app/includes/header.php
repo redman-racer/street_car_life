@@ -5,13 +5,13 @@
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 
 	<!--JQuery UI CSS-->
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>jquery-ui.css">
 
 	<!--Site CSS-->
-    <link href="<?php echo $CSS_ROOT; ?>base.css?v=<?=time();?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo $CSS_ROOT; ?>garage.css?v=<?=time();?>" rel="stylesheet" type="text/css">
-    <link href="<?php echo $CSS_ROOT; ?>register.css?v=<?=time();?>" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>base.css?v=<?=time();?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>garage.css?v=<?=time();?>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>register.css?v=<?=time();?>" rel="stylesheet" type="text/css">
+    
 	<!--Include jquery-->
     <script src="<?php echo $JS_ROOT; ?>jquery-1.12.4.js"></script>
     <script src="<?php echo $JS_ROOT; ?>jquery-3.2.1.min.js"></script>
@@ -21,4 +21,5 @@
 
 	<!--Include site roots-->
 	<script src="<?php echo$SITE_ROOT; ?>app/config/localhostJS.js"></script>
+
 </head>

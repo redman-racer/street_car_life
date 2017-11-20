@@ -15,7 +15,7 @@ $money = new Money($conn);
 
 
 // Load all parts owned by store_id, display as json_encode
-if (     $_POST['action'] == "changePSName" ) {
+if ( $_POST['action'] == "changePSName" ) {
 
 	// Fetch user cars
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
@@ -38,7 +38,7 @@ if (     $_POST['action'] == "changePSName" ) {
 }
 
 // Load all parts owned by store_id, display as json_encode
-if (     $_POST['action'] == "postFS" ) {
+if ( $_POST['action'] == "postFS" ) {
 
 	// Fetch user cars
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
@@ -61,7 +61,7 @@ if (     $_POST['action'] == "postFS" ) {
 }
 
 // Load all parts owned by store_id, display as json_encode
-if (     $_POST['action'] == "cancelFS" ) {
+if ( $_POST['action'] == "cancelFS" ) {
 
 	// Fetch user cars
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
@@ -84,7 +84,7 @@ if (     $_POST['action'] == "cancelFS" ) {
 }
 
 // Get the stores inventory
-if (     $_POST['action'] == "openInventory" ){
+if ( $_POST['action'] == "openInventory" ){
 	// Fetch Store Info
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
 
@@ -109,7 +109,7 @@ if (     $_POST['action'] == "openInventory" ){
 }
 
 // Update the stores inventory
-if (     $_POST['action'] == "updateQOH" ){
+if ( $_POST['action'] == "updateQOH" ){
 	// Fetch Store Info
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
 
@@ -232,7 +232,7 @@ if (     $_POST['action'] == "updateQOH" ){
 }
 
 // Load all parts owned by store_id, display as json_encode
-if (     $_POST['action'] == "updateMSRP" ) {
+if ( $_POST['action'] == "updateMSRP" ) {
 
 	// Fetch user cars
 	$store_info = $part_store->fetchPartStore(    $_POST['store_id']);
@@ -243,7 +243,7 @@ if (     $_POST['action'] == "updateMSRP" ) {
 		return;
 	}
 
-	if(     $_POST['new_msrp'] < 0 ){
+	if( $_POST['new_msrp'] < 0 ){
 		echo json_encode( array( "error" => true, "e_msg" => "You can not set a - MSRP amount.", "update_msrp" => false ) );
 		$error = true;
 		return;
@@ -264,7 +264,7 @@ if (     $_POST['action'] == "updateMSRP" ) {
 }
 
 // Load Create Part form
-if (     $_POST['action'] == "createPart" ) {
+if ( $_POST['action'] == "createPart" ) {
 	$store_id		=	$_POST['store_id'];
 	$part_id		=	$_POST['part_type_id'];
 	$time_invested  =	$_POST['time_invested'];
@@ -316,24 +316,24 @@ if (     $_POST['action'] == "createPart" ) {
 		return $mtma;
 	}
 
-	$np_hp  =  round( ( $time_factor + $money_factor + $ps_rd_level ) * $part_template['cp_hp_factor'], 3);
-	$np_hp_limit = round(( $time_factor + $money_factor + $ps_rd_level ) * $part_template['cp_hp_limit_factor'], 3);
+	$np_hp			= round( ( $time_factor + $money_factor + $ps_rd_level ) * $part_template['cp_hp_factor'], 3);
+	$np_hp_limit 	= round(( $time_factor + $money_factor + $ps_rd_level ) * $part_template['cp_hp_limit_factor'], 3);
 	$np_reliability = round(((((( $time_factor + $money_factor ) * 0.85 )  + $ps_rd_level )) / 3 ) * $part_template['cp_reliability_factor'], 3);
-	$np_weight = round(((((( $time_factor + $money_factor ) * 0.85 ) + $ps_rd_level )) / 3 ) * $part_template['cp_weight_factor'], 3);
-	$np_cog = round(((((((( $money_factor + $time_factor ) * 0.65 ) + $ps_rd_level )) / 3 ) * 1.308 ) * $part_template['cp_cog_factor']) * mintoMaxAdjust($time_factor, $money_factor, $ps_rd_level), 3);
+	$np_weight		= round(((((( $time_factor + $money_factor ) * 0.85 ) + $ps_rd_level )) / 3 ) * $part_template['cp_weight_factor'], 3);
+	$np_traction	= round(( $time_factor + $money_factor + $ps_rd_level) * $part_template['cp_traction_factor'], 5);
+	$np_cog 		= round(((((((( $money_factor + $time_factor ) * 0.65 ) + $ps_rd_level )) / 3 ) * 1.308 ) * $part_template['cp_cog_factor']) * mintoMaxAdjust($time_factor, $money_factor, $ps_rd_level), 3);
 
 	// Subtract money from player
 	$money_transaction = $money->subtractTaxed($user_info['id'], $user_info['user_cash'], $money_invested, $page);
 
 	if( $money_transaction ){
 			// The money was subtracted, create the part.
-			$create_part = $ps_cp->createPart($store_id, $part_id, $user_info['id'], $np_hp, $np_hp_limit, $np_reliability, $np_weight, $np_cog, $time_finished);
-
-			if( $create_part ){
+			if( $ps_cp->createPart($store_id, $part_id, $user_info['id'], $np_hp, $np_hp_limit, $np_reliability, $np_weight, $np_traction, $np_cog, $time_finished) )
+			{
 				// The part was created, return results
 				echo json_encode( array( "error" => false, "e_msg" => "The part was created, and will make ".$np_hp." per liter. It will cost $".number_format($np_cog)." per part to stock.", "create_part" => false ) );
 				return;
-			} else {
+			} else{
 				// The part was not created.
 				echo json_encode( array( "error" => true, "e_msg" => "There was an issue while trying to create the part, the money was taken from your account. Please message a admin with the current time.", "create_part" => false ) );
 				return;

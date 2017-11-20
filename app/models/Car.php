@@ -159,8 +159,12 @@ class Car
 				$carStats['cars_tq'] += $partTQ;
 				$carStats['cars_weight'] += $part['part_weight'];
 				$carStats['cars_reliability'] += $part['part_reliability'];
+				$carStats['cars_traction'] += $part['part_traction'];
 			}
 		}
+
+		// Do Traction math
+		$carStats['cars_traction'] = round(($carStats['cars_traction'] * $carStats['cars_weight'])/100);
 
 		// Return cars
 		return $carStats;
@@ -205,8 +209,8 @@ class Car
 		$car_template = $this->fetchCarTemplate($ct_id);
 
 		// Build Query to Delete User
-		$query = "INSERT INTO cars (cars_ct_id, cars_owner, cars_year, cars_make, cars_model, cars_transmission, cars_eng_liter, cars_hp, cars_tq, cars_f_aero, cars_r_aero, cars_weight, cars_braking, cars_handling, cars_launch, cars_reliability, cars_value)
-				  VALUES (:cars_ct_id, :cars_owner, :cars_year, :cars_make, :cars_model, :cars_transmission, :cars_eng_liter, :cars_hp, :cars_tq, :cars_f_aero, :cars_r_aero, :cars_weight, :cars_braking, :cars_handling, :cars_launch, :cars_reliability, :cars_value)";
+		$query = "INSERT INTO cars (cars_ct_id, cars_owner, cars_year, cars_make, cars_model, cars_transmission, cars_eng_liter, cars_hp, cars_tq, cars_traction, cars_f_aero, cars_r_aero, cars_weight, cars_braking, cars_handling, cars_launch, cars_reliability, cars_value)
+				  VALUES (:cars_ct_id, :cars_owner, :cars_year, :cars_make, :cars_model, :cars_transmission, :cars_eng_liter, :cars_hp, :cars_tq, :cars_traction, :cars_f_aero, :cars_r_aero, :cars_weight, :cars_braking, :cars_handling, :cars_launch, :cars_reliability, :cars_value)";
         // Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters
@@ -219,6 +223,7 @@ class Car
 		$stmt->bindParam(':cars_eng_liter', $car_template['ct_eng_liter'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_hp', $car_template['ct_hp'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_tq', $car_template['ct_tq'], PDO::PARAM_INT);
+		$stmt->bindParam(':cars_traction', $car_template['ct_traction'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_f_aero', $car_template['ct_f_aero'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_r_aero', $car_template['ct_r_aero'], PDO::PARAM_INT);
 		$stmt->bindParam(':cars_weight', $car_template['ct_weight'], PDO::PARAM_INT);

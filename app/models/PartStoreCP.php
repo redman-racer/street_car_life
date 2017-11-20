@@ -232,15 +232,15 @@ class PartStoreCP
 		return $cpTemplate;
 	}
 
-	public function createPart($store_id, $part_id, $user_id, $hp, $hp_limit, $reliability, $weight, $cog, $time_finished)
+	public function createPart($store_id, $part_id, $user_id, $hp, $hp_limit, $reliability, $weight, $traction, $cog, $time_finished)
 	{
 		$np_template = $this->fetchPartCreateTemplate($part_id);
 		$tq   = $hp * 0.85;
 		$msrp = $cog * 2.35;
 
 		// Build Query to Delete User
-		$query = "INSERT INTO part_template (pt_cp_id, pt_store_id, pt_type, pt_sub_type, pt_name, pt_cost, pt_msrp, pt_hp, pt_tq, pt_weight, pt_hp_max, pt_reliability, pt_create_date)
-		 							 VALUES (:pt_cp_id, :pt_store_id, :pt_type, :pt_sub_type, :pt_name, :pt_cost, :pt_msrp, :pt_hp, :pt_tq, :pt_weight, :pt_hp_max, :pt_reliability, :pt_create_date)"; //TODO make this function work
+		$query = "INSERT INTO part_template (pt_cp_id, pt_store_id, pt_type, pt_sub_type, pt_name, pt_cost, pt_msrp, pt_hp, pt_tq, pt_weight, pt_hp_max, pt_reliability, pt_traction, pt_create_date)
+		 							 VALUES (:pt_cp_id, :pt_store_id, :pt_type, :pt_sub_type, :pt_name, :pt_cost, :pt_msrp, :pt_hp, :pt_tq, :pt_weight, :pt_hp_max, :pt_reliability, :pt_traction, :pt_create_date)"; //TODO make this function work
         // Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters
@@ -256,6 +256,7 @@ class PartStoreCP
 		$stmt->bindParam(':pt_weight', $weight, PDO::PARAM_INT);
 		$stmt->bindParam(':pt_hp_max', $hp_limit, PDO::PARAM_INT);
 		$stmt->bindParam(':pt_reliability', $reliability, PDO::PARAM_INT);
+		$stmt->bindParam(':pt_traction', $traction, PDO::PARAM_INT);
 		$stmt->bindParam(':pt_create_date', $time_finished, PDO::PARAM_INT);
 		// Execute Query
 		if ($stmt->execute()){

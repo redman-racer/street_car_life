@@ -1,0 +1,47 @@
+Things the Race Scene Menu should have
+	Start New Race
+		Pop-up
+			Choose type of race
+				Street
+					Local Race Weekend
+						Race A computer
+							Select Computer to race & Enter Bet -> Start Race Scene
+						Race Another Player
+						 	Select player to race & Enter Bet -> Start Race Scene
+						Make Test Hit
+							-> Start Race Scene
+					Event Weekend
+						Tournament Style Races
+						Hosted Tournaments
+						Cash Prize Tournament
+						Top 10 List Races
+				Track
+					Grudge Race ($$$)
+						Race computer
+						Race another player
+					Time Only
+						Race computer
+						Race another player
+					Event Weekend
+						Tournament Style Races
+						Hosted Tournaments
+						Cash Prize Tournament
+					Points Races
+						Qualify for Next Points Race
+	Check Pending Races
+		Pop-up
+			Sent Races
+				List of Currently Active Races
+					Pop-up
+						Display sent race stats (ie. RT, ET, MPH, Damage ETC)
+			Received Races
+				List of Currently Active Races
+					Pop-up
+						Dispay Bet amount, Type of race etc but not race stats, car stats are ok.
+	Set Launch RPM
+		Change UI
+			Input field, limit to redline
+	Check leaderboards
+		Pop-up
+			List of leaderboards with a list of top X Amount
+	

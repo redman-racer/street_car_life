@@ -131,20 +131,19 @@ class PartStore
 		// If installing, un-install all similar parts.
 		if( $install ){
 			// Build Query to Delete User
-	        $query2 = "UPDATE part SET part_installed = 0 WHERE part_car_id = :car_id AND part_cp_id = :cp_id ";
+	        $query2 = "UPDATE part SET part_installed = 0 WHERE part_car_id = :car_id AND part_sub_type = :cp_sub_type ";
 	        // Prepare Query
 	        $stmt2 = $this->conn->prepare($query2);
 	        // Bind Parameters
 	        $stmt2->bindParam(':car_id', $driving_car_id['cars_id'], PDO::PARAM_INT);
-	        $stmt2->bindParam(':cp_id', $pt['pt_cp_id'], PDO::PARAM_INT);
+	        $stmt2->bindParam(':cp_sub_type', $pt['pt_sub_type'], PDO::PARAM_INT);
 	        // Execute Query
 	       $stmt2->execute();
 		}
 
-
 		// Build Query to Buy Part
-		$query = "INSERT INTO part (part_cp_id, part_owner_id, part_car_id, part_installed, part_type, part_sub_type, part_price, part_hp, part_tq, part_weight, part_reliability, part_description)
-				  VALUES (:part_cp_id, :part_owner_id, :part_car_id, :part_installed, :part_type, :part_sub_type, :part_price, :part_hp, :part_tq, :part_weight, :part_reliability, :part_description)";
+		$query = "INSERT INTO part (part_cp_id, part_owner_id, part_car_id, part_installed, part_type, part_sub_type, part_price, part_hp, part_tq, part_weight, part_traction, part_reliability, part_description)
+				  VALUES (:part_cp_id, :part_owner_id, :part_car_id, :part_installed, :part_type, :part_sub_type, :part_price, :part_hp, :part_tq, :part_weight, :part_traction, :part_reliability, :part_description)";
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters
@@ -158,6 +157,7 @@ class PartStore
 		$stmt->bindParam(':part_hp', $pt['pt_hp'], PDO::PARAM_INT);
 		$stmt->bindParam(':part_tq', $pt['pt_tq'], PDO::PARAM_INT);
 		$stmt->bindParam(':part_weight', $pt['pt_weight'], PDO::PARAM_INT);
+		$stmt->bindParam(':part_traction', $pt['pt_traction'], PDO::PARAM_INT);
 		$stmt->bindParam(':part_reliability', $pt['pt_reliability'], PDO::PARAM_INT);
 		$stmt->bindParam(':part_description', $pt['pt_description'], PDO::PARAM_INT);
 		// Execute Query

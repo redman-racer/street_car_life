@@ -26,6 +26,10 @@ src: url(../fonts/calibri.ttf);
 font-family: calibriB;
 src: url(../fonts/calibrib.ttf);
 }
+@font-face {
+font-family: speedomph;
+src: url(../fonts/speedomph.ttf);
+}
 html {
   box-sizing: border-box;
 }

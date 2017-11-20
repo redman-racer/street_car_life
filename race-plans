@@ -1,3 +1,13 @@
+//TODO
+	Create computer racers
+	Create a Race Challenge Record DB
+	Create Tournament DB
+	Create Layout for Race Messages
+	Create Leaderboards
+	//Create Traction Parts
+	Create Traction/Spin System
+
+
 Track Races
 	Local Race Weekend
 		Grudge Race
@@ -91,5 +101,3 @@ Racing System
 		based on worse case scenario Spin Amount, you have that amount of time to reduce the Spin Amount to 0%, based on how you do there will determine
 		how much the spin amount will affect the run. A .9 60' and 5.792 et, with 100% spin = 12.466 et. It will be scaled toward improving your time more
 		by spinning less at the beginning. You will stop the spin by tapping the PEDAL button, depending on HPtoTRC and Spin Amount will determine how many taps.
-
-	

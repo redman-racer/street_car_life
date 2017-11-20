@@ -546,6 +546,10 @@ $( function() {
 	function createPart(){
 		var part_type_id = $( "#part_type" ).val(); var time_invested =  $( "#part_time" ).val(); var money_invested =  $( "#create_part_amount" ).val();
 
+		if( time_invested <= 0 ) console.log("time_invested was less than 0");
+		if( money_invested <= 0 ) console.log("money_invested was less than 0");
+
+
 		$.post(site_root+'app/ajax-controllers/partStoreCPAjax.php', {
 			action: "createPart",
 			store_id: storeID,
@@ -557,18 +561,19 @@ $( function() {
 				$( "#create_part_passFail" ).html("Fail!  ");
 				$( "#create_part_e_msg_dialog" ).html(data['e_msg']);
 				$( "#create_part_error" ).fadeIn(600);
+
+				return false;
 			} else{
 				$( "#create_part_passFail" ).html("Success!  ");
 				$( "#create_part_e_msg_dialog" ).html(data['e_msg']);
 				$( "#create_part_error" ).fadeIn(600);
 
 				openInventory();
-
-				setTimeout( function(){
-					closeDialog("create_part_dialog");
-				}, 5000 );
+				return true;
 			}
 		});
+
+		console.log("After the ajax.");
 	}
 
 	function openInventory(){

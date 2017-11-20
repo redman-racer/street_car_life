@@ -24,7 +24,7 @@ require '../config/globals.php';
 			<!--car stats box-->
 			<div id="car_stats" class="stats_container">
 					<table  style="width:100%; font-family: rootbear; font-size: 28px; color: #fff;">
-						<tr>
+						<tr> <!-- Red = #ff6e5e; -->
 							<td style="width:25%; text-align: right;">
 								Horse Power
 							</td>
@@ -34,7 +34,35 @@ require '../config/globals.php';
 							<td style="width:25%; text-align: right;">
 								lb/ft Torque
 							</td>
-							<td  id="tq" style="width:25%; text-align: center; color: #ff6e5e;">
+							<td  id="tq" style="width:25%; text-align: center; color: #97d079;">
+								<!--Insert TQ Here-->
+							</td>
+						</tr>
+						<tr>
+							<td style="width:25%; text-align: right;">
+								Weight
+							</td>
+							<td id="weight"  style="width:25%; text-align: center; color: #97d079;">
+								<!--Insert Weight Here-->
+							</td>
+							<td style="width:25%; text-align: right;">
+								Traction
+							</td>
+							<td  id="traction" style="width:25%; text-align: center; color: #97d079;">
+								<!--Insert TQ Here-->
+							</td>
+						</tr>
+						<tr>
+							<td style="width:25%; text-align: right;">
+								Reliability
+							</td>
+							<td id="reliability"  style="width:25%; text-align: center; color: #97d079;">
+								<!--Insert Weight Here-->
+							</td>
+							<td style="width:25%; text-align: right;">
+								Damage
+							</td>
+							<td  id="damage" style="width:25%; text-align: center; color: #97d079;">
 								<!--Insert TQ Here-->
 							</td>
 						</tr>

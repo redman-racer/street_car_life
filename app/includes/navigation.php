@@ -3,6 +3,7 @@
 	    <div style="margin-top:40px;">
 	        <div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>"> Home </a>|</div>
 			<div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>street-race">Street Race </a>|</div>
+			<div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>race-scene">Race </a>|</div>
 	        <div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>garage">My Garage </a>|</div>
 	        <div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>dealership">Dealership </a>|</div>
 	        <div class="naviLink" style="display: inline-block;"><a href="<?php echo $SITE_ROOT; ?>part-store">Part Stores </a>|</div>
@@ -25,6 +26,6 @@
 		<?php
 		}
 		?>
-		<div id="logoClickable" style="display: block; width: 300px; height: 60px; cursor: pointer; margin: 0px auto; padding-top: 110px;"> </div>
+		<div id="logoClickable" style="display: block; width: 300px; height: auto; cursor: pointer; margin: 0px auto; padding-top: 110px;"> </div>
 	</div>
 </div>

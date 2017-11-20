@@ -645,20 +645,21 @@ Part Type
 			Belt & Tensioner
 			Pulley
 			Intercooler
-	Suspension
+	Suspension - GOAL: 1000 points total using all parts, 166 per part
 		Suspension
-			Shocks
-				Stiffness = Money * Time Spent * XXXX;
-					ex. Stiff = ( ( M->75 * T->60 ) * HP_L_F->0.0123 ) * ENG_Liters(5.7l) = 315hp;
-				HP_Limit = Money * Time Spent * XXXX;
-					ax. HP_L = ( ( M->75 * T->60 ) * HP_L_F->0.03 ) * ENG_Liters(5.7l) = 769hp;
-				Rel = Money * Time Spent * XXXX;
-				Weight = Money * Time Spent * XXXX;
-			Control Arms
+			Shocks - 19 - 190
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.0187 ) * (VEH_WEIGHT(3400lbs)/100) = 190 Traction;
+				ex. TRACTION_Limit = ( ( M->75 + T->50 + RD->60 ) * SF->0.0187 ) * (VEH_WEIGHT(3400lbs)/100) = 117;
+				ex. TRACTION_Limit = ( ( M->25 + T->25 + RD->25 ) * SF->0.0187 ) * (VEH_WEIGHT(3400lbs)/100) = 47;
+			Control Arms - 8 - 80
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.0078 ) * (VEH_WEIGHT(3400lbs)/100) = 79 Traction;
 		Cage
-			Front Tube Chassis
-			Cab Cage
-			Rear Tube Chassis
+			Front Tube Chassis - 20 - 200
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.0197 ) * (VEH_WEIGHT(3400lbs)/100) = 200 Traction;
+			Cab Cage - 14 - 140
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.01372 ) * (VEH_WEIGHT(3400lbs)/100) = 139 Traction;
+			Rear Tube Chassis - 19 - 190
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.0187 ) * (VEH_WEIGHT(3400lbs)/100) = 190 Traction;
 	Drivetrain
 		Transmission
 			Auto
@@ -672,5 +673,14 @@ Part Type
 			Clutch Kit
 			Clutch Hydraulics
 		Tire
-			Tire
+			Tire - 20 - 200
+				ex. TRACTION_Limit = ( ( M->100 + T->100 + RD->100 ) * SF->0.0197 ) * (VEH_WEIGHT(3400lbs)/100) = 200 Traction;
 			Wheel
+
+
+Traction System
+	Overal Traction Number Peak Goal - 2500
+
+	Parts  - 40%; 6 Traction Parts/ 40% = 6.66% per part = 166.5 AVG
+	Tuning - 32.50%
+	Launch - 27.50%

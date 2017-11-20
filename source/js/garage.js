@@ -126,6 +126,8 @@
 					$("#car_container").html(car_container);
 					$("#hp").html(data['car']['cars_hp']);
 					$("#tq").html(data['car']['cars_tq']);
+					$("#weight").html(data['car']['cars_weight']);
+					$("#traction").html(data['car']['cars_traction']);
 					$("#handling").html(car_handling);
 					$("#braking").html(car_braking);
 					$("#parts_list").html(parts_list);

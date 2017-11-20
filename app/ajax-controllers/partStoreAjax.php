@@ -74,6 +74,7 @@ if ($_POST['action'] == "buyPart"){
 	// Store Owner Info
 	$store_owner_info = $user->fetchUser($store_info['ps_owner_id']);
 
+
 	if ( $part_info['pt_msrp'] >= $user_info['user_cash'] ){
 		echo json_encode( array( "error" => true, "e_msg" => "You do not have enough cash to buy this part.", "bought" => false ) );
 		return;
@@ -93,19 +94,19 @@ if ($_POST['action'] == "buyPart"){
 
 	// Check to see if it was purchased suscesfully
 	if (!$buy) {
-		echo json_encode( array( "error" => true, "e_msg" => "There was an unexpected error loading the part.", "bought" => false ) );
+		echo json_encode( array( "error" => true, "e_msg" => "There was an unexpected error loading the part.:||: $buy = ".$buy, "bought" => false ) );
 		return;
 	} else {
 			$subtractMoney = $money->subtract($user_info['id'], $user_info['user_cash'], $part_info['pt_msrp'], $page);
 		if( $subtractMoney ){
 			// Check to see if store owner is buying the part, and fix the money bug.
 			if ( $store_info['ps_owner_id'] == $user_info['id'] ){
-				$store_owner_info['user_cash'] -= $part_info['pt_msrp']; 
+				$store_owner_info['user_cash'] -= $part_info['pt_msrp'];
 			}
 			$addMoney = $money->addTaxed($store_info['ps_owner_id'], $store_owner_info['user_cash'], $part_info['pt_msrp'], $page);
 			if ( $addMoney ){
 				// Build Array
-				echo json_encode( array( "error" => false, "e_msg" => "You have successfuly purchased this part.", "bought" => true ) );
+				echo json_encode( array( "error" => false, "e_msg" => "You have successfuly purchased this part.".$buy, "bought" => true ) );
 			} else {
 				echo json_encode( array( "error" => true, "e_msg" => "There was an issue distributing funds, please try again.", "bought" => true ) );
 				return;

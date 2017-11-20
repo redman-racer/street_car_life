@@ -1,7 +1,7 @@
 <?php
 // Include Globals
 require '../config/globals.php';
-// Define Header
+// Define header
 header("Content-Type: application/json; charset=utf-8");
 
 // Instantiate Car Model
@@ -11,6 +11,7 @@ $race = new Race($conn);
 // Instantiate Money Functions
 $money = new Money($conn);
 
+if( isset($_POST['action']) ){
 	if($_POST['action'] == "streetRace")
 	{
 		// Check to see if User has enough money to cover his bet.
@@ -116,3 +117,52 @@ $money = new Money($conn);
 		// Display results in json
 		echo json_encode(array("error" => false, "results" => array("computer"=>$results_computer, "player"=>$results_player), "winner" => $winner));
 	}
+
+	if( $_POST['action'] === "createNewRace" ){
+		$raceWho 	= $_POST['race_who'];
+		$raceWhoID  = $_POST['race_who_id'];
+		$raceAmount = $_POST['race_amount'];
+		$raceType	= $_POST['race_type'];
+		$forPinks   = $_POST['race_pinks'];
+
+		if ( $raceWho == "player" ){
+			$getRacerID = $user->fetchByUser($raceWhoID);
+
+			if( !$getRacerID ){
+				echo json_encode(array("error" => true, "e_msg" => "We could not find your opponent, please try again."));
+				return false;
+			}
+
+			$raceWhoID  = $getRacerID['id'];
+		}
+
+
+		if( !$currentCar = $car->currentDrivenCar($user_info['id']) ){
+			echo json_encode(array("error" => true, "e_msg" => "You have to be driving a car to start a race."));
+			return false;
+
+		//No errors getting car info, get the car stats and 1/4 time now.
+		}else{
+			$car_stats  = $car->fetchCarStats($currentCar['cars_id'], $user_info['id']);
+			$race_stats = $race->raceMathStats($car_stats['cars_hp'], $car_stats['cars_weight']);
+
+			//If error getting either, return false and echo error message
+			if( !$car_stats || !$race_stats){
+				echo json_encode(array("error" => true, "e_msg" => "There was an error while attempting to retrieve data. Please try again."));
+				return false;
+			}
+		}
+
+		//Create a new race
+		$createNewRace = $race->createNewRace($user_info['id'], $raceWhoID, $raceWho, $currentCar['cars_id'], $raceAmount, $forPinks, $raceType);
+
+		if( $createNewRace === true ){
+			echo json_encode(array("error" => false, "e_msg" => "The race was created.", "race_stats" => $race_stats));
+		} else{
+			echo json_encode(array("error" => true, "e_msg" => "There was an issue creating the race, please try again."));
+		}
+	}
+}else{
+	header("Location: ".$SITE_ROOT);
+	exit;
+}

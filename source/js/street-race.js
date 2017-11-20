@@ -67,6 +67,7 @@
 		var raceWho = $("#raceWho").val();
 		var betAmount = $("#betAmount").val();
 		$("#launch").fadeOut(100);
+		alert(playerRT);
 
 		$.post('app/ajax-controllers/raceAjax.php', {
 			action: 'streetRace',

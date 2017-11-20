@@ -70,6 +70,50 @@ class User
     }
 
     /**
+     * @return bool|array
+     * Fetch all the computer profiles
+     */
+    public function fetchComputers()
+    {
+        // Build Query to Fetch Users
+        $query = "SELECT * FROM users WHERE id >= 21 ORDER BY id ASC";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Execute Query
+        if (!$stmt->execute()) return false;
+        // Fetch Users
+        $users = $stmt->FetchAll(PDO::FETCH_ASSOC);
+        // Check if there are users
+        if (!count($users)) return false;
+        // Return Users
+        else return $users;
+    }
+
+    /**
+     * @return bool|array
+     * search all the users registered on the website with like usernames
+     */
+    public function searchUsers($searchTerm)
+    {
+		$searchTerm = "%".$searchTerm."%";
+
+        // Build Query to Fetch Users
+        $query = "SELECT * FROM users WHERE username LIKE :searchTerm ORDER BY id ASC";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
+        // Execute Query
+        if (!$stmt->execute()) return false;
+        // Fetch Users
+        $users = $stmt->FetchAll(PDO::FETCH_ASSOC);
+        // Check if there are users
+        if (!count($users)) return false;
+        // Return Users
+        else return $users;
+    }
+
+    /**
      * @param $username
      * @return bool
      * Validate login information for a user
