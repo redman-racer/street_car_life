@@ -104,6 +104,8 @@ $("body").on( "click", "button", function(){
 				{
 				    $(this).css('background-color','#4BB543').css('color', '#fff');
 				}).fadeTo('slow', 1);
+				$( "#computerSearch").fadeOut(0);
+				$( "#racerSearch" ).fadeOut(0);
 	        break;
 		case "changeOpponent":
 				$( "#race_who_id" ).attr("readonly", false).val("");
@@ -130,6 +132,14 @@ $( "#new_race_dialog" ).dialog({
 	  height: "auto",
 	  width: "600px",
 	  modal: true,
+	  show: {
+		effect: "fold",
+		duration: 600
+	  },
+	  hide: {
+		effect: "fold",
+		duration: 400
+	},
 	  buttons: {
 				"Start_Race": {
 					text: "Start Race",
@@ -209,7 +219,7 @@ function createRace(){
 			dialogError("new_race", "The race was created", "Pass");
 
 			//Start race Animation function is located in race-scene-races.js
-			startRaceAnimation(data['race_stats']['et'], data['race_stats']['trap']);
+			startRaceAnimation(data['race_stats']['et'], data['race_stats']['trap'], data['race_stats']['race_id']);
 
 			setTimeout( function(){
 				$( "#new_race_dialog" ).dialog( "close" );

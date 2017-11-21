@@ -89,6 +89,134 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
   </div>
 </div>
 <!-- new_race_dialog -->
+<!-- Blank Time Sheet -->
+<div id="time_sheet" title="Street Car Life Drag Race">
+	<div class="ui-widget" id="time_sheet_error" style="display: none;">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			<strong id="time_sheet_passFail"></strong><span id="time_sheet_e_msg_dialog"></span></p>
+		</div>
+	</div>
+
+	<table id="time_sheet_container" style="width: 400px; text-align: center;">
+		<th id="ts_header_row" class="pure-1-1" style="width: 100%;" colspan="3">
+			<h1>Street Car Life</h1>
+			<h7>Race #<span id="race_number"> </span> </h7>
+		</th>
+		<tr id="ts_lane_row" style="width: 100%;">
+			<td id="descripter">
+
+			</td>
+			<td id="left_lane">
+				<h5 style="text-align: center;">Left Lane</h5>
+			</td>
+			<td id="right_lane">
+				<h5 style="text-align: center;">Right Lane</h5>
+			</td>
+		</tr>
+		<tr id="ts_driver_row" style="width: 100%;">
+			<td id="ts_driver" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Driver</h5>
+			</td>
+			<td id="ll_driver" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_driver" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_dial_in_row" style="width: 100%;">
+			<td id="ts_dial_in" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Dial In</h5>
+			</td>
+			<td id="ll_dial_in" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_dial_in" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_rt_row" style="width: 100%;">
+			<td id="ts_reaction" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Reaction Time</h5>
+			</td>
+			<td id="ll_rt" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_rt" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_sixty_row" style="width: 100%;">
+			<td id="ts_sixty" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">60 ft time</h5>
+			</td>
+			<td id="ll_sixty" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_sixty" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_eighth_row" style="width: 100%;">
+			<td id="ts_eighth" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">1/8 Mile Time</h5>
+			</td>
+			<td id="ll_eighth" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_eighth" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_quarter_row" style="width: 100%;">
+			<td id="ts_quarter" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">1/4 Mile Time</h5>
+			</td>
+			<td id="ll_quarter" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_quarter" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_mph_row" style="width: 100%;">
+			<td id="ts_mph" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">1/4 Mile MPH</h5>
+			</td>
+			<td id="ll_mph" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_mph" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_winner_row" style="width: 100%;">
+			<td id="ts_winner" stlye="width: 33%; text-align: right;">
+
+			</td>
+			<td id="ll_winner" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_winner" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+		<tr id="ts_winner_margin_row" style="width: 100%;">
+			<td id="ts_winner_margin" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Win Margin</h5>
+			</td>
+			<td id="ll_winner_margin" stlye="width: 33%; text-align: center;">
+
+			</td>
+			<td id="rl_winner_margin" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
+	</table>
+</div>
+<!-- Blank Time Sheet -->
+
 
 <div id="speedo_lights_out"
 	style="
@@ -269,29 +397,7 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 					left: 0px;
 					display: none;
 				">
-				<div id="gasPedal" style="
-											float: right;
-										    margin-top: 266px;
-										    margin-right: 0px;
-										    width: 566px;
-										    height: 154px;
-										    overflow: hidden;
-										    z-index: 200;
-										    position: relative;
-											cursor: pointer;
-											display: none;
-										" >
-					<img src="<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal.png"
-						onmousedown="this.src='<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal-pressed.png'" onmouseup="this.src='<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal.png'"
-						id="cel_light_img"
-						width="556px" height="154px"
-						style="-khtml-user-select: none;
-								-o-user-select: none;
-								-moz-user-select: none;
-								-webkit-user-select: none;
-								user-select: none;
-					" />
-				</div>
+
 		</div>
 		<div id="start_lights_container"
 			style="
@@ -305,16 +411,40 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 			left: 0px;
 			display: ;
 			">
+			<div id="gasPedal" style="
+										-webkit-transform: scaleX(-1);
+										transform: scaleX(-1);
+										float: left;
+										margin-top: 285px;
+										margin-left: 20px;
+										width: 566px;
+										height: 154px;
+										overflow: hidden;
+										z-index: 200;
+										position: relative;
+										cursor: pointer;
+										display: none;
+									" >
+				<img src="<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal.png"
+					onmousedown="this.src='<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal-pressed.png'" onmouseup="this.src='<?php echo $IMAGE_ROOT; ?>race/race-scene/gas-pedal.png'"
+					id="gasPedal_img"
+					width="556px" height="154px"
+					style="-khtml-user-select: none;
+							-o-user-select: none;
+							-moz-user-select: none;
+							-webkit-user-select: none;
+							user-select: none;
+				" />
+			</div>
 			<div id="startLights" style="
 										float: left;
 										margin-top: 266px;
-										margin-left: 650px;
+										margin-left: 130px;
 										width: 650px;
 										height: 175px;
 										overflow: hidden;
 										z-index: 200;
 										position: relative;
-										cursor: pointer;
 										text-align: center;
 										display: none;
 									" >
@@ -354,10 +484,6 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 			</div>
 		</div>
 </div>
-
-<!--Used for the speedo and mph animations-->
-<input type="number" id="estimateET" style="display: none;" value="<?php echo $estimatedET; ?>" />
-<input type="number" id="estimateMPH" style="display: none;" value="<?php echo $estimatedMPH; ?>" />
 </body>
 <footer>
 

@@ -243,4 +243,19 @@ class Car
 		// Error
 		else return false;
 	}
+
+	public function setPinks($car_id, $user_id, $pinks_status){
+		// Build Query to Delete User
+		$query = "UPDATE cars SET cars_for_pinks = :pinks_status WHERE cars_id = :car_id AND cars_owner = :user_id";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':pinks_status', $pinks_status, PDO::PARAM_INT);
+		$stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if ($stmt->execute()) return true;
+		// Error
+		else return false;
+	}
 }

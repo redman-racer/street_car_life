@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>base.css?v=<?=time();?>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>garage.css?v=<?=time();?>" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?php echo $CSS_ROOT; ?>register.css?v=<?=time();?>" rel="stylesheet" type="text/css">
-    
 	<!--Include jquery-->
     <script src="<?php echo $JS_ROOT; ?>jquery-1.12.4.js"></script>
     <script src="<?php echo $JS_ROOT; ?>jquery-3.2.1.min.js"></script>

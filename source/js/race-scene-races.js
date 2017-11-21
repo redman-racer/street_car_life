@@ -1,152 +1,105 @@
 
-var lightsOn = false; var engOn = false; var holdRPMActive = true; var needleActive = false; var greenLightOnTime = Date.now() * 1000; var exptectedGreenTime;
+var race_started = false; var lightsOn = false; var engOn = false; var holdRPMActive = true; var needleActive = false; var greenLightOnTime = Date.now() * 1000; var exptectedGreenTime;
 
 $('document').ready(function () {
 
-		rotateTach(0, 10, 'tach_needle_img');
+		rotateTach(0, 10);
 		rotateSpeedo(0, 10);
 		speedoActive = true;
 		$("#speedoNumber").text(0);
 });
 
-$("body").on("click", "#race", function() {
-	// Set the time that the race was initiated
-	createdTime=Date.now();
-	//Start the checks that could stop the function
-	//Check to see if another animation is playing
-	if(needleActive === true){
-		alert("Please wait for the current animation to finish first.");
-		return;
-	}
-	// Check to see if the engine is on
-	if( engOn == false ){
-		alert("You must start your engine first.");
-		return;
-	}
-	// Check to see if launch RPM is set below Idle rpm
-	if (launchRPM <= 799 ){
-		alert("You must enter a number greater than the idle speed of 800rpm.");
-		return;
-	}
-	// Check to see if Launch RPM is greater than redline
-	if (launchRPM >= 7501 ){
-		alert("You can not launch the car higher than the rev limiter.");
-		return;
-	}
-
-
-		//Get the launch RPM
-		launchRPM  = $("#launchRPM").val();
-		//Find what RPM the needle is at now
-		currentRPM = (($("#tach_needle_img").getRotateAngle() + 6)*41.66);
-		//Get the difference bewtween Launch RPM and the current RPM to make the animation
-		rpmDiff    = launchRPM - currentRPM;
-		// Set the length of time the rev take to get to the launchRPM (10milisecs for every 1 rpm)
-		rpmDiffTime = rpmDiff/10;
-		// Set the expected green light time
-		exptectedGreenTime = createdTime+rpmDiffTime+4340;
-		// Stop the idle or holdRPM animation
-		holdRPMActive = false;
-		delay = 1;//TODO remove or make this var work
-
-			//Turn the launch button on and change gears to 1st
-			setTimeout( function(){
-				$("#launchRaceButton").fadeIn(200);
-				$("#gearNumber").text(1);
-			});
-			//Rev engine to Launch RPM
-			setTimeout( function(){
-				rotateTach(launchRPM, rpmDiffTime, 'tach_needle_img');
-			}, 140 );
-			//Hold RPM at launch
-			setTimeout( function(){
-				// Initiate idle or holdRPM animation
-				holdRPMActive = true;
-				holdRPM(launchRPM);
-			}, rpmDiffTime );
-			// Light the pre-stage bulbs
-			setTimeout(stage1, rpmDiffTime);
-			setTimeout(stage2, rpmDiffTime+1840);
-
-		// Start lighting the christmas tree
-		setTimeout(amber1, rpmDiffTime+2840);
-		setTimeout(amber2, rpmDiffTime+3340);
-		setTimeout(amber3, rpmDiffTime+3840);
-		setTimeout(green, rpmDiffTime+4340);
-		function stage1 (){
-			delay = delay - 1000; // if the player redlights, this var delays the activation of the startRace to properly set the R/T.
-			$("#stage1").toggle();
-			stage1time = Date.now();
+$( "#time_sheet" ).dialog({
+		show: {
+		  effect: "bounce",
+		  duration: 600
+		},
+		hide: {
+		  effect: "fold",
+		  duration: 600
+	  },
+		autoOpen: false,
+		width: "auto",
+		height: "auto",
+		modal: true,
+		buttons: {
+				Close: function() {
+				  $( "#time_sheet" ).dialog( "close" );
+				}
+		},
+		close: function() {
 		}
-		function stage2 (){
-			delay = delay - 1000; // if the player redlights, this var delays the activation of the startRace to properly set the R/T.
-			$("#stage2").toggle();
-		}
-		function amber1 (){
-			delay = delay - 1000; // if the player redlights, this var delays the activation of the startRace to properly set the R/T.
-			$("#amber_1").toggle();
-		}
-		function amber2 (){
-			delay = delay - 500;
-			$("#amber_2").toggle();
-		}
-		function amber3 (){
-			delay = delay - 500;
-			$("#amber_3").toggle();
-		}
-		function green (){
-			delay = delay - 500;
-			$("#green").toggle();
-			greenLightOnTime=Date.now(); // Set the time that the green light was lit, to compare player RT
-			startToFinish = greenLightOnTime-createdTime;
-
-		}
-});
-
-$("body").on("click", "#launchRaceButton", function() {
-		// Check to see if play red lit
-		playerLaunchedTime=Date.now();
-		$(this).fadeOut(300);
-
-		if( playerLaunchedTime < exptectedGreenTime){
-			$("#red").fadeIn(300);
-		}
-		// Set the players RT
-		var playersRT = playerLaunchedTime - exptectedGreenTime;
-
-		startRace(playersRT, launchRPM);
-
-	return true;
-});
-
-
+	});
 /**
  * @return
  * Set the engineOn var to on and animate the needle.
  */
-function startRaceAnimation(et, trap){
+function startRaceAnimation(et, trap, race_id){
+	var launchRPM = 4000;
 	//Bring the light container in
 	$( "#startLights" ).fadeIn(0);
+	startEng();
+	setTimeout( function(){
+		holdRPMActive = false;
+		rotateTach(launchRPM, 600, "startRaceAnimation");
+	}, 3000 );
+	setTimeout( function(){
+		needleActive = true;
+		holdRPMActive = true;
+		holdRPM(launchRPM);
+	}, 3600 );
+	$( "#gasPedal" ).fadeIn(600);
 	$( "#ui_menu_container" ).fadeOut(600);
+	$( "#nav_container" ).fadeOut(600);
 
-	$( "#light1, #light2, #light3" ).delay(1200).fadeIn(300 );
-	$( "#light1, #light2, #light3" ).fadeOut( 1000 );
+	$( "#light1, #light2, #light3" ).delay(1400).fadeIn(300 );
+	$( "#light1, #light2, #light3" ).fadeOut( 600 );
 	$( "#light1, #light2, #light3" ).fadeIn( 300 );
-	$( "#light1, #light2, #light3" ).fadeOut( 1000 );
+	$( "#light1, #light2, #light3" ).fadeOut( 600 );
 	$( "#light1, #light2, #light3" ).fadeIn( 300 );
-	$( "#light1, #light2, #light3" ).fadeOut( 1000, function(){
-		startTree();
+	$( "#light1, #light2" ).delay(300).fadeOut( 300 );
+	$( "#light3" ).delay(300).fadeOut( 300, function(){
+		var max = 3500; min = 600;
+		var randomWaitTime = Math.random() * (max - min) + min;
+
+		setTimeout( function(){
+			startTree(et, trap, race_id, Date.now());
+		}, randomWaitTime);
 	});
 
 
 
-
-	function startTree(){
+	var redLight = false;
+	function startTree(et, trap, race_id, tree_initiated_time){
 		$( "#light1" ).fadeIn( 100 );
 		$( "#light2" ).delay(400).fadeIn( 100 );
-		$( "#light3" ).delay(900).fadeIn( 100, function(){
-			$( "#light1, #light2, #light3").delay(1500).css("background-color", "#009933");
+		$( "#light3" ).delay(900).fadeIn( 100 );
+
+		$( "body" ).on("click", "#gasPedal", function(){
+			if( race_started === false ){
+				race_started = true;
+				var playerRT = ( Date.now() - tree_initiated_time ) - 1500;
+
+				if(playerRT < 0){
+					redLight = true;
+				}
+
+				startRace(playerRT, race_id, launchRPM, et, trap);
+
+				$( this ).fadeOut(600, function(){
+					$( "#startLights" ).css("margin-left", "696px");
+				});
+			} else return false;
 		});
+
+		// Set the light to green or red
+		setTimeout(function(){
+			if( !redLight ){
+				$( "#light1, #light2, #light3").css("background-color", "#009933");
+			}else if( redLight ){
+				$( "#light1, #light2, #light3").css("background-color", "red");
+			}
+		}, 1500);
 
 		return true;
 	}
@@ -178,20 +131,20 @@ function startEng(){
 	// Start Needle Animations
 		setTimeout( function(){
 			needleActive = true;
-			rotateTach(2200, 400);
+			rotateTach(2200, 400, "startEng");
 		}, 600 );
 		setTimeout( function(){
 			needleActive = true;
-			rotateTach(2000, 200);
+			rotateTach(2000, 200, "startEng");
 		}, 1000 );
 		setTimeout( function(){
 			needleActive = true;
-			rotateTach(800, 2000);
+			rotateTach(800, 1250, "startEng");
 		}, 1250 );
 		setTimeout( function(){
 			holdRPMActive = true;
 			holdRPM(800);
-		}, 4750 );
+		}, 2500 );
 	return true;
 }
 
@@ -201,87 +154,108 @@ function startEng(){
  * @return bool
  * Animate the holding position of the tach needle
  */
-function startRace(playerRT, launchRPM){
-	// Find the RPM to drop the needle to on launch
-	dropRPM = launchRPM * .5; if (dropRPM <= 750) dropRPM = 800;
+function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
+	race_started = true;
 
-	// Find the duration of the race in miliseconds
-	estimateET   = ($("#estimateET").val() * 1000) - 400;
+	$.post(site_root+'app/ajax-controllers/raceAjax.php', {
+		action: "recordRace",
+		player_rt: playerRT,
+		race_id: race_id
+	}, function (data) {
+		if( data['error'] === true ){
+			dialogError("time_sheet", data['e_msg'], "Fail");
 
-	// Find the mph
-	estimateMPH   = $("#estimateMPH").val();
+			return false;
+		} else if ( data['error'] === false ){
+			dialogError("time_sheet", "There were no broken parts, you did not wreck the car, and the cops did not bust you.", "Pass");
+				// Start filling out the time sheet.
+				$( "#ll_driver").html();
+				$( "#rl_driver").html();
+			return true;
+		}
+	});
 
-	// Set the length of the individual gear animations
-	firstLength  = Math.round(Number(estimateET * 0.23)); // first gear is 23% of the race
-	secondLength = Math.round(Number(estimateET * 0.35));
-	thirdLength  = Math.round(Number(estimateET * 0.42));
-	time1        = 200 + firstLength;
-	time2        = 200 + firstLength + 200;
-	time3        = 200 + firstLength + 200 + secondLength;
-	time4        = 200 + firstLength + 200 + secondLength + 200;
-	time5        = 200 + firstLength + 200 + secondLength + 200 + thirdLength;
-	time6        = 200 + firstLength + 200 + secondLength + 200 + thirdLength + 2500;
+		// Find the RPM to drop the needle to on launch
+		dropRPM = launchRPM * .5; if (dropRPM <= 750) dropRPM = 800;
 
-	// Start the race animation sequence
+			// Find the duration of the race in miliseconds
+			estimateET   = (estimateET * 1000) - 400;
 
-	// Rotate the Speedo
-	rotateSpeedo(estimateMPH, estimateET);
 
-	// Turn the idle of, if its on (holdRPMActive = false), and set the needleActive to on(true), and rotate the tach.
-	holdRPMActive = false; needleActive = true;
-	rotateTach(dropRPM, 200);
+			// Set the length of the individual gear animations
+			firstLength  = Math.round(Number(estimateET * 0.23)); // first gear is 23% of the race
+			secondLength = Math.round(Number(estimateET * 0.35));
+			thirdLength  = Math.round(Number(estimateET * 0.42));
+			time1        = 200 + firstLength;
+			time2        = 200 + firstLength + 200;
+			time3        = 200 + firstLength + 200 + secondLength;
+			time4        = 200 + firstLength + 200 + secondLength + 200;
+			time5        = 200 + firstLength + 200 + secondLength + 200 + thirdLength;
+			time6        = 200 + firstLength + 200 + secondLength + 200 + thirdLength + 2500;
 
-	// First gear - T=200
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(7600, firstLength);
+			// Start the race animation sequence
 
-		// Activaet the TCS Light
-		tcsLight(true);
-		celLight(true);
+			// Rotate the Speedo
+			rotateSpeedo(estimateMPH, estimateET);
 
-	}, 200 );
+			// Turn the idle of, if its on (holdRPMActive = false), and set the needleActive to on(true), and rotate the tach.
+			holdRPMActive = false; needleActive = true;
+			rotateTach(dropRPM, 200, "startRace");
 
-	// Second gear shift - T=200+firstLength
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(4500, 200);
-		$("#gearNumber").text(2);
-	}, time1 );
+			// First gear - T=200
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(7600, firstLength, "startRace");
 
-	// Second gear - T=200+firstLength+200
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(7500, secondLength);
-	}, time2 );
+				// Activaet the TCS Light
+				tcsLight(true);
+				celLight(true);
 
-	// Third gear shift - T =200+firstLength+200+secondLength
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(4800, 200);
-		$("#gearNumber").text(3);
-		tcsLight();
-	}, time3 );
+			}, 200 );
 
-	// Third Gear - T =200+firstLength+200+secondLength+200
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(7300, thirdLength);
-	}, time4 );
+			// Second gear shift - T=200+firstLength
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(4500, 200, "startRace");
+				$("#gearNumber").text(2);
+			}, time1 );
 
-	// Slow Down - T =200+firstLength+200+secondLength+200+thirdLength
-	setTimeout( function(){
-		needleActive = true;
-		rotateTach(800, 2500);
-		rotateSpeedo(0, 2500);
-	}, time5 );
+			// Second gear - T=200+firstLength+200
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(7500, secondLength, "startRace");
+			}, time2 );
 
-	// Start Idle - T =200+firstLength+200+secondLength+200+thirdLength+2500
-	setTimeout( function(){
-		holdRPMActive = true;
-		holdRPM(800);
-		$("#gearNumber").text('N');
-	}, time6 );
+			// Third gear shift - T =200+firstLength+200+secondLength
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(4800, 200, "startRace");
+				$("#gearNumber").text(3);
+				tcsLight();
+			}, time3 );
+
+			// Third Gear - T =200+firstLength+200+secondLength+200
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(7300, thirdLength, "startRace");
+			}, time4 );
+
+			// Slow Down - T =200+firstLength+200+secondLength+200+thirdLength
+			setTimeout( function(){
+				needleActive = true;
+				rotateTach(800, 2500, "startRace");
+				rotateSpeedo(0, 2500);
+				$("#nav_container").delay(600).fadeIn(600);
+				$("#time_sheet").delay(1500).dialog( "open" );
+				$("#start_lights_container").delay(600).fadeOut(600);
+			}, time5 );
+
+			// Start Idle - T =200+firstLength+200+secondLength+200+thirdLength+2500
+			setTimeout( function(){
+				holdRPMActive = true;
+				holdRPM(800);
+				$("#gearNumber").text('N');
+			}, time6 );
 }
 
 /**
@@ -333,11 +307,11 @@ function holdRPM(rpm){
 
 			if( bounceActive ){
 				// Make the call to move the RPM needle to the var bounceRPM
-				rotateTach(bounceRPM, 95);
+				rotateTach(bounceRPM, 95, "holdRPM");
 				bounceActive = false;
 			} else {
 				// Make the call to move the RPM needle to the var rpm
-				rotateTach(rpm, 95);
+				rotateTach(rpm, 95, "holdRPM");
 				bounceActive = true;
 			}
 
@@ -427,8 +401,7 @@ function lights(mode){
  * @return bool
  * Rotates that tach needle to the desired rpm, over the desired duration.
  */
-function rotateTach(rpm, duration){
-
+function rotateTach(rpm, duration, id){
 		// Set the start angle of the animation
 		startAng = $("#tach_needle_img").getRotateAngle();
 

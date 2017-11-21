@@ -47,36 +47,47 @@ class Race
 		return $results;
 	}
 
-	// $player_1 && $player_2 = array("player1_id"=>$user_info['id'], "player1_car"=>$['cars_id'], "player1_results"=>$race_results_array
-	public function recordRace($player_1, $player_2)
+	// $player_info = array("player_num" => $player, "current_car" => $current_car, "race_results" => $race_results);
+	public function recordRace($player, $race_id)
 	{
+		$pnum = $player['player_num'];
+
+		print_r($player);
+
 		// Build Query to Delete User
-        $query = "INSERT INTO race (race_driver_one, race_driver_two, race_d1_car, race_d2_car, race_d1_rt, race_d2_rt, race_d1_sixty, race_d2_sixty, race_d1_eighth, race_d2_eighth, race_d1_et, race_d2_et, race_d1_trap, race_d2_trap)
-				  VALUES (:race_driver_one, :race_driver_two, :race_d1_car, :race_d2_car, :race_d1_rt, :race_d2_rt, :race_d1_sixty, :race_d2_sixty, :race_d1_eighth, :race_d2_eighth, :race_d1_et, :race_d2_et, :race_d1_trap, :race_d2_trap)"; //TODO make this function work
+		$race_d_car    = "race_d".$pnum."_car";		$race_d_rt = "race_d".$pnum."_rt"; $race_d_sixty = "race_d".$pnum."_sixty";
+		$race_d_eighth = "race_d".$pnum."_eighth";	$race_d_et = "race_d".$pnum."_et"; $race_d_trap	 = "race_d".$pnum."_trap";
+
+		$query = "UPDATE race SET
+		`:race_d_car`		= `:race_d_car_var`,	`:race_d_rt` = `:race_d_rt_var`, `:race_d_sixty` = `:race_d_sixty_var`,
+		`:race_d_eighth`	= `:race_d_eighth_var`,	`:race_d_et` = `:race_d_et_var`, `:race_d_trap` = `:race_d_trap_var`
+		WHERE race_id = `:race_id_val` LIMIT 1";
+		print("<br />".$query."<br/ >");
         // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Bind Parameters
-        $stmt->bindParam(':race_driver_one', $player_1['player1_id'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_driver_two', $player_2['player2_id'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_car', $player_1['player1_car'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_car', $player_2['player2_car'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_rt', $player_1['player1_results']['rtvrt'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_rt', $player_2['player2_results']['rtvrt'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_sixty', $player_1['player1_results']['sixty'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_sixty', $player_2['player2_results']['sixty'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_eighth', $player_1['player1_results']['eighth'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_eighth', $player_2['player2_results']['eighth'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_et', $player_1['player1_results']['et'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_et', $player_2['player2_results']['et'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d1_trap', $player_1['player1_results']['trap'], PDO::PARAM_INT);
-        $stmt->bindParam(':race_d2_trap', $player_2['player2_results']['trap'], PDO::PARAM_INT);
-        // Execute Query
-        if ($stmt->execute()) return true;
+        $stmt->bindParam(':race_d_car', 	$race_d_car, 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_rt',		$race_d_rt, 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_sixty', 	$race_d_sixty, 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_eighth', 	$race_d_eighth,	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_et', 		$race_d_et, 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_trap', 	$race_d_trap, 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_car_var',		$player['current_car']['cars_id'],	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_rt_var',		$player['race_results']['rt'], 		PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_sixty_var', 	$player['race_results']['sixty'], 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_eighth_var', 	$player['race_results']['eighth'], 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_et_var', 		$player['race_results']['et'], 		PDO::PARAM_INT);
+        $stmt->bindParam(':race_d_trap_var', 	$player['race_results']['trap'], 	PDO::PARAM_INT);
+        $stmt->bindParam(':race_id_val', $race_id, PDO::PARAM_INT);
+
+		// Execute Query
+        if ($stmt->execute()){ print($stmt); return true; }
         // Error
         else return false;
 	}
 
-	function createNewRace($creator_id, $recipient_id, $racer_type, $creator_car_id, $race_amount, $forPinks, $race_type){
+	public function createNewRace($creator_id, $recipient_id, $racer_type, $creator_car_id, $race_amount, $forPinks, $race_type)
+	{
 
 		if( $forPinks ){
 			$race_amount2 = $race_amount.":||:Pinks";
@@ -112,11 +123,29 @@ class Race
 				$stmt2->bindParam(':for_pinks', $forPinks, PDO::PARAM_INT);
 				$stmt2->bindParam(':race_type', $race_type, PDO::PARAM_INT);
 				// Execute Query
-				if ($stmt2->execute()) return true;
+				if ($stmt2->execute()) return $last_id;
 				// Error
 				else return false;
 		}
 		// Error
 		else return false;
+	}
+
+	public function fetchRaceID($race_id){
+        // Build Query to fetch race information
+        $query = "SELECT * FROM race WHERE race_id = :race_id LIMIT 1";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Bind Parameters
+        $stmt->bindParam(':race_id', $race_id, PDO::PARAM_INT);
+        // Execute Query
+        if (!$stmt->execute()) return $stmt->errorInfo();
+        // Fetch race information
+        $raceinfo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Check if race exists
+        if (!$raceinfo['race_id']) return false;
+        // Return race Information
+        else return $raceinfo;
 	}
 }
