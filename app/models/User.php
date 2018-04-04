@@ -76,7 +76,7 @@ class User
     public function fetchComputers()
     {
         // Build Query to Fetch Users
-        $query = "SELECT * FROM users WHERE id >= 21 ORDER BY id ASC";
+        $query = "SELECT * FROM users WHERE id >= 21 AND id <= 70 ORDER BY id ASC";
         // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Execute Query
@@ -209,6 +209,26 @@ class User
         // Prepare Query
         $stmt = $this->conn->prepare($query);
         // Bind Parameters
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        // Execute Query
+        if ($stmt->execute()) return true;
+        // Error
+        else return false;
+    }
+
+    /**
+     * @param $user_id, $rpm
+     * @return bool
+     * Update launch rpm.
+     */
+    public function updateLaunch($user_id, $rpm)
+    {
+        // Build Query to Delete User
+        $query = "UPDATE users SET user_launch_rpm=:rpm WHERE id=:user_id";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Bind Parameters
+        $stmt->bindParam(':rpm', $rpm, PDO::PARAM_INT);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         // Execute Query
         if ($stmt->execute()) return true;

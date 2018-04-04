@@ -29,6 +29,9 @@ $user = new User($conn);
 // Instantiate Car Class
 $car = new Car($conn);
 
+// Instantiate Car Class
+$tools = new Tools($conn);
+
 // Check if user is logged in
 if (isset($_SESSION["user_id"])) {
     // Fetch User Information
@@ -41,6 +44,14 @@ if (isset($_SESSION["user_id"])) {
         // Exit Application
         exit();
     }
+
+	// Money Donation
+	if( $user_info['user_cash'] < 150 ){
+		// Instantiate Money Functions
+		$money = new Money($conn);
+
+		$donation = $money->add($user_info['id'], $user_info['user_cash'], 150, $page);
+	}
 } else { //if they dont have a session started, relocate them to the index.php page;
     if ($page != "index.php" && $page != "login.php" && $page != "register.php" && $page != "registerAjax.php") { //checks to see if they are already on index.php;
         // Relocate User

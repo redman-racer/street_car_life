@@ -131,6 +131,37 @@ class Car
 		return $currentDrivingCar;
 	}
 
+	// Fetchs the current car that the player is driving
+	public function changeCarOwner($car_id, $new_owner)
+	{
+		// Build Query to update cars that user is driving
+		$query = "UPDATE `cars` SET `cars_owner` = :new_owner WHERE `cars_id`=:car_id";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':new_owner', $new_owner, PDO::PARAM_INT);
+		$stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+			// Build Query to update cars that user is driving
+			$query2 = "UPDATE `part` SET `part_owner_id` = :new_owner WHERE `part_car_id`=:car_id";
+			// Prepare Query
+			$stmt2 = $this->conn->prepare($query2);
+			// Bind Parameters
+			$stmt2->bindParam(':new_owner', $new_owner, PDO::PARAM_INT);
+			$stmt2->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+			// Execute Query
+			if (!$stmt2->execute()) {
+				return false;
+			}
+
+		$changeCarOwner = true;
+		// Return true to verify it updated
+		return $changeCarOwner;
+	}
+
 	// Get the car stats for cars_id
 	public function fetchCarStats($car_id, $user_id)
 	{
@@ -152,8 +183,8 @@ class Car
 
 		foreach ($carParts as &$part) {
 			if( $part['part_installed'] ){
-				$partHP = round($part['part_hp'] * $carStats['cars_eng_liter']);
-				$partTQ = round($part['part_tq'] * $carStats['cars_eng_liter']);
+				$partHP = round($part['part_hp'] * ($carStats['cars_eng_liter']/1.5));
+				$partTQ = round($part['part_tq'] * ($carStats['cars_eng_liter']/1.5));
 
 				$carStats['cars_hp'] += $partHP;
 				$carStats['cars_tq'] += $partTQ;
@@ -252,6 +283,20 @@ class Car
 		// Bind Parameters
 		$stmt->bindParam(':pinks_status', $pinks_status, PDO::PARAM_INT);
 		$stmt->bindParam(':car_id', $car_id, PDO::PARAM_INT);
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if ($stmt->execute()) return true;
+		// Error
+		else return false;
+	}
+
+	public function removePart($part_id, $user_id){
+		// Build Query to Delete User
+		$query = "UPDATE part SET part_car_id = 0 WHERE part_id = :part_id AND part_owner_id = :user_id";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':part_id', $part_id, PDO::PARAM_INT);
 		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 		// Execute Query
 		if ($stmt->execute()) return true;

@@ -106,11 +106,69 @@ function getCookie(cname) {
 }
 
 function setContentContainerHeight(){
-	console.log("content function");
+
 	var nav_height = $( "#nav_container" ).height();
 	var cd_height  = $( "#cd_container").height();
 	var gc_height  = $( "#generic_container").height();
 
 	$( "#cd_container").height(cd_height - nav_height);
 	$( "#generic_container").height(gc_height - nav_height);
+}
+
+function userIDtUsername( user_id, div_id ){
+
+	$.post(site_root+'app/ajax-controllers/userBarAjax.php', {
+		action: "idToName",
+		user_id: user_id
+	}, function (data) {
+		if( data['error'] === true ){
+
+			return false;
+		} else if ( data['error'] === false ){
+			var username = data['user_info']['username'];
+				$( "#" + div_id ).html(username);
+			return username;
+		}
+	});
+}
+
+
+function getCurrentCarStats(){
+	$.post(site_root+'app/ajax-controllers/userBarAjax.php', {
+		action: "getCurrentCarStat"
+	}, function (data) {
+		if( data['error'] === true ){
+
+			return false;
+		} else if ( data['error'] === false ){
+			var current_car = data['current_car'];
+			return current_car;
+		}
+	});
+}
+
+var car_model = false;
+function carIDToModel(car_id, div_id){
+	$.post(site_root+'app/ajax-controllers/userBarAjax.php', {
+		action: "carIDToModel",
+		car_id: car_id
+	}, function (data) {
+		if( data['error'] === true ){
+			car_model = "";
+			return false;
+		} else if ( data['error'] === false ){
+			var car_model = data['current_car'];
+
+			if( !car_model ){
+				car_model = "";
+			}
+				$( "#" + div_id ).html(car_model);
+			return car_model;
+		}
+	});
+
+	if( !car_model ){
+		car_model = "none";
+	}
+	return car_model;
 }

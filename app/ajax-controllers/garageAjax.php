@@ -61,3 +61,16 @@ if ($_POST['action'] == "changeCar") {
 		echo json_encode(array("error" => false, "changedCar" => true));
 	}
 }
+
+// Remove a part
+if ($_POST['action'] == "removePart") {
+	//Update the car that is being driven
+	$removePart = $car->removePart($_POST['part_id'], $user_info['id']);
+
+	if (!$removePart) {
+		echo json_encode(array("error" => "There was an unexpected error removing the part."));
+	} else {
+		// Build Array
+		echo json_encode(array("error" => false, "removedPart" => true));
+	}
+}

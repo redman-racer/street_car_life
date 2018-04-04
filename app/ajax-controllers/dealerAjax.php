@@ -1,7 +1,7 @@
 <?php
 // Include Globals
 require '../config/globals.php';
-// Define Header
+// Define header
 header("Content-Type: application/json; charset=utf-8");
 
 
@@ -60,16 +60,23 @@ if ($_POST['action'] == "buyNow") {
 		echo json_encode(array("error" => "The user does not have enough cash"));
 		return false;
 	}else{
-		$money->subtract($user_info['id'], $user_info['user_cash'], $car->fetchCarTemplate($_POST['buyID'])['ct_msrp'], $page);
+		// Sendthe information to the buyCar Function
+		$bought = $car->buyCar($_POST['buyID'], $user_info['id']);
+
+
+		if (!$bought){
+			echo json_encode(array("error" => true, "site_root" => $SITE_ROOT));
+		}elseif ($bought){
+			if ( !$money->subtract($user_info['id'], $user_info['user_cash'], $car->fetchCarTemplate($_POST['buyID'])['ct_msrp'], $page) ){
+				echo json_encode(array("error" => true, "site_root" => $SITE_ROOT));
+			}else{
+
+				echo json_encode(array("error" => false, "site_root" => $SITE_ROOT));
+			}
+		}
+
 	}
 
-	// Sendthe information to the buyCar Function
-	$bought = $car->buyCar($_POST['buyID'], $user_info['id']);
 
 
-	if (!$bought){
-		echo json_encode(array("error" => true, "site_root" => $SITE_ROOT));
-	}elseif ($bought){
-			echo json_encode(array("error" => false, "site_root" => $SITE_ROOT));
-		}
 }

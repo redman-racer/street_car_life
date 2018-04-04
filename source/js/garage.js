@@ -66,7 +66,6 @@
 			});
 		}
 
-
 		// Function to fetch individual car data
 		function fetchCar(car_id){
 			var parts_list = '';
@@ -87,14 +86,16 @@
 
 
 						parts_list = parts_list +
-									'<div id="' + car_part['part_id'] + '">'+
-										'<div id="part_id" style="font-size: .5em; color: #fff; padding-right: .5em; width: 16.6%; float: left;">ID: ' + car_part['part_id'] + '  |</div>'+
-										'<div id="part_sub_type" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">' + car_part['part_sub_type'] + '</div>'+
-						 				'<div id="part_hp" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">HP: ' + part_hp + '</div>'+
-						 				'<div id="part_tq" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">TQ: ' + car_part['part_tq'] + '</div>'+
-						 				'<div id="part_weight" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">Weight: ' + car_part['part_weight'] + '</div>'+
-						 				'<div id="part_damage" style="color: #fff; padding-right: 1em; width: 16.6%; float: left;"">Damage: ' + car_part['part_damage'] + '%</div>'+
-									'</div><br />';
+									'<table id="' + car_part['part_id'] + '" style="width: 100%; text-align: center;">'+
+										'<tr>'+
+											'<td id="part_id" style="font-size: .5em; color: #fff; padding-right: .5em; width: 7%;">ID: ' + car_part['part_id'] + ' <br ?><h2 class="remove_part" data-id="' + car_part['part_id'] + '" data-car_id="' + car_part['part_car_id'] + '" style="cursor: pointer;">REMOVE</h2> </td>'+
+											'<td id="part_sub_type" style="color: #fff; padding-right: 1em; width: 25%;"><h3>' + car_part['part_sub_type'] + '</h3></td>'+
+							 				'<td id="part_hp" style="color: #fff; padding-right: 1em; width: 16%;">HP: ' + part_hp + '</td>'+
+							 				'<td id="part_tq" style="color: #fff; padding-right: 1em; width: 16%;">TQ: ' + car_part['part_tq'] + '</td>'+
+							 				'<td id="part_weight" style="color: #fff; padding-right: 1em; width: 16%;">Weight: ' + car_part['part_weight'] + '</td>'+
+							 				'<td id="part_damage" style="color: #fff; padding-right: 1em; width: 16%;">Damage: ' + car_part['part_damage'] + '%</td>'+
+										'</tr>'+
+									'</table><br />';
 
 					});
 
@@ -128,6 +129,7 @@
 					$("#tq").html(data['car']['cars_tq']);
 					$("#weight").html(data['car']['cars_weight']);
 					$("#traction").html(data['car']['cars_traction']);
+					$("#reliability").html(data['car']['cars_reliability']);
 					$("#handling").html(car_handling);
 					$("#braking").html(car_braking);
 					$("#parts_list").html(parts_list);
@@ -161,6 +163,19 @@
 			$( "#cs_container" ).css( 'padding-top', navi_height );
 		}
 
+		function removePart(part_id, car_id){
+			// POST to fetch car
+			$.post('app/ajax-controllers/garageAjax.php', {
+					action: "removePart",
+					part_id: part_id
+				}, function (data) {
+						// Check for errors
+						if (checkErrors(data)) return false;
+
+						if (data['removedPart']){ alert("The part has been removed."); fetchCar(car_id)}
+						else alert("Error");
+			});
+		}
 
 		//Loads the selected cars stats when the car is selected
 		$("body").on("click", "#user_car", function (e) {
@@ -200,6 +215,9 @@
 			});
 		});
 
+		$("body").on("click", ".remove_part", function (e) {
+			removePart($( this ).data("id"), $( this ).data("car_id"));
+		})
 
 		// Function to check for errors
 		function checkErrors(data) {

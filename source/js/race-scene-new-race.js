@@ -7,7 +7,6 @@ $( "#new_race_tabs_container" ).tabs({
   disabled: [ 1, 2 ]
 });
 
-
 $(function() {
 
 	$.get( site_root+"app/ajax-controllers/raceUsersAjax.php?action=findComputers", function( data ) {
@@ -138,7 +137,7 @@ $( "#new_race_dialog" ).dialog({
 	  },
 	  hide: {
 		effect: "fold",
-		duration: 400
+		duration: 200
 	},
 	  buttons: {
 				"Start_Race": {
@@ -170,17 +169,20 @@ $( "#new_race_dialog" ).dialog({
 		$( "#new_race_error" ).fadeOut(0);
 		$( "#racerSearch" ).fadeOut(0);
 		$( "#computerSearch" ).fadeOut(0);
+		$("#race_amount").val();
+		$( "#race_computer_id" ).val(false)
 	  }
 	});
 
 
 //TODO Fix the radio button so that it sends the
 function createRace(){
+	dialogError("new_race", "Loading...", "Pass");
 	var betAmount 	 = $("#race_amount").val();
-	var raceForPinks = $("#pinks").val();
+	var raceForPinks = $(".pinks:checked").val();
 	var typeOfRace	 = $(".new_race_type:checked").val();
 	var race_who	 = $(".new_race_who:checked").val();
-
+	var newRaceError = true;
 	    if( race_who == "computer" ){
 			var racerID = $( "#race_computer_id option:selected" ).val();
 
@@ -188,21 +190,22 @@ function createRace(){
 	    }
 	    if( race_who == "player" ){
 			var racerID = $( "#race_who_id" ).val();
-			if( !racerID){
-				dialogError("new_race", "You have to select a competitor first.", "Fail");
-				return false;
-			}
 		}
 	    if( race_who == "test" ){
 			var racerID = "test_race";
 	    }
+
+		if( !racerID){
+			dialogError("new_race", "You have to select a competitor first.", "Fail");
+			return false;
+		}
 
 	if( !typeOfRace || !race_who || !betAmount){
 		dialogError("new_race", "You did not fill out one of the steps, please try again.", "Fail");
 		return false;
 	}
 
-	//TODO Create the raceAjax response.
+
 	$.post(site_root+'app/ajax-controllers/raceAjax.php', {
 		action: "createNewRace",
 		race_type: typeOfRace,
@@ -211,6 +214,7 @@ function createRace(){
 		race_amount: betAmount,
 		race_pinks: raceForPinks
 	}, function (data) {
+		newRaceError = false;
 		if( data['error'] === true ){
 			dialogError("new_race", data['e_msg'], "Fail");
 
@@ -219,7 +223,8 @@ function createRace(){
 			dialogError("new_race", "The race was created", "Pass");
 
 			//Start race Animation function is located in race-scene-races.js
-			startRaceAnimation(data['race_stats']['et'], data['race_stats']['trap'], data['race_stats']['race_id']);
+			race_id =  data['race_stats']['race_id']; estimateET = data['race_stats']['et']; estimateMPH = data['race_stats']['trap']; // Set race data
+			startRaceAnimation();
 
 			setTimeout( function(){
 				$( "#new_race_dialog" ).dialog( "close" );
@@ -228,7 +233,8 @@ function createRace(){
 		}
 	});
 
-	dialogError("new_race", "There was an un-known error creating the race, please try again.", "Fail");
+	if( newRaceError) dialogError("new_race", "There was an un-known error creating the race, please try again.", "Fail");
+
 	return false;
 }
 

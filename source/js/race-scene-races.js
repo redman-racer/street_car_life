@@ -1,6 +1,5 @@
-
-var race_started = false; var lightsOn = false; var engOn = false; var holdRPMActive = true; var needleActive = false; var greenLightOnTime = Date.now() * 1000; var exptectedGreenTime;
-
+var race_started = false; var lightsOn = false; var engOn = false; var holdRPMActive = true; var needleActive = false;
+var race_id; var tree_initiated_time; var redLight; var et; var trap; var estimateET; var estimateMPH;
 $('document').ready(function () {
 
 		rotateTach(0, 10);
@@ -12,11 +11,11 @@ $('document').ready(function () {
 $( "#time_sheet" ).dialog({
 		show: {
 		  effect: "bounce",
-		  duration: 600
+		  duration: 400
 		},
 		hide: {
 		  effect: "fold",
-		  duration: 600
+		  duration: 200
 	  },
 		autoOpen: false,
 		width: "auto",
@@ -28,14 +27,31 @@ $( "#time_sheet" ).dialog({
 				}
 		},
 		close: function() {
+			$( "#race_number" ).html("");
+			$( "#ll_rt").html("");
+			$( "#rl_rt").html("");
+			$( "#ll_sixty").html("");
+			$( "#rl_sixty").html("");
+			$( "#ll_eighth").html("");
+			$( "#rl_eighth").html("");
+			$( "#ll_quarter").html("");
+			$( "#rl_quarter").html("");
+			$( "#ll_mph").html("");
+			$( "#rl_mph").html("");
+			$( "#ll_winner_margin").html("");
+			$( "#rl_winner_margin").html("");
+			$( "#ll_winner").html("");
+			$( "#rl_winner").html("");
 		}
 	});
 /**
  * @return
  * Set the engineOn var to on and animate the needle.
  */
-function startRaceAnimation(et, trap, race_id){
-	var launchRPM = 4000;
+function startRaceAnimation(){
+	var launchRPM = $( "#launch_rpm" ).val();
+		if(launchRPM > 6500) launchRPM = 6500;
+		if(launchRPM < 800) launchRPM = 800;
 	//Bring the light container in
 	$( "#startLights" ).fadeIn(0);
 	startEng();
@@ -48,9 +64,10 @@ function startRaceAnimation(et, trap, race_id){
 		holdRPMActive = true;
 		holdRPM(launchRPM);
 	}, 3600 );
-	$( "#gasPedal" ).fadeIn(600);
-	$( "#ui_menu_container" ).fadeOut(600);
-	$( "#nav_container" ).fadeOut(600);
+	$( "#startLights" ).css("margin-left", "130px");
+	$( "#gasPedal, #start_lights_container, #gasPedal" ).fadeIn(600);
+	$( "#ui_menu_container, #nav_container" ).fadeOut(600);
+	$( "#light1, #light2, #light3").css("background-color", "#ffff00");
 
 	$( "#light1, #light2, #light3" ).delay(1400).fadeIn(300 );
 	$( "#light1, #light2, #light3" ).fadeOut( 600 );
@@ -63,48 +80,47 @@ function startRaceAnimation(et, trap, race_id){
 		var randomWaitTime = Math.random() * (max - min) + min;
 
 		setTimeout( function(){
-			startTree(et, trap, race_id, Date.now());
+			startTree();
+			tree_initiated_time = Date.now();
 		}, randomWaitTime);
 	});
+	return true;
+}
 
+$( "body" ).on("click", "#gasPedal", function(){
+		playerRT = ( Date.now() - tree_initiated_time ) - 1500;
 
+		if(playerRT < 0){
+			redLight = true;
+		}else redLight = false;
+		startRace(playerRT, launchRPM);
 
-	var redLight = false;
-	function startTree(et, trap, race_id, tree_initiated_time){
-		$( "#light1" ).fadeIn( 100 );
-		$( "#light2" ).delay(400).fadeIn( 100 );
-		$( "#light3" ).delay(900).fadeIn( 100 );
-
-		$( "body" ).on("click", "#gasPedal", function(){
-			if( race_started === false ){
-				race_started = true;
-				var playerRT = ( Date.now() - tree_initiated_time ) - 1500;
-
-				if(playerRT < 0){
-					redLight = true;
-				}
-
-				startRace(playerRT, race_id, launchRPM, et, trap);
-
-				$( this ).fadeOut(600, function(){
-					$( "#startLights" ).css("margin-left", "696px");
-				});
-			} else return false;
+		$( this ).fadeOut(600, function(){
+			$( "#startLights" ).css("margin-left", "696px");
 		});
 
-		// Set the light to green or red
-		setTimeout(function(){
-			if( !redLight ){
-				$( "#light1, #light2, #light3").css("background-color", "#009933");
-			}else if( redLight ){
-				$( "#light1, #light2, #light3").css("background-color", "red");
-			}
-		}, 1500);
-
 		return true;
-	}
+});
 
+
+function startTree(){
+	launchRPM = 4000;
+	$( "#light1" ).fadeIn( 100 );
+	$( "#light2" ).delay(400).fadeIn( 100 );
+	$( "#light3" ).delay(900).fadeIn( 100 );
+
+	// Set the light to green or red
+	setTimeout(function(){
+		if( !redLight ){
+			$( "#light1, #light2, #light3").css("background-color", "#009933");
+		}else if( redLight ){
+			$( "#light1, #light2, #light3").css("background-color", "red");
+		}
+	}, 1500);
+
+	return true;
 }
+
 
 /**
  * @return bool
@@ -118,8 +134,7 @@ function startEng(){
 	}
 	// Check to see if engine is on already
 	if(engOn === true){
-		alert("Your engine is already running");
-		return false;
+		return true;
 	}
 
 	// Turn engine on
@@ -154,9 +169,9 @@ function startEng(){
  * @return bool
  * Animate the holding position of the tach needle
  */
-function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
+function startRace(playerRT, launchRPM){
 	race_started = true;
-
+	playerRT = playerRT/1000;
 	$.post(site_root+'app/ajax-controllers/raceAjax.php', {
 		action: "recordRace",
 		player_rt: playerRT,
@@ -164,13 +179,54 @@ function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
 	}, function (data) {
 		if( data['error'] === true ){
 			dialogError("time_sheet", data['e_msg'], "Fail");
-
 			return false;
 		} else if ( data['error'] === false ){
-			dialogError("time_sheet", "There were no broken parts, you did not wreck the car, and the cops did not bust you.", "Pass");
+			dialogError("time_sheet", "There were no broken parts, <br />you did not wreck the car, <br />and the cops did not bust you.", "Pass");
 				// Start filling out the time sheet.
-				$( "#ll_driver").html();
-				$( "#rl_driver").html();
+				if( data['spin_amount'] >= .05 ){
+					// Activaet the TCS Light
+					tcsLight(true);
+				}
+				var rt1 = data['race_stats']['race_d1_rt'];
+				var rt2 = data['race_stats']['race_d2_rt'];
+				var et1 = data['race_stats']['race_d1_et'];
+				var et2 = data['race_stats']['race_d2_et'];
+				var spinAMT = Math.round(data['spin_amount'] * 100);
+				var rtet1 = Number(rt1) + Number(et1);
+				var rtet2 = Number(rt2) + Number(et2);
+
+				var difference1  = rtet1 - rtet2;
+				var difference2  = rtet2 - rtet1;
+
+				console.log(data);
+
+				if( data['race_stats']['race_driver_one'] == data['race_stats']['race_winner'] ){
+					var winner = "ll_winner";
+				}
+				if( data['race_stats']['race_driver_two'] == data['race_stats']['race_winner'] ){
+					var winner = "rl_winner";
+				}
+				if( et2 !== null ){
+					$( "#ll_winner_margin").html(difference1.toFixed(3));
+					$( "#rl_winner_margin").html(difference2.toFixed(3));
+					$( "#" + winner).html("<h5>Winner!</h5>");
+				}
+				$( "#race_number" ).html(race_id);
+
+				userIDtUsername(data['race_stats']['race_driver_one'], "ll_driver");
+				userIDtUsername(data['race_stats']['race_driver_two'], "rl_driver");
+				$( "#ll_spin_amt").html("%"+spinAMT);
+				$( "#ll_rt").html(data['race_stats']['race_d1_rt']);
+				$( "#rl_rt").html(data['race_stats']['race_d2_rt']);
+				$( "#ll_sixty").html(data['race_stats']['race_d1_sixty']);
+				$( "#rl_sixty").html(data['race_stats']['race_d2_sixty']);
+				$( "#ll_eighth").html(data['race_stats']['race_d1_eighth']);
+				$( "#rl_eighth").html(data['race_stats']['race_d2_eighth']);
+				$( "#ll_quarter").html(data['race_stats']['race_d1_et']);
+				$( "#rl_quarter").html(data['race_stats']['race_d2_et']);
+				$( "#ll_mph").html(data['race_stats']['race_d1_trap']);
+				$( "#rl_mph").html(data['race_stats']['race_d2_trap']);
+				$( "#bet_amount" ).html("$" + data['race_stats']['race_bet_amount'])
 			return true;
 		}
 	});
@@ -206,11 +262,6 @@ function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
 			setTimeout( function(){
 				needleActive = true;
 				rotateTach(7600, firstLength, "startRace");
-
-				// Activaet the TCS Light
-				tcsLight(true);
-				celLight(true);
-
 			}, 200 );
 
 			// Second gear shift - T=200+firstLength
@@ -243,11 +294,12 @@ function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
 			// Slow Down - T =200+firstLength+200+secondLength+200+thirdLength
 			setTimeout( function(){
 				needleActive = true;
+				race_started = false;
 				rotateTach(800, 2500, "startRace");
 				rotateSpeedo(0, 2500);
-				$("#nav_container").delay(600).fadeIn(600);
+				$("#nav_container, #ui_menu_container").delay(600).fadeIn(600);
 				$("#time_sheet").delay(1500).dialog( "open" );
-				$("#start_lights_container").delay(600).fadeOut(600);
+				$("#light1, #light2, #light3, #gasPedal").delay(600).fadeOut(600);
 			}, time5 );
 
 			// Start Idle - T =200+firstLength+200+secondLength+200+thirdLength+2500
@@ -256,6 +308,8 @@ function startRace(playerRT, race_id, launchRPM, estimateET, estimateMPH){
 				holdRPM(800);
 				$("#gearNumber").text('N');
 			}, time6 );
+
+			return true;
 }
 
 /**

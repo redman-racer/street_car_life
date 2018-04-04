@@ -125,14 +125,14 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 
 			</td>
 		</tr>
-		<tr id="ts_dial_in_row" style="width: 100%;">
-			<td id="ts_dial_in" stlye="width: 33%; text-align: right;">
-				<h5 style="text-align: right;">Dial In</h5>
+		<tr id="ts_spin_amt_row" style="width: 100%; background-color: #F1F1F1;">
+			<td id="ts_spin_amt" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Spin Amount</h5>
 			</td>
-			<td id="ll_dial_in" stlye="width: 33%; text-align: center;">
+			<td id="ll_spin_amt" stlye="width: 33%; text-align: center;">
 
 			</td>
-			<td id="rl_dial_in" stlye="width: 33%; text-align: center;">
+			<td id="rl_spin_amt" stlye="width: 33%; text-align: center;">
 
 			</td>
 		</tr>
@@ -147,7 +147,7 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 
 			</td>
 		</tr>
-		<tr id="ts_sixty_row" style="width: 100%;">
+		<tr id="ts_sixty_row" style="width: 100%; background-color: #F1F1F1;">
 			<td id="ts_sixty" stlye="width: 33%; text-align: right;">
 				<h5 style="text-align: right;">60 ft time</h5>
 			</td>
@@ -169,7 +169,7 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 
 			</td>
 		</tr>
-		<tr id="ts_quarter_row" style="width: 100%;">
+		<tr id="ts_quarter_row" style="width: 100%; background-color: #F1F1F1;">
 			<td id="ts_quarter" stlye="width: 33%; text-align: right;">
 				<h5 style="text-align: right;">1/4 Mile Time</h5>
 			</td>
@@ -191,7 +191,7 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 
 			</td>
 		</tr>
-		<tr id="ts_winner_row" style="width: 100%;">
+		<tr id="ts_winner_row" style="width: 100%; background-color: #F1F1F1;">
 			<td id="ts_winner" stlye="width: 33%; text-align: right;">
 
 			</td>
@@ -213,11 +213,253 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 
 			</td>
 		</tr>
+		<tr id="ts_bet_amount_row" style="width: 100%; background-color: #F1F1F1;">
+			<td id="ts_bet_amount" stlye="width: 33%; text-align: right;">
+				<h5 style="text-align: right;">Bet Amount</h5>
+			</td>
+			<td id="bet_amount" colspan="2" stlye="width: 33%; text-align: center;">
+
+			</td>
+		</tr>
 	</table>
 </div>
 <!-- Blank Time Sheet -->
+<!-- Peding Races -->
+<div id="pending_races_dialog" title="Pending Races">
+	<div class="ui-widget" id="pending_races_error" style="display: none;">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			<strong id="pending_races_passFail"></strong><span id="pending_races_e_msg_dialog"></span></p>
+		</div>
+	</div>
 
+	<!--Pending Messages tabs-->
+	<div id="pending_races_tabs_container" style="font-size: 1em; font-align: center;">
+		<ul>
+		  <li><a href="#incoming_msg">Challenges</a></li>
+		  <li><a href="#outgoing_msg">Sent Races</a></li>
+		  <li><a href="#history_msg">Race History</a></li>
+		</ul>
+	  <table class="validateTips" id="incoming_msg" style="text-align: center; max-height: 600px; overflow: scroll;">
+		  <tr>
+			  <th style="width: 8.25%;">
+				  Race ID
+			  </th>
+			  <th style="width: 18.5%;">
+				  Your Car
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger Car
+			  </th>
+			  <th style="width: 8.25%;">
+				  Bet Amount
+			  </th>
+			  <th style="width: 18.5%;">
+				  Open Time Slip
+			  </th>
+		  </tr>
 
+	  </table>
+	  <table class="validateTips" id="outgoing_msg" style="text-align: center; max-height: 600px; overflow: scroll; display: none;">
+		  <tr>
+			  <th style="width: 8.25%;">
+				  Race ID
+			  </th>
+			  <th style="width: 18.5%;">
+				  Your Car
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger Car
+			  </th>
+			  <th style="width: 8.25%;">
+				  Bet Amount
+			  </th>
+			  <th style="width: 18.5%;">
+				  Open Time Slip
+			  </th>
+		  </tr>
+
+	  </table>
+	  <table class="validateTips" id="history_msg" style="text-align: center; max-height: 600px; overflow: scroll; display: none;">
+		  <tr>
+			  <th style="width: 8.25%;">
+				  Race ID
+			  </th>
+			  <th style="width: 18.5%;">
+				  Your Car
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger
+			  </th>
+			  <th style="width: 18.5%;">
+				  Challenger Car
+			  </th>
+			  <th style="width: 8.25%;">
+				  Bet Amount
+			  </th>
+			  <th style="width: 18.5%;">
+				  Open Time Slip
+			  </th>
+		  </tr>
+	  </table>
+  </div>
+  <!-- Peding Messages Tabs -->
+
+</div>
+<!-- Peding Races -->
+<!-- Set Launch RPM -->
+<div id="launch_rpm_dialog" title="Set Launch RPM">
+	<div class="ui-widget" id="launch_rpm_error" style="display: none;">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			<strong id="launch_rpm_passFail"></strong><span id="launch_rpm_e_msg_dialog"></span></p>
+		</div>
+	</div>
+  <p class="validateTips">Set your desired launch rpm.</p>
+
+	<form>
+		<fieldset>
+	      <input type="number" name="launch_rpm" value="<?php echo $user_info['user_launch_rpm']; ?>" id="launch_rpm" class="text ui-widget-content ui-corner-all">
+	      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+	      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+	  </fieldset>
+	</form>
+</div>
+<!-- Set Launch RPM -->
+<!-- Leaderboard -->
+<div id="leaderboard_dialog" title="Pending Races">
+	<div class="ui-widget" id="leaderboard_error" style="display: none;">
+		<div class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0 .7em;">
+			<p><span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span>
+			<strong id="leaderboard_passFail"></strong><span id="leaderboard_e_msg_dialog"></span></p>
+		</div>
+	</div>
+
+	<!--Pending Messages tabs-->
+	<div id="leaderboard_tabs_container" style="font-size: 1em; margin: 0px auto; text-align: center;">
+		<ul>
+		  <li><a href="#fastest_et">Fastest ET</a></li>
+		  <li><a href="#fastest_mph">Fastest MPH</a></li>
+		  <li><a href="#most_races_won">Most Races Won</a></li>
+		  <li><a href="#largest_bet">Largest Bet</a></li>
+		  <li><a href="#recent_races">Most Recent Races</a></li>
+		</ul>
+	  <table class="validateTips" id="fastest_et" style="text-align: center; min-width: 400px; max-height: 600px; overflow: scroll;">
+		  <tr style="border-top: 1px solid #dddfe2;">
+			  <th style="width: 5%;">
+
+			  </th>
+			  <th style="width: 20%;">
+				  Username
+			  </th>
+			  <th style="width: 15%;">
+				  Car
+			  </th>
+			  <th style="width: 20%;">
+				  Track Type
+			  </th>
+			  <th style="width: 20%;">
+				  ET
+			  </th>
+			  <th style="width: 20%;">
+				  MPH
+			  </th>
+		  </tr>
+	  </table>
+	  <table class="validateTips" id="fastest_mph" style="text-align: center; max-height: 600px; overflow: scroll;">
+		  <tr>
+			  <th style="width: 5%;">
+
+			  </th>
+			  <th style="width: 20%;">
+				  Username
+			  </th>
+			  <th style="width: 15%;">
+				  Car
+			  </th>
+			  <th style="width: 20%;">
+				  Track Type
+			  </th>
+			  <th style="width: 20%;">
+				  ET
+			  </th>
+			  <th style="width: 20%;">
+				  MPH
+			  </th>
+		  </tr>
+	  </table>
+	  <table class="validateTips" id="most_races_won" style="text-align: center; max-height: 600px; overflow: scroll; display: none;">
+		  <tr>
+			  <th style="width: 10%;">
+
+			  </th>
+			  <th style="width: 45%;">
+				  Username
+			  </th>
+			  <th style="width: 15%;">
+				  Races Won
+			  </th>
+			  <th style="width: 15%;">
+				  Races Lost
+			  </th>
+			  <th style="width: 15%;">
+				  Total Races
+			  </th>
+		  </tr>
+	  </table>
+	  <table class="validateTips" id="largest_bet" style="text-align: center; max-height: 600px; overflow: scroll; display: none;">
+		  <tr>
+			  <th style="width: 10%;">
+
+			  </th>
+			  <th style="width: 10%;">
+				  Race ID
+			  </th>
+			  <th style="width: 20%;">
+				  Winner
+			  </th>
+			  <th style="width: 20%;">
+				  Loser
+			  </th>
+			  <th style="width: 20%;">
+				  Winning ET
+			  </th>
+			  <th style="width: 20%;">
+				  Bet Amount
+			  </th>
+		  </tr>
+	  </table>
+	  <table class="validateTips" id="recent_races" style="text-align: center; max-height: 600px; overflow: scroll; display: none;">
+		  <tr>
+			  <th style="width: 20%;">
+				  Race ID
+			  </th>
+			  <th style="width: 20%;">
+				  Winner
+			  </th>
+			  <th style="width: 20%;">
+				  Winning ET
+			  </th>
+			  <th style="width: 20%;">
+				  Loser
+			  </th>
+			  <th style="width: 20%;">
+				  Losing ET
+			  </th>
+		  </tr>
+	  </table>
+  </div>
+  <!-- Peding Messages Tabs -->
+
+</div>
+<!-- Leaderboard -->
+<!-- Race Scene -->
 <div id="speedo_lights_out"
 	style="
 			-webkit-transform:scale(0.99);
@@ -484,12 +726,18 @@ if($players_car	  = $car->currentDrivenCar($user_info['id'])){
 			</div>
 		</div>
 </div>
+<!-- Race Scene -->
 </body>
 <footer>
 
 <script src="<?php echo $JS_ROOT; ?>all.js"></script>
+<script src="<?php echo $JS_ROOT; ?>pagination.js?v=<?=time();?>"></script>
 <script src="<?php echo $JS_ROOT; ?>race-scene-races.js?v=<?=time();?>"></script>
 <script src="<?php echo $JS_ROOT; ?>race-scene-new-race.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>race-scene-pending-races.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>race-scene-leaderboard.js?v=<?=time();?>"></script>
+<script src="<?php echo $JS_ROOT; ?>race-scene-launch_rpm.js?v=<?=time();?>"></script>
+
 <script>
 
 </script>

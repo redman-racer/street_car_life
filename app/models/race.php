@@ -7,7 +7,66 @@ class Race
         $this->conn = $conn;
     }
 
+	// Leaderboard Functions
+	public function getLargestBetList(){
+		// Build Query to fetch race information
+		$query = "SELECT race_id, race_bet_amount, race_track_type, race_driver_one, race_driver_two, race_d1_car, race_d2_car, LEAST(race_d1_et, race_d2_et) AS fastest_et, race_d1_et, race_d2_et, race_d1_trap, race_d2_trap FROM race WHERE race_bet_amount >= 1 AND race_d1_et IS NOT NULL AND race_d2_et IS NOT NULL ORDER BY race_bet_amount DESC LIMIT 100";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$top_bet_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+		return $top_bet_list;
+	}
+
+	public function getFastETList(){
+		// Build Query to fetch race information
+		$query = "SELECT race_id, race_track_type, race_driver_one, race_driver_two, race_d1_car, race_d2_car, LEAST(race_d1_et, race_d2_et) AS fastest_et, race_d1_et, race_d2_et, race_d1_trap, race_d2_trap FROM race WHERE race_d1_et IS NOT NULL AND race_d2_et IS NOT NULL ORDER BY fastest_et ASC";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$fastestET = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $fastestET;
+	}
+
+	public function getFastMPHList(){
+		// Build Query to fetch race information
+		$query = "SELECT race_id, race_track_type, race_driver_one, race_driver_two, race_d1_car, race_d2_car, race_d1_et, race_d2_et, GREATEST(race_d1_trap, race_d2_trap) AS fastest_trap, race_d1_trap, race_d2_trap FROM race WHERE race_d1_trap IS NOT NULL AND race_d2_trap ORDER BY fastest_trap DESC";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$fastestMPH = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $fastestMPH;
+	}
+
+	public function getMostWinsList(){
+		// Build Query to fetch race information
+		$query = "SELECT race_id, race_driver_one, race_driver_two, LEAST(race_d1_et, race_d2_et) AS fastest_et, race_d1_et, race_d2_et FROM race ORDER BY fastest_et DESC";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$winList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $winList;
+	}
 
 	// Return et and trap
 	public function raceMathStats($hp, $weight)
@@ -52,53 +111,29 @@ class Race
 	{
 		$pnum = $player['player_num'];
 
-		print_r($player);
-
 		// Build Query to Delete User
-		$race_d_car    = "race_d".$pnum."_car";		$race_d_rt = "race_d".$pnum."_rt"; $race_d_sixty = "race_d".$pnum."_sixty";
-		$race_d_eighth = "race_d".$pnum."_eighth";	$race_d_et = "race_d".$pnum."_et"; $race_d_trap	 = "race_d".$pnum."_trap";
+		$query = "UPDATE race SET race_d".$pnum."_car = ".$player['current_car']['cars_id'].", race_d".$pnum."_rt = ".$player['race_results']['rt'].", race_d".$pnum."_sixty = ".$player['race_results']['sixty'].", race_d".$pnum."_eighth = ".$player['race_results']['eighth'].
+		", race_d".$pnum."_et = ".$player['race_results']['et'].", race_d".$pnum."_trap = ".$player['race_results']['trap']." WHERE race_id = ".$race_id." LIMIT 1";
 
-		$query = "UPDATE race SET
-		`:race_d_car`		= `:race_d_car_var`,	`:race_d_rt` = `:race_d_rt_var`, `:race_d_sixty` = `:race_d_sixty_var`,
-		`:race_d_eighth`	= `:race_d_eighth_var`,	`:race_d_et` = `:race_d_et_var`, `:race_d_trap` = `:race_d_trap_var`
-		WHERE race_id = `:race_id_val` LIMIT 1";
-		print("<br />".$query."<br/ >");
+		$player['race_id'] = $race_id;
+
         // Prepare Query
         $stmt = $this->conn->prepare($query);
-        // Bind Parameters
-        $stmt->bindParam(':race_d_car', 	$race_d_car, 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_rt',		$race_d_rt, 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_sixty', 	$race_d_sixty, 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_eighth', 	$race_d_eighth,	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_et', 		$race_d_et, 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_trap', 	$race_d_trap, 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_car_var',		$player['current_car']['cars_id'],	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_rt_var',		$player['race_results']['rt'], 		PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_sixty_var', 	$player['race_results']['sixty'], 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_eighth_var', 	$player['race_results']['eighth'], 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_et_var', 		$player['race_results']['et'], 		PDO::PARAM_INT);
-        $stmt->bindParam(':race_d_trap_var', 	$player['race_results']['trap'], 	PDO::PARAM_INT);
-        $stmt->bindParam(':race_id_val', $race_id, PDO::PARAM_INT);
-
 		// Execute Query
-        if ($stmt->execute()){ print($stmt); return true; }
+        if ($stmt->execute()){ return $player; }
         // Error
         else return false;
 	}
 
 	public function createNewRace($creator_id, $recipient_id, $racer_type, $creator_car_id, $race_amount, $forPinks, $race_type)
 	{
-
-		if( $forPinks ){
-			$race_amount2 = $race_amount.":||:Pinks";
-		} else $race_amount2 = $race_amount;
-
-		$query = "INSERT INTO race (race_bet_amount, race_track_type, race_driver_one, race_driver_two, race_d1_car)
-				  VALUES (:race_bet_amount, :race_track_type, :race_driver_one, :race_driver_two, :race_d1_car)"; //TODO make this function work
+		$query = "INSERT INTO race (race_bet_amount, race_for_pinks, race_track_type, race_driver_one, race_driver_two, race_d1_car)
+				  VALUES (:race_bet_amount, :race_for_pinks, :race_track_type, :race_driver_one, :race_driver_two, :race_d1_car)"; //TODO make this function work
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters
-		$stmt->bindParam(':race_bet_amount', $race_amount2, PDO::PARAM_INT);
+		$stmt->bindParam(':race_bet_amount', $race_amount, PDO::PARAM_INT);
+		$stmt->bindParam(':race_for_pinks', $forPinks, PDO::PARAM_INT);
 		$stmt->bindParam(':race_track_type', $race_type, PDO::PARAM_INT);
 		$stmt->bindParam(':race_driver_one', $creator_id, PDO::PARAM_INT);
 		$stmt->bindParam(':race_driver_two', $recipient_id, PDO::PARAM_INT);
@@ -147,5 +182,39 @@ class Race
         if (!$raceinfo['race_id']) return false;
         // Return race Information
         else return $raceinfo;
+	}
+
+	public function fetchD1Last24($user_id){
+		// Build Query to fetch race information
+		$query = "SELECT * FROM race WHERE race_driver_one = :user_id AND race_date_start >= (DATE_SUB(now(), INTERVAL 2 HOUR))";
+		// Prepare Query
+		$stmt = $this->conn->prepare($query);
+		// Bind Parameters
+		$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$lastD124 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $lastD124;
+	}
+
+	public function fetchRaceAll($user_id){
+        // Build Query to fetch race information
+        $query = "SELECT * FROM race WHERE race_driver_one = :user_id OR race_driver_two = :user_id ORDER BY race_id DESC";
+        // Prepare Query
+        $stmt = $this->conn->prepare($query);
+        // Bind Parameters
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		// Execute Query
+		if (!$stmt->execute()) {
+			return false;
+		}
+		// Fetch Cars
+		$raceInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		return $raceInfo;
 	}
 }
