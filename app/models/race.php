@@ -186,7 +186,7 @@ class Race
 
 	public function fetchD1Last24($user_id){
 		// Build Query to fetch race information
-		$query = "SELECT * FROM race WHERE race_driver_one = :user_id AND race_date_start >= (DATE_SUB(now(), INTERVAL 2 HOUR))";
+		$query = "SELECT * FROM race WHERE race_driver_one = :user_id AND race_date_start >= (DATE_SUB(now(), INTERVAL 2 MINUTE))";
 		// Prepare Query
 		$stmt = $this->conn->prepare($query);
 		// Bind Parameters

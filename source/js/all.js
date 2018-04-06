@@ -33,7 +33,7 @@ function loadUserStats(){
 		$("#userBar").html(statsBar);
 
 		// Sets the timer to re-load the user Bar Stats
-		setTimeout(loadUserStats, 3000);
+		setTimeout(loadUserStats, 10000);
 	});
 }
 

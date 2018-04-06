@@ -171,7 +171,7 @@ if( isset( $_POST['action']) ){
 		if ( $raceWho == "computer"){
 			foreach ($last24 as &$lrace) {
 				if( $lrace['race_driver_two'] == $raceWhoID && $raceWhoID != 21){
-					echo json_encode(array("error" => true, "e_msg" => "You can not race this computer again. <br /> You can only race them once every 2 hours."));
+					echo json_encode(array("error" => true, "e_msg" => "You can not race this computer again. <br /> You can only race them once every 2 minutes."));
 					return false;
 				}
 			}
